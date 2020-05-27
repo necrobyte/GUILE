@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_chain_from_iterableiterable">_chain_from_iterable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_cycle_iterable">_cycle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_list_iterlist">ds_list_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_map_itermap">ds_map_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_max_iterstack">ds_priority_max_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_min_iterstack">ds_priority_min_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_queue_iterstack">ds_queue_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_stack_iterstack">ds_stack_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorCollection">IteratorCollection</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_chain_from_iterableiterable">_chain_from_iterable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_cycle_iterable">_cycle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_list_iter">ds_list_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_map_itermap">ds_map_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_max_iterstack">ds_priority_max_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_min_iterstack">ds_priority_min_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_queue_iterstack">ds_queue_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_stack_iter">ds_stack_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorCollection">IteratorCollection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorDict">IteratorDict</a></span></li>
 </nav>
 
 <div id="main">
@@ -92,11 +92,15 @@ function Iterator( _data, _next ) constructor {
 
 #region iter
 
-/// @func IteratorDict( data, next, is_done )
+/// @func IteratorDict
+///
 /// @desc Iterator for name-value keyed data structures
+///
 /// @arg {Any} data
-/// @arg {Method} next
-/// @arg {Method} is_done
+/// @arg {Method()} next
+/// @arg {Method()} is_done
+///
+/// @return {Iterator} - iterator struct
 
  IteratorDict = function ( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
 	static names = function() {
@@ -205,8 +209,13 @@ function __iter_collection( _object, _get, _len ) {
 	return _iter;
 }
 
-/// @func ds_list_iter( list )
-/// @arg list
+/// @func ds_list_iter
+/// 
+/// @desc Returns iterator object for ds_list data structure.
+///
+/// @arg {ds_list} list
+///
+/// @return {Iterator}
 
 ds_list_iter = function( _list ) {
 	return __iter_collection( _list, function( _n ) {
@@ -216,8 +225,13 @@ ds_list_iter = function( _list ) {
 	});
 }
 
-/// @func ds_stack_iter( stack )
-/// @arg stack
+/// @func ds_stack_iter
+/// 
+/// @desc Returns iterator object for ds_list data structure.
+///
+/// @arg {ds_stack} stack
+///
+/// @return {Iterator}
 
 ds_stack_iter = function( _stack ) {
 	var _iter = new Iterator( _stack, function() {
@@ -1024,7 +1038,7 @@ _zip_longest = function() {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 14:28:03 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 17:23:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
