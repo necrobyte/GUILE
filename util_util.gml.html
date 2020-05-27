@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>util/util.gml - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_chain_from_iterableiterable">_chain_from_iterable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_cycle_iterable">_cycle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_list_iterlist">ds_list_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_map_itermap">ds_map_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_max_iterstack">ds_priority_max_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_min_iterstack">ds_priority_min_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_queue_iterstack">ds_queue_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_stack_iterstack">ds_stack_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorCollection">IteratorCollection</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">util/util.gml</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>#region test
+
+/// @func assert( condition, message )
+/// @arg {bool} condidion
+/// @arg {string} message
+
+assert = function( _condition, _message ) {
+	if ( !_condition ) {
+		show_error( _message, true );		
+	}
+}
+
+/// @func assert_equals( expected, actuals, [message] )
+/// @arg expected
+/// @arg actuals
+/// @arg {string} [message]
+
+assert_equals = function( _expected, _actual, _message ) {
+	_message = is_undefined( _message ) ? "" : _message;
+	if ( typeof( _expected ) == "array" ) {
+		assert( array_equals( _expected, _actual ), _message );	
+	} else {
+		assert( _expected == _actual, _message );
+	}
+}
+
+/// @func assert_array_equals( expected, actuals, [message] )
+/// @arg expected
+/// @arg actuals
+/// @arg {string} [message]
+
+assert_array_equals = function( _expected, _actual, _message ) {
+	_message = is_undefined( _message ) ? "" : _message;
+	var _size = array_length( _expected );
+	assert( _size == array_length( _actual ), _message );
+	
+	for ( var i = 0; i &lt; _size; i++ ) {
+		var _item = _expected[ i ];
+		if ( typeof( _item ) == "array" ) {
+			assert_array_equals(  _item, _actual[ i ], _message );
+		} else {
+			assert( _item == _actual[ i ], _message );
+		}
+	}
+}
+
+#endregion
+
+#region data_structues
+
+/// @function _list( [...] )
+/// @desc returns ds_list
+/// @arg [...]
+
+_list = function( ) {
+	var _ds = ds_list_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		_ds[| i ] = argument[ i ];
+	}
+	
+	return _ds;
+}
+
+/// @function _stack( [...] )
+/// @desc returns ds_stack
+/// @arg [...]
+
+_stack = function() {
+	var _ds = ds_stack_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		ds_stack_push( _ds, argument[ i ] );
+	}
+	
+	return _ds;
+}
+
+/// @function _queue( [...] )
+/// @desc returns ds_queue
+/// @arg [...]
+
+_queue = function() {
+	var _ds = ds_queue_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		ds_queue_enqueue( _ds, argument[ i ] );
+	}
+	
+	return _ds;
+}
+
+/// @function _map( [...] )
+/// @desc returns ds_map
+/// @arg {array} [...] key, value pairs
+
+_map = function() {
+	var _ds = ds_map_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		var _t = argument[ i ];
+		ds_map_add( _ds, _t[ 0 ], _t[ 1 ] );
+	}
+	
+	return _ds;
+}
+
+/// @function _priority( [...] )
+/// @desc returns ds_priority
+/// @arg {array} [...] value, priority pairs
+
+_priority = function() {
+	var _ds = ds_priority_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		var _t = argument[ i ];
+		ds_priority_add( _ds, _t[ 0 ], _t[ 1 ] );
+	}
+	
+	return _ds;
+}
+
+#endregion
+
+#region misc
+
+/// @func _min( a, b, [...] )
+/// @arg {Any} _a
+/// @arg {Any} _b
+/// @arg {Any} [...]
+
+_min = function( _a, _b ) {
+	var _result = _a;
+	var _n = argument_count;
+	
+	for( var i = 1; i &lt; _n; ++i ) {
+		_result = min( _result, argument[ i ] );	
+	}
+	
+	return _result;
+}
+
+/// @func _max( a, b, [...] )
+/// @arg {Any} _a
+/// @arg {Any} _b
+/// @arg {Any} [...]
+
+_max = function( _a, _b ) {
+	var _result = _a;
+	var _n = argument_count;
+	
+	for( var i = 1; i &lt; _n; ++i ) {
+		_result = max( _result, argument[ i ] );	
+	}
+	
+	return _result;
+}
+
+/// @func to_string( object, [separator] )
+/// @desc Returs string representation of object
+/// @arg object
+/// @arg [separator]
+
+to_string = function( _object, _separator ) {
+	switch typeof( _object ) {
+		case "struct":
+			if ( variable_struct_exists( _object, "to_string" ) ) {
+				return _object.to_string( _separator );
+			}
+			return string( _object );
+			
+		default:
+			return string( _object );
+	}
+}
+
+/// @func log( ... )
+/// @desc Concatenates all arguments and uses show_debug_message
+/// @arg {Any} ...
+
+function log() {
+	var _s = "";
+
+	for ( var i = 0; i &lt; argument_count; i++ ) {
+		_s += ( i > 0 ) ? " " + to_string( argument[ i ] ) : to_string( argument[ i ] );
+	}
+
+	show_debug_message( _s );
+}
+
+#endregion</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 14:17:24 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
