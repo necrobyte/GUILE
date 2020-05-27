@@ -37,8 +37,6 @@ ds_map_clear( _ds );
 log( ds_map_iter( iter( { a: 10, b: "Hello" } ).to_map( _ds ) ).to_array() );
 ds_map_destroy( _ds );
 
-
-
 _ds = _priority( [ 1, 1 ], [ 2, 2] , [ 3, 3 ], [ 4, 4 ] );
 assert_equals( [1, 2, 3, 4], ds_priority_min_iter( _ds ).to_array(),		"ds_prioriry_min_iter" );
 ds_priority_destroy( _ds );
@@ -151,7 +149,7 @@ assert_equals( [ ], _cycle( "" ).to_array(), "cycle 2" );
 */
 
 assert_equals( [ ], _group_by( [ ] ).to_array(), "group_by 1" );
-assert_equals( [ 0,1,2,3 ], _imap( function( _a ) { return _a.key; }, _group_by( [ [ 0, 10, 20 ], [ 0, 11, 21 ], [ 0, 12, 21 ], [ 1, 13, 21 ], [ 1, 14, 22 ],
+assert_equals( [ 0, 1, 2, 3 ], _imap( function( _a ) { return _a.key; }, _group_by( [ [ 0, 10, 20 ], [ 0, 11, 21 ], [ 0, 12, 21 ], [ 1, 13, 21 ], [ 1, 14, 22 ],
              [ 2, 15, 22 ], [ 3, 16, 23 ], [ 3, 17, 23 ] ], function( _a ){ return _a[ 0 ]; } ) ).to_array(), "group_by 2" );
 assert_equals(["A","B","C","D","A","B"], _imap( function( _a ) { return _a.key }, _group_by( "AAAABBBCCDAABBB" ) ).to_array(),		"groupby 3" );
 assert_array_equals([["A","A","A","A"],["B","B","B"],["C","C"],["D"],["A","A"],["B","B"]], _imap( function( _a ) { return _a.group }, _group_by( "AAAABBBCCDAABBB" ) ).to_array(), "groupby 4" );

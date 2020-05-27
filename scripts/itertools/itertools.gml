@@ -593,11 +593,12 @@ function _irange ( _stop ) {
 /// @return {Iterator} Yields accumulated sums.
 ///
 /// @example
-/// _accumulate( [ 1, 2, 3, 4, 5 ] ) --> 1 3 6 10 15
+/// _accumulate( [ 1, 2, 3, 4, 5 ] ) --> 1, 3, 6, 10, 15
+/// _accumulate( [ 1, 2, 3, 4, 5 ], undefined, 100 ) --> 101, 103, 106, 110, 115
 ///
 /// @example
-/// data = [ 3, 4, 6, 2, 1, 9, 0, 7, 5, 8 ];
-/// _accumulate( data, _max ).to_array();
+/// data = [ 3, 4, 6, 2, 1, 9, 0, 7, 5, 8 ]
+/// _accumulate( data, _max ).to_array()
 /// --> [ 3, 4, 6, 6, 6, 9, 9, 9, 9, 9 ]
 
 _accumulate = function ( _iterable ) {
@@ -644,12 +645,15 @@ _accumulate = function ( _iterable ) {
 
 /// @func _chain
 ///
-/// @desc Make an iterator that returns elements from the first iterator until it is exhausted, then proceeds to the next iterator, until all of the iterators are exhausted.
+/// @desc Make an iterator that returns elements from the first iterable until it is exhausted, then proceeds to the next iterable, until all of the iterables are exhausted. Used for treating consecutive sequences as a single sequence.
 /// @see _chain_from_iterable
 ///
 /// @arg {Iterable} [...]
 ///
 /// @return {Iterator} Yields chained elements of input iterables.
+///
+/// @example
+/// _chain( "ABC", "DEF" ) --> "A", "B", "C", "D", "E", "F"
 
 _chain = function() {
 	var _iter = new Iterator( [ ], function() {
@@ -679,6 +683,10 @@ _chain = function() {
 /// @arg {Iterable} iterable
 ///
 /// @result {Iterator} Yields chained elements of iterables received from input iterable.
+///
+/// @example
+/// _chain( [ "ABC", "DEF" ] ) --> "ABC", "DEF"
+/// _chain_from_iterable( [ "ABC", "DEF" ] ) --> "A", "B", "C", "D", "E", "F"
 
 _chain_from_iterable = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -698,11 +706,15 @@ _chain_from_iterable = function( _iterable ) {
 /// @func _compress
 /// 
 /// @desc Make an iterator that filters elements from data returning only those that have a corresponding element in selectors that evaluates to True.
+/// Stops when either the data or selectors iterables has been exhausted.
 ///
 /// @arg {Iterable} data
 /// @arg {Iterable} [selectors]
 ///
 /// @return {Iterator} Yields matching elements.
+///
+/// @example
+/// _compress( "ABCDEF", [ 1, 0, 1, 0, 1, 1 ] ) --> "A", "C", "E", "F"
 
 _compress = function( _data, _selectors ) {
 	var _iter = new Iterator( iter( _data ), function() {
@@ -735,7 +747,11 @@ _compress = function( _data, _selectors ) {
 /// @arg {Number} [start=0]
 /// @arg {Number} [step=1]
 ///
-/// @return {Iterator} Infinitely yields numbers start, start + step, start + 2 * step, ... 
+/// @return {Iterator} Infinitely yields numbers start, start + step, start + 2 * step, ...
+///
+/// @example
+/// _count( 10 ) --> 10, 11, 12, 13, 14, ...
+/// _count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
 
 _count = function() {
 	var _iter = new Iterator( undefined, function() {
@@ -746,17 +762,20 @@ _count = function() {
 	
 	_iter.start = argument_count > 0 ? argument[ 0 ] : 0;
 	_iter.step = argument_count > 1 ? argument[ 1 ] : 1;
-		
+
 	return _iter;
 }
 
 /// @func _cycle
 ///
-/// @desc Make an iterator returning elements from the iterable and saving a copy of each. When the iterable is exhausted, return elements from the saved copy. 
+/// @desc Make an iterator returning elements from the iterable and saving a copy of each. When the iterable is exhausted, return elements from the saved copy. Repeats indefinitely.
 ///
 /// @arg {Iterable} iterable
 ///
-/// @return {Iterator} Yields elements of the input iterable cycled. 
+/// @return {Iterator} Yields elements of the input iterable cycled.
+///
+/// @example
+/// _cycle( [ 1, 2, 3, 4 ] ) --> 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, ...
 
 _cycle = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -791,7 +810,10 @@ _cycle = function( _iterable ) {
 /// @arg {Number} n
 /// @arg {Iterable} iterable
 ///
-/// @return {Iterator} Yield elements from input iterable starting from n. 
+/// @return {Iterator} Yield elements from input iterable starting from n.
+///
+/// @example
+/// _drop( 2, "abcdef" ) --> "b", "c", "d", "e", "f"
 
 _drop = function( _n, _iterable ) {
 	return _islice( _iterable, _n, undefined );	
@@ -806,6 +828,9 @@ _drop = function( _n, _iterable ) {
 /// @arg {Method} [predicate]
 ///
 /// @return {Iterator} Yields elements input iterable starting from the element for which predicate is false.
+///
+/// @example
+/// _dropwhile( [ 1, 4, 6, 4, 1 ], function( x ) { return x < 5 } ) --> 6, 4, 1
 
 _dropwhile = function( _iterable, _predicate ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -842,6 +867,11 @@ _dropwhile = function( _iterable, _predicate ) {
 /// @arg {Number} [start=0]
 ///
 /// @return {Iterator} Yields array with count and the next value from input iterable.
+///
+/// @example
+/// seasons = [ "Spring", "Summer", "Fall", "Winter" ];
+/// _enumerate( seasons ) --> [ 0, "Spring" ], [ 1, "Summer" ], [ 2, "Fall" ], [ 3, "Winter" ]
+/// _enumerate( seasons, 1 ) --> [ 1, "Spring" ], [ 2, "Summer" ], [ 3, "Fall" ], [ 4, "Winter" ]
 
  _enumerate = function ( _iterable ) {
 	return _zip( _count( ( argument_count > 1 ) ? argument[ 1 ] : 0 ), iter( _iterable ) );
@@ -856,6 +886,9 @@ _dropwhile = function( _iterable, _predicate ) {
 /// @arg {Method(e)} [function]
 ///
 /// @return {Iterator} Yields elements from iterable for which function returns true.
+///
+/// @example
+/// _filter( _range( 10 ), function( x ) { return x % 2 } ) --> 1, 3, 5, 7, 9
 
 _filter = function( _iterable, _function ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -893,6 +926,9 @@ _filter = function( _iterable, _function ) {
 /// @arg {Method} [function]
 ///
 /// @@return {Iterator} Yields elements from iterable for which function returns false.
+///
+/// @example
+/// _filter_false( _range( 10 ), function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
 
 _filter_false = function ( _iterable, _function ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -923,12 +959,16 @@ _filter_false = function ( _iterable, _function ) {
 
 /// @func _group_by
 ///
-/// @desc Returns consecutive keys and groups from the iterable.
+/// @desc Make an iterator that returns consecutive keys and groups from the iterable.
 ///
 /// @arg {Iterable} iterable
-/// @arg {Method} [key] function computing a key value for each element
+/// @arg {Method} [key] Function computing a key value for each element. If not specified or is undefined, key defaults to an identity function and returns the element unchanged.
+/// Generally, the iterable needs to already be sorted on the same key function.
 ///
 /// @return {Iterator} Yields struct with key and array group for each group.
+///
+/// @example
+/// _take( 2, _group_by( "AAAABBBCCDAABBB" ) ) --> { key: "A", group: [ "A", "A", "A", "A" ] }, { key: "B", group: [ "B", "B", "B" ] }
 
 _group_by = function ( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -972,13 +1012,16 @@ _group_by = function ( _iterable ) {
 
 /// @func _imap
 ///
-/// @desc Return an iterator that applies function to every item of arguments, yielding the results. 
+/// @desc Return an iterator that applies function to every item of iterable, yielding the results. If additional iterable arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted.
 /// @see _imap_from_iterable
 ///
 /// @arg {Method} function
 /// @arg {Iterable} [...]
 ///
-/// @return {Iterator} Yields result of passing an emement of every argument into a function. 
+/// @return {Iterator} Yields result of passing an emement of every argument into a function.
+///
+/// @example
+/// _imap( function( x, n ) { return power( x, n ) }, [ 2, 3, 10 ], [ 5, 2, 3 ] ) --> 32, 9, 1000
 
 _imap = function( _function ) {
 	var _iter = new Iterator( [ ], function() {
@@ -1028,12 +1071,15 @@ _imap = function( _function ) {
 
 /// @func _imap_from_iterable
 ///
-/// @desc Return an iterator that applies function to every item of iterable, yielding the results. 
+/// @desc Make an iterator that computes the function using arguments obtained from the iterable. Used instead of map() when argument parameters are already grouped in arrays from a single iterable ( the data has been “pre-zipped” ).
 ///
 /// @arg {Method} function
 /// @arg {Iterable} iterable
 ///
 /// @return {Iterator} Yields result of passing every emement from iterable into the function.
+///
+/// @example
+/// _imap_from_iterable( function( x, n ) { return power( x, n ) }, [ [ 2, 5 ], [ 3, 2 ], [ 10, 5 ] ] ) --> 32, 9, 1000
 
 _imap_from_iterable = function( _function, _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1074,7 +1120,7 @@ _imap_from_iterable = function( _function, _iterable ) {
 
 /// @func _islice
 ///
-/// @desc Make an iterator that returns selected elements from the iterable.
+/// @desc Make an iterator that returns selected elements from the iterable. If start is non-zero, then elements from the iterable are skipped until start is reached. Afterward, elements are returned consecutively unless step is set higher than one which results in items being skipped. If stop is undefined, then iteration continues until the iterator is exhausted, if at all; otherwise, it stops at the specified position.
 ///
 /// @arg {Iterable} iterable
 /// @arg {Number} [start=0]
@@ -1082,6 +1128,12 @@ _imap_from_iterable = function( _function, _iterable ) {
 /// @arg {Number} [step=1]
 ///
 /// @return {Iterator} Yields only elements from range.
+///
+/// @example
+/// _islice( "ABCDEFG", 2 ) --> "A", "B"
+/// _islice( "ABCDEFG", 2, 4 ) --> "C", "D"
+/// _islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F"
+/// _islice( "ABCDEFG", 0, undefined, 2 ) --> "A", "C", "E", "G"
 
 _islice = function( _iterable, _stop ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1118,6 +1170,14 @@ _islice = function( _iterable, _stop ) {
 /// @arg {Number} [n] If specified, iterator executes this amount of times.
 ///
 /// @return {Iterator} Yields object n times.
+///
+/// @example
+/// _repeat( 10, 3 ) --> 10, 10, 10
+/// _repeat( 10 ) --> 10, 10, 10, 10, 10, ...
+///
+/// @example
+/// _imap( function( x, n ) { return power(n) }, _range( 10 ), _repeat( 2 ) ).to_array()
+/// --> [ 0, 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
 
 _repeat = function( _object ) {
 	var _iter = new Iterator( _object, function() {
@@ -1141,6 +1201,10 @@ _repeat = function( _object ) {
 /// @arg {Iterable} iterable
 ///
 /// @return {Iterator} Yields next n elements from iterable.
+///
+/// @example
+/// _take( 5, _count() ) --> 0, 1, 2, 3, 4
+/// _take( 7, _repeat( [ 1, 2, 3 ] ) --> 1, 2, 3, 1, 2, 3, 1
 
 _take = function( _n, _iterable ) {
 	return _islice( _iterable, _n );	
@@ -1155,6 +1219,9 @@ _take = function( _n, _iterable ) {
 /// @arg {Method} predicate
 ///
 /// @return {Iterator} Yields elements from iterable
+///
+/// @example
+/// _takewhile( [ 1, 4, 6, 4, 1 ], function( x ) { return x < 5 } ) --> 1, 4
 
 _takewhile = function( _iterable, _predicate ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1189,6 +1256,9 @@ _takewhile = function( _iterable, _predicate ) {
 /// @arg {Iterable} [...]
 ///
 /// @return {Iterator} Yields an array with elements of every iterable.
+///
+/// @example
+/// _zip( "ABCD", "xy" ) --> [ "A", "x" ], [ "B", "y" ]
 
 _zip = function() {
 	var _iter = new Iterator( [ ], function() {
@@ -1224,6 +1294,9 @@ _zip = function() {
 /// @arg {Any} fill_value
 ///
 /// @return {Iterator} Yields an array with elements of every iterable.
+///
+/// @example
+/// _zip_longest( "ABCD", "xy", "-" ) --> [ "A", "x" ], [ "B", "y" ], [ "C", "-" ], [ "D", "-" ]
 
 _zip_longest = function() {
 	var _iter = new Iterator( [ ], function() {
