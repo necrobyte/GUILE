@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>util/util.gml - Documentation</title>
+    <title>Range - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,214 +29,517 @@
 
 <div id="main">
     
-    <h1 class="page-title">util/util.gml</h1>
+    <h1 class="page-title">Range</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>#region test
+        <h2>
+        Range
+        </h2>
+        
+            <div class="class-description"><p>range struct constructor</p></div>
+        
+    
+</header>
 
-/// @func assert( condition, message )
-/// @arg {bool} condidion
-/// @arg {string} message
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-assert = function( _condition, _message ) {
-	if ( !_condition ) {
-		show_error( _message, true );		
-	}
-}
+    
+    <h2>Constructor</h2>
+    
 
-/// @func assert_equals( expected, actuals, [message] )
-/// @arg expected
-/// @arg actuals
-/// @arg {string} [message]
+    <h4 class="name" id="Range"><span class="type-signature"></span>new Range<span class="signature">(start<span class="signature-attributes">opt</span>, stop, step<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Range.html">Range</a>}</span></h4>
 
-assert_equals = function( _expected, _actual, _message ) {
-	_message = is_undefined( _message ) ? "" : _message;
-	if ( typeof( _expected ) == "array" ) {
-		assert( array_equals( _expected, _actual ), _message );	
-	} else {
-		assert( _expected == _actual, _message );
-	}
-}
+    
 
-/// @func assert_array_equals( expected, actuals, [message] )
-/// @arg expected
-/// @arg actuals
-/// @arg {string} [message]
 
-assert_array_equals = function( _expected, _actual, _message ) {
-	_message = is_undefined( _message ) ? "" : _message;
-	var _size = array_length( _expected );
-	assert( _size == array_length( _actual ), _message );
-	
-	for ( var i = 0; i &lt; _size; i++ ) {
-		var _item = _expected[ i ];
-		if ( typeof( _item ) == "array" ) {
-			assert_array_equals(  _item, _actual[ i ], _message );
-		} else {
-			assert( _item == _actual[ i ], _message );
-		}
-	}
-}
 
-#endregion
 
-#region data_structues
 
-/// @function _list( [...] )
-/// @desc returns ds_list
-/// @arg [...]
 
-_list = function( ) {
-	var _ds = ds_list_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i &lt; _n; i++ ) {
-		_ds[| i ] = argument[ i ];
-	}
-	
-	return _ds;
-}
 
-/// @function _stack( [...] )
-/// @desc returns ds_stack
-/// @arg [...]
+<dl class="details">
 
-_stack = function() {
-	var _ds = ds_stack_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i &lt; _n; i++ ) {
-		ds_stack_push( _ds, argument[ i ] );
-	}
-	
-	return _ds;
-}
+    
 
-/// @function _queue( [...] )
-/// @desc returns ds_queue
-/// @arg [...]
+    
 
-_queue = function() {
-	var _ds = ds_queue_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i &lt; _n; i++ ) {
-		ds_queue_enqueue( _ds, argument[ i ] );
-	}
-	
-	return _ds;
-}
+    
 
-/// @function _map( [...] )
-/// @desc returns ds_map
-/// @arg {array} [...] key, value pairs
+    
 
-_map = function() {
-	var _ds = ds_map_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i &lt; _n; i++ ) {
-		var _t = argument[ i ];
-		ds_map_add( _ds, _t[ 0 ], _t[ 1 ] );
-	}
-	
-	return _ds;
-}
+    
 
-/// @function _priority( [...] )
-/// @desc returns ds_priority
-/// @arg {array} [...] value, priority pairs
+    
 
-_priority = function() {
-	var _ds = ds_priority_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i &lt; _n; i++ ) {
-		var _t = argument[ i ];
-		ds_priority_add( _ds, _t[ 0 ], _t[ 1 ] );
-	}
-	
-	return _ds;
-}
+    
 
-#endregion
+    
 
-#region misc
+    
 
-/// @func _min( a, b, [...] )
-/// @arg {Any} _a
-/// @arg {Any} _b
-/// @arg {Any} [...]
+    
 
-_min = function( _a, _b ) {
-	var _result = _a;
-	var _n = argument_count;
-	
-	for( var i = 1; i &lt; _n; ++i ) {
-		_result = min( _result, argument[ i ] );	
-	}
-	
-	return _result;
-}
+    
 
-/// @func _max( a, b, [...] )
-/// @arg {Any} _a
-/// @arg {Any} _b
-/// @arg {Any} [...]
+    
 
-_max = function( _a, _b ) {
-	var _result = _a;
-	var _n = argument_count;
-	
-	for( var i = 1; i &lt; _n; ++i ) {
-		_result = max( _result, argument[ i ] );	
-	}
-	
-	return _result;
-}
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line225">line 225</a>
+    </li></ul></dd>
+    
 
-/// @func to_string( object, [separator] )
-/// @desc Returs string representation of object
-/// @arg object
-/// @arg [separator]
+    
 
-to_string = function( _object, _separator ) {
-	switch typeof( _object ) {
-		case "struct":
-			if ( variable_struct_exists( _object, "to_string" ) ) {
-				return _object.to_string( _separator );
-			}
-			return string( _object );
-			
-		default:
-			return string( _object );
-	}
-}
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#_range">_range</a></li>
+        </ul>
+    </dd>
+    
 
-/// @func log( ... )
-/// @desc Concatenates all arguments and uses show_debug_message
-/// @arg {Any} ...
+    
+</dl>
 
-function log() {
-	var _s = "";
 
-	for ( var i = 0; i &lt; argument_count; i++ ) {
-		_s += ( i > 0 ) ? " " + to_string( argument[ i ] ) : to_string( argument[ i ] );
-	}
 
-	show_debug_message( _s );
-}
 
-#endregion</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>step</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="Range.html">Range</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".__iter"><span class="type-signature">(static) </span>__iter<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line239">line 239</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="Iterator.html">Iterator</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".reversed"><span class="type-signature">(static) </span>reversed<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Range.html">Range</a>}</span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line245">line 245</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="Range.html">Range</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -246,7 +549,7 @@ function log() {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 20:30:33 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 20:30:34 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
