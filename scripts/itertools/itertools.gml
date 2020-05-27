@@ -1,9 +1,14 @@
 #region Iterator
 
-/// @func Iterator( data, next, [is_done] ]
+/// @constructor
+/// @func Iterator
+///
 /// @desc returns Iterator struct
-/// @arg {function} next
-/// @arg {function} [is_done]
+///
+/// @arg {Method()} next
+/// @arg {Method()} [is_done]
+///
+/// @return {Iterator}
 
 // TODO: convert to method
 function Iterator( _data, _next ) constructor {
@@ -339,11 +344,16 @@ function iter( _object ) {
 
 #region range
 
-/// @func Range( start, stop, step )
+/// @constructor
+/// @func Range
+///
 /// @desc range struct constructor
+///
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
+///
+/// @return {Struct}
 
 Range = function( _start, _stop, _step ) constructor {
 	
@@ -361,11 +371,15 @@ Range = function( _start, _stop, _step ) constructor {
 	}
 }
 
-/// @func _range( [start], stop, [step] )
-/// @desc returns iterable range struct
+/// @func _range
+///
+/// @desc helper function for calling Range constructor
+///
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
+///
+/// @return {Range} iterable Range struct
 
 _range = function( _stop ) {
 	var _start = argument_count > 1 ? _stop : 0;
@@ -377,11 +391,15 @@ _range = function( _stop ) {
 	return _result;
 }
 
-/// @func _irange( [start], stop, [step] )
+/// @func _irange
+///
 /// @desc returns range iterator
+///
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
+///
+/// @return {Iterator}
 
 /// TODO: convert to method
 function _irange ( _stop ) {
@@ -409,11 +427,15 @@ function _irange ( _stop ) {
 
 #region iterators
 
-/// @func _accumulate( iterable, [func], [initial] )
+/// @func _accumulate
+///
 /// @desc Make an iterator that returns accumulated sums.
+///
 /// @arg {Iterable} iterable
 /// @arg {Method} [func]
 /// @arg {Any} [initial]
+///
+/// @yield {Any} accumulated sums
 
 _accumulate = function ( _iterable ) {
 	var _iter = new Iterator( iter( argument[ 0 ] ), function() {
