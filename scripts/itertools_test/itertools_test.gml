@@ -176,6 +176,7 @@ assert_equals( [ 1, 3, 5, 7 ], _take( 4, _filter_false( _count(), function( _a )
 */
 assert_array_equals( [ [ 0, "a" ], [ 1, "b" ], [ 2, "c" ] ], _enumerate( "abc" ).to_array(), "enumerate 1" );
 assert_array_equals( [ [ 11, "a" ], [ 12, "b" ], [ 13, "c" ] ], _enumerate( "abc", 11 ).to_array(), "enumerate 2" );
+assert_equals( [ ], _enumerate( [ ] ).to_array(), "enumerate 3" );
 
 /*
 	dropwhile
