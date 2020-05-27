@@ -1,9 +1,8 @@
 {
-    "plugins": [],
+    "plugins": [ "plugins/commentConvert", "plugins/commentsOnly" ],
     "recurseDepth": 10,
     "source": {
-        "includePattern": ".+\\.gml?$",
-        "excludePattern": "(^|\\/|\\\\)_"
+        "includePattern": ".+\\.gml?$"
     },
     "sourceType": "module",
     "tags": {
