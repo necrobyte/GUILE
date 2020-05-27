@@ -430,15 +430,16 @@ function _irange ( _stop ) {
 /// @func _accumulate
 ///
 /// @desc Make an iterator that returns accumulated sums, or accumulated results of other binary functions (specified via the optional func argument).
+///
 /// If func is supplied, it should be a function of two arguments. Elements of the input iterable may be any type that can be accepted as arguments to func.
+///
 /// Usually, the number of elements output matches the input iterable. However, if the optional argument initial is provided, the accumulation leads off with the initial value so that the output has one more element than the input iterable.
 ///
 /// @arg {Iterable} iterable
 /// @arg {Method( a, b )} [func]
 /// @arg {Any} [initial]
 ///
-/// @return {Iterator}
-/// @yield {Any} accumulated sums
+/// @return {Iterator} Yields accumulated sums.
 
 _accumulate = function ( _iterable ) {
 	var _iter = new Iterator( iter( argument[ 0 ] ), function() {
@@ -488,8 +489,7 @@ _accumulate = function ( _iterable ) {
 ///
 /// @arg {Iterable} [...]
 ///
-/// @return {Iterator}
-/// @yield {Any} Chained elements of input iterables.
+/// @return {Iterator} Yields chained elements of input iterables.
 
 _chain = function() {
 	var _iter = new Iterator( [ ], function() {
@@ -517,8 +517,7 @@ _chain = function() {
 ///
 /// @arg {Iterable} iterable
 ///
-/// @result {Iterator}
-/// @yield {Any} Chained elements of iterables yielded from input iterable.
+/// @result {Iterator} Yields chained elements of iterables received from input iterable.
 
 _chain_from_iterable = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -540,10 +539,9 @@ _chain_from_iterable = function( _iterable ) {
 /// @desc Make an iterator that filters elements from data returning only those that have a corresponding element in selectors that evaluates to True.
 ///
 /// @arg {Iterable} data
-/// @arg {Iterable} selectors
+/// @arg {Iterable} [selectors]
 ///
-/// @return {Iterator}
-/// @yield {Any} Matching elements
+/// @return {Iterator} Yields matching elements.
 
 _compress = function( _data, _selectors ) {
 	var _iter = new Iterator( iter( _data ), function() {
@@ -569,10 +567,14 @@ _compress = function( _data, _selectors ) {
 	return _iter;
 }
 
-/// @func _count( [start], [step] )
+/// @func _count
+///
 /// @desc Make an iterator that returns evenly spaced values starting with number start.
-/// @arg {number} [start=0]
-/// @arg {number} [step=1]
+///
+/// @arg {Number} [start=0]
+/// @arg {Number} [step=1]
+///
+/// @return {Iterator} Infinitely yields numbers start, start + step, start + 2 * step, ... 
 
 _count = function() {
 	var _iter = new Iterator( undefined, function() {
@@ -587,9 +589,13 @@ _count = function() {
 	return _iter;
 }
 
-/// @func _cycle( _iterable )
+/// @func _cycle
+///
 /// @desc Make an iterator returning elements from the iterable and saving a copy of each. When the iterable is exhausted, return elements from the saved copy. 
+///
 /// @arg {Iterable} iterable
+///
+/// @return {Iterator} Yields elements of the input iterable cycled. 
 
 _cycle = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -616,19 +622,27 @@ _cycle = function( _iterable ) {
 	return _iter;
 }
 
-/// @func _drop( iterable, n )
-/// @desc Helper function for partially consuming a long of infinite iterable
+/// @func _drop
+///
+/// @desc Helper function for partially exhausting a long or infinite iterable
+///
 /// @arg {Number} n
 /// @arg {Iterable} iterable
+///
+/// @return {Iterator} Yield elements from input iterable starting from n. 
 
 _drop = function( _n, _iterable ) {
 	return _islice( _iterable, _n, undefined );	
 }
 
-/// @func _dropwhile( iterable, predicate )
-/// @desc Returns elements from iterable from the element for which predicate is false
+/// @func _dropwhile
+/// 
+/// @desc Returns elements from iterable starting from the element for which predicate is false
+///
 /// @arg {Iterable} iterable
-/// @arg {Method} predicate
+/// @arg {Method} [predicate]
+///
+/// @return {Iterator} Yields elements input iterable starting from the element for which predicate is false.
 
 _dropwhile = function( _iterable, _predicate ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
