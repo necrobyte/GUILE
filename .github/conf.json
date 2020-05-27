@@ -1,5 +1,5 @@
 {
-    "plugins": [ "plugins/commentConvert", "plugins/commentsOnly" ],
+    "plugins": [ "plugins/commentConvert", "plugins/commentsOnly", "plugins/markdown" ],
     "recurseDepth": 10,
     "source": {
         "includePattern": ".+\\.gml?$"
@@ -12,5 +12,9 @@
     "templates": {
         "cleverLinks": false,
         "monospaceLinks": false
+    },
+    "markdown": {
+        "hardwrap": true,
+        "excludeTags": ["author"]
     }
 }
