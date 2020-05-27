@@ -1,5 +1,5 @@
 {
-    "plugins": [ "plugins/commentConvert" ],
+    "plugins": [ "plugins/commentConvert", "plugins/commentsOnly" ],
     "recurseDepth": 10,
     "source": {
         "includePattern": ".+\\.gml?$"
