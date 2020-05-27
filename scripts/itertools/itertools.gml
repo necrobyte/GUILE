@@ -1,10 +1,12 @@
 #region Iterator
 
-/// @class Iterator
-/// @func Iterator( _data, _next, [is_done] )
+/// @func Iterator( data, next, [is_done] )
+/// @name Iterator
+/// @class
 ///
-/// @desc returns Iterator struct
+/// @classdesc Iterator struct
 ///
+/// @arg {Any} data
 /// @arg {Method()} next
 /// @arg {Method()} [is_done]
 ///
