@@ -483,16 +483,18 @@ function iter( _object ) {
 
 #region range
 
-/// @constructor
-/// @func Range
+/// @func Range( [start], stop, [step] )
+/// @name Iterator
+/// @class
 ///
-/// @desc range struct constructor
+/// @classdesc range struct constructor
+/// @see _range
 ///
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
 ///
-/// @return {Struct}
+/// @return {Range}
 
 Range = function( _start, _stop, _step ) constructor {
 	
@@ -500,9 +502,19 @@ Range = function( _start, _stop, _step ) constructor {
 	stop = _stop;
 	step = _step;
 	
+	/// @method __iter
+	/// @memberof Range
+	///
+	/// @return {Iterator}
+	
 	static __iter = function() {
 		return _irange( start, stop, step );
 	}
+	
+	/// @method reversed
+	/// @memberof Range
+	///
+	/// @return {Range}
 	
 	static reversed = function() {
 		stop += ( ( start - stop ) % step + step ) % step;
@@ -625,6 +637,7 @@ _accumulate = function ( _iterable ) {
 /// @func _chain
 ///
 /// @desc Make an iterator that returns elements from the first iterator until it is exhausted, then proceeds to the next iterator, until all of the iterators are exhausted.
+/// @see _chain_from_iterable
 ///
 /// @arg {Iterable} [...]
 ///
@@ -653,6 +666,7 @@ _chain = function() {
 /// @func _chain_from_iterable
 ///
 /// @desc Make an iterator that returns chained elements from iterables returned by argument iterable
+/// @see _chain
 ///
 /// @arg {Iterable} iterable
 ///
@@ -764,6 +778,7 @@ _cycle = function( _iterable ) {
 /// @func _drop
 ///
 /// @desc Helper function for partially exhausting a long or infinite iterable
+/// @see _take
 ///
 /// @arg {Number} n
 /// @arg {Iterable} iterable
@@ -777,6 +792,7 @@ _drop = function( _n, _iterable ) {
 /// @func _dropwhile
 /// 
 /// @desc Returns elements from iterable starting from the element for which predicate is false
+/// @see _takewhile
 ///
 /// @arg {Iterable} iterable
 /// @arg {Method} [predicate]
@@ -810,23 +826,28 @@ _dropwhile = function( _iterable, _predicate ) {
 	return _iter;
 }
 
-/// @func _enumerate( iterable, [start] )
+/// @func _enumerate
 ///
 /// @desc Returns [ count, element ] for each element from iterable
 ///
 /// @arg {Iterable} iterable
 /// @arg {Number} [start=0]
 ///
-/// @return {Iterator} Returns array with count and the next value from input iterable.
+/// @return {Iterator} Yields array with count and the next value from input iterable.
 
  _enumerate = function ( _iterable ) {
 	return _zip( _count( ( argument_count > 1 ) ? argument[ 1 ] : 0 ), iter( _iterable ) );
 }
 
-/// @func _filter( iterable, [function] )
+/// @func _filter
+///
 /// @desc Construct an iterator from those elements of iterable for which function returns true.
+/// @see _filter_false
+///
 /// @arg {Iterable} iterable
-/// @arg {Method} [function]
+/// @arg {Method(e)} [function]
+///
+/// @return {Iterator} Yields elements from iterable for which function returns true.
 
 _filter = function( _iterable, _function ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -855,10 +876,15 @@ _filter = function( _iterable, _function ) {
 	return _iter;
 }
 
-/// @func _filter_false( iterable, [function] )
+/// @func _filter_false
+///
 /// @desc Construct an iterator from those elements of iterable for which function returns false.
+/// @see _filter
+///
 /// @arg {Iterable} iterable
 /// @arg {Method} [function]
+///
+/// @@return {Iterator} Yields elements from iterable for which function returns false.
 
 _filter_false = function ( _iterable, _function ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -887,10 +913,14 @@ _filter_false = function ( _iterable, _function ) {
 	return _iter;
 }
 
-/// @func _group_by( iterator, [key] )
+/// @func _group_by
+///
 /// @desc Returns consecutive keys and groups from the iterable.
+///
 /// @arg {Iterable} iterable
 /// @arg {Method} [key] function computing a key value for each element
+///
+/// @return {Iterator} Yields struct with key and array group for each group.
 
 _group_by = function ( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -932,10 +962,15 @@ _group_by = function ( _iterable ) {
 	return _iter;
 }
 
-/// @func _imap( func, [...] )
+/// @func _imap
+///
 /// @desc Return an iterator that applies function to every item of arguments, yielding the results. 
-/// @arg {Method} func
+/// @see _imap_from_iterable
+///
+/// @arg {Method} function
 /// @arg {Iterable} [...]
+///
+/// @return {Iterator} Yields result of passing an emement of every argument into a function. 
 
 _imap = function( _function ) {
 	var _iter = new Iterator( [ ], function() {
@@ -983,10 +1018,14 @@ _imap = function( _function ) {
 	return _iter;
 }
 
-/// @func _imap_from_iterable( func, iterable )
+/// @func _imap_from_iterable
+///
 /// @desc Return an iterator that applies function to every item of iterable, yielding the results. 
-/// @arg {Method} func
+///
+/// @arg {Method} function
 /// @arg {Iterable} iterable
+///
+/// @return {Iterator} Yields result of passing every emement from iterable into the function.
 
 _imap_from_iterable = function( _function, _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1025,12 +1064,16 @@ _imap_from_iterable = function( _function, _iterable ) {
 	return _iter;
 }
 
-/// @func _islice( iterable, [start], stop, [step] )
+/// @func _islice
+///
 /// @desc Make an iterator that returns selected elements from the iterable.
+///
 /// @arg {Iterable} iterable
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
+///
+/// @return {Iterator} Yields only elements from range.
 
 _islice = function( _iterable, _stop ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1059,10 +1102,14 @@ _islice = function( _iterable, _stop ) {
 	return _iter;
 }
 
-/// @func _repeat( object, [n] )
+/// @func _repeat
+///
 /// @desc Iterator that returns object over and over again.
-/// @arg {Any} elem
+///
+/// @arg {Any} object
 /// @arg {Number} [n] If specified, iterator executes this amount of times.
+///
+/// @return {Iterator} Yields object n times.
 
 _repeat = function( _object ) {
 	var _iter = new Iterator( _object, function() {
@@ -1077,19 +1124,29 @@ _repeat = function( _object ) {
 	return _iter;
 }
 
-/// @func _take( iterable, n )
-/// @desc Helper function for partially consuming a long of infinite iterable
+/// @func _take
+///
+/// @desc Helper function for partially consuming a long or infinite iterable
+/// @see _drop
+///
 /// @arg {Number} n
 /// @arg {Iterable} iterable
+///
+/// @return {Iterator} Yields next n elements from iterable.
 
 _take = function( _n, _iterable ) {
 	return _islice( _iterable, _n );	
 }
 
-/// @func _takewhile( iterable, predicate )
+/// @func _takewhile
+///
 /// @desc Make an iterator that returns elements from the iterable as long as the predicate is true.
+/// @see _dropwhile
+///
 /// @arg {Iterable} iterable
 /// @arg {Method} predicate
+///
+/// @return {Iterator} Yields elements from iterable
 
 _takewhile = function( _iterable, _predicate ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1116,9 +1173,14 @@ _takewhile = function( _iterable, _predicate ) {
 	return _iter;
 }
 
-/// @func _zip( [...] )
+/// @func _zip
+///
 /// @desc Iterator that aggregates elements from each of the iterables until one of them is exhausted.
+/// @see _zip_longest
+///
 /// @arg {Iterable} [...]
+///
+/// @return {Iterator} Yields an array with elements of every iterable.
 
 _zip = function() {
 	var _iter = new Iterator( [ ], function() {
@@ -1145,10 +1207,15 @@ _zip = function() {
 	return _iter;
 }
 
-/// @func _zip_longest( [...] , fill_value )
+/// @func _zip_longest
+///
 /// @desc Iterator that aggregates elements from each of the iterables until all of them are exhausted.
+/// @see _zip
+///
 /// @arg {Iterable} [...]
 /// @arg {Any} fill_value
+///
+/// @return {Iterator} Yields an array with elements of every iterable.
 
 _zip_longest = function() {
 	var _iter = new Iterator( [ ], function() {
