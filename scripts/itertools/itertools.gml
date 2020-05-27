@@ -535,7 +535,7 @@ _count = function() {
 
 /// @func _cycle( _iterable )
 /// @desc Make an iterator returning elements from the iterable and saving a copy of each. When the iterable is exhausted, return elements from the saved copy. 
-/// @arg _iterable
+/// @arg {Iterable} iterable
 
 _cycle = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
