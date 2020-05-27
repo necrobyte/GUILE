@@ -1,7 +1,7 @@
 #region Iterator
 
 /// @class Iterator
-/// @func Iterator
+/// @func Iterator( _data, _next, [is_done] )
 ///
 /// @desc returns Iterator struct
 ///
@@ -12,9 +12,8 @@
 
 // TODO: convert to method
 function Iterator( _data, _next ) constructor {
-	/// @lends Iterator
 	
-	/// @method is_done()
+	/// @method is_done
 	/// @memberof Iterator
 	///
 	/// @desc Returns if Iterator is exhausted.
