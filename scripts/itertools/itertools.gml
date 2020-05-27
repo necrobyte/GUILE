@@ -429,12 +429,15 @@ function _irange ( _stop ) {
 
 /// @func _accumulate
 ///
-/// @desc Make an iterator that returns accumulated sums.
+/// @desc Make an iterator that returns accumulated sums, or accumulated results of other binary functions (specified via the optional func argument).
+/// If func is supplied, it should be a function of two arguments. Elements of the input iterable may be any type that can be accepted as arguments to func.
+/// Usually, the number of elements output matches the input iterable. However, if the optional argument initial is provided, the accumulation leads off with the initial value so that the output has one more element than the input iterable.
 ///
 /// @arg {Iterable} iterable
-/// @arg {Method} [func]
+/// @arg {Method( a, b )} [func]
 /// @arg {Any} [initial]
 ///
+/// @return {Iterator}
 /// @yield {Any} accumulated sums
 
 _accumulate = function ( _iterable ) {
@@ -479,9 +482,14 @@ _accumulate = function ( _iterable ) {
 }
 
 
-/// @func _chain( [iter1], [iter2], ... )
+/// @func _chain
+///
 /// @desc Make an iterator that returns elements from the first iterator until it is exhausted, then proceeds to the next iterator, until all of the iterators are exhausted.
-/// @arg [iter1]
+///
+/// @arg {Iterable} [...]
+///
+/// @return {Iterator}
+/// @yield {Any} Chained elements of input iterables.
 
 _chain = function() {
 	var _iter = new Iterator( [ ], function() {
@@ -503,9 +511,14 @@ _chain = function() {
 	return _iter;
 }
 
-/// @func _chain_from_iterable( iterable )
-/// @desc Make an iterator that returns chained elements from iterables returned by argument
+/// @func _chain_from_iterable
+///
+/// @desc Make an iterator that returns chained elements from iterables returned by argument iterable
+///
 /// @arg {Iterable} iterable
+///
+/// @result {Iterator}
+/// @yield {Any} Chained elements of iterables yielded from input iterable.
 
 _chain_from_iterable = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -522,10 +535,15 @@ _chain_from_iterable = function( _iterable ) {
 	return _iter;
 }
 
-/// @func _compress( data, selectors )
+/// @func _compress
+/// 
 /// @desc Make an iterator that filters elements from data returning only those that have a corresponding element in selectors that evaluates to True.
+///
 /// @arg {Iterable} data
 /// @arg {Iterable} selectors
+///
+/// @return {Iterator}
+/// @yield {Any} Matching elements
 
 _compress = function( _data, _selectors ) {
 	var _iter = new Iterator( iter( _data ), function() {
