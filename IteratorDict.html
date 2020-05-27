@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Iterator - Documentation</title>
+    <title>IteratorDict - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Iterator</h1>
+    <h1 class="page-title">IteratorDict</h1>
     
 
     
@@ -42,10 +42,10 @@
 <header>
     
         <h2>
-        Iterator
+        IteratorDict
         </h2>
         
-            <div class="class-description">Iterator struct</div>
+            <div class="class-description">Iterator for key-value styled data structures</div>
         
     
 </header>
@@ -60,7 +60,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Iterator"><span class="type-signature"></span>new Iterator<span class="signature">(data, next, is_done<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
+    <h4 class="name" id="IteratorDict"><span class="type-signature"></span>new IteratorDict<span class="signature">(data, next, is_done)</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
 
     
 
@@ -99,7 +99,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line1">line 1</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -131,8 +131,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -157,14 +155,6 @@
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -192,14 +182,6 @@
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -226,16 +208,6 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -280,6 +252,10 @@
 </dl>
 
 
+<div class="param-desc">
+    - iterator struct
+</div>
+
     
 </div>
 
@@ -288,6 +264,17 @@
 </div>
     
     </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="Iterator.html">Iterator</a></li>
+    </ul>
+
 
     
 
@@ -310,14 +297,14 @@
 
     
 
-    <h4 class="name" id=".__iter"><span class="type-signature">(static) </span>__iter<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
+    <h4 class="name" id=".names"><span class="type-signature">(static) </span>names<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    return self
+    return Iterator of names
 </div>
 
 
@@ -353,7 +340,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line22">line 22</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -414,14 +401,14 @@
 
     
 
-    <h4 class="name" id=".is_done"><span class="type-signature">(static) </span>is_done<span class="signature">()</span><span class="type-signature"> &rarr; {Bool}</span></h4>
+    <h4 class="name" id=".to_map"><span class="type-signature">(static) </span>to_map<span class="signature">()</span><span class="type-signature"> &rarr; {ds_map}</span></h4>
 
     
 
 
 
 <div class="description">
-    Returns if Iterator is exhausted.
+    return ds_map of key-value pairs
 </div>
 
 
@@ -457,7 +444,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line14">line 14</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -499,7 +486,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><code>Bool</code></span>
+<span class="param-type"><code>ds_map</code></span>
 
 
     </dd>
@@ -518,11 +505,15 @@
 
     
 
-    <h4 class="name" id=".next"><span class="type-signature">(static) </span>next<span class="signature">()</span><span class="type-signature"> &rarr; {Any}</span></h4>
+    <h4 class="name" id=".to_struct"><span class="type-signature">(static) </span>to_struct<span class="signature">()</span><span class="type-signature"> &rarr; {Struct}</span></h4>
 
     
 
 
+
+<div class="description">
+    return ds_map of key-value pairs
+</div>
 
 
 
@@ -557,7 +548,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line30">line 30</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -599,7 +590,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><code>Any</code></span>
+<span class="param-type"><code>Struct</code></span>
 
 
     </dd>
@@ -618,11 +609,15 @@
 
     
 
-    <h4 class="name" id=".to_array"><span class="type-signature">(static) </span>to_array<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id=".values"><span class="type-signature">(static) </span>values<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
 
     
 
 
+
+<div class="description">
+    return Iterator of names
+</div>
 
 
 
@@ -657,7 +652,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line36">line 36</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -699,171 +694,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><code>String</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id=".to_string"><span class="type-signature">(static) </span>to_string<span class="signature">(separator<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
-
-    
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line42">line 42</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>separator</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>String</code></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>String</code></span>
+<span class="param-type"><code><a href="Iterator.html">Iterator</a></code></span>
 
 
     </dd>
