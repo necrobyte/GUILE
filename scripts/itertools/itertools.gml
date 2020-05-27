@@ -593,7 +593,12 @@ function _irange ( _stop ) {
 /// @return {Iterator} Yields accumulated sums.
 ///
 /// @example
-/// accumulate( [ 1, 2, 3, 4, 5 ] ) --> 1 3 6 10 15
+/// _accumulate( [ 1, 2, 3, 4, 5 ] ) --> 1 3 6 10 15
+///
+/// @example
+/// data = [ 3, 4, 6, 2, 1, 9, 0, 7, 5, 8 ];
+/// _accumulate( data, _max ).to_array();
+/// --> [ 3, 4, 6, 6, 6, 9, 9, 9, 9, 9 ]
 
 _accumulate = function ( _iterable ) {
 	var _iter = new Iterator( iter( argument[ 0 ] ), function() {
