@@ -1,5 +1,6 @@
 #region Iterator
 
+/// @class Iterator
 /// @func Iterator
 ///
 /// @desc returns Iterator struct
@@ -14,6 +15,7 @@ function Iterator( _data, _next ) constructor {
 	/// @lends Iterator
 	
 	/// @method is_done()
+	/// @memberof Iterator
 	///
 	/// @desc Returns if Iterator is exhausted.
 	///
@@ -24,6 +26,7 @@ function Iterator( _data, _next ) constructor {
 	data = _data;
 	
 	/// @method __iter
+	/// @memberof Iterator
 	///
 	/// @desc return self
 	///
@@ -34,6 +37,7 @@ function Iterator( _data, _next ) constructor {
 	}
 	
 	/// @method next
+	/// @memberof Iterator
 	///
 	/// @return {Any}
 	
@@ -42,6 +46,7 @@ function Iterator( _data, _next ) constructor {
 	}
 	
 	/// @method to_array
+	/// @memberof Iterator
 	///
 	/// @return {String}
 	
@@ -56,6 +61,7 @@ function Iterator( _data, _next ) constructor {
 	}
 	
 	/// @method to_string
+	/// @memberof Iterator
 	///
 	/// @arg {String} [separator]
 	///
