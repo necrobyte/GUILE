@@ -90,9 +90,12 @@ function Iterator( _data, _next ) constructor {
 
 #region iter
 
-/// @func IteratorDict
+/// @func IteratorDict( data, next, [is_done] )
+/// @name IteratorDict
+/// @class
+/// @extends Iterator
 ///
-/// @desc Iterator for name-value keyed data structures
+/// @classdesc Iterator for key-value styled data structures
 ///
 /// @arg {Any} data
 /// @arg {Method()} next
@@ -101,6 +104,14 @@ function Iterator( _data, _next ) constructor {
 /// @return {Iterator} - iterator struct
 
  IteratorDict = function ( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
+
+	/// @method names
+	/// @memberof IteratorDict
+	///
+	/// @desc return Iterator of names
+	///
+	/// @return {Iterator}
+	
 	static names = function() {
 		var _iter = new Iterator( data, function() {
 			++index;
@@ -116,6 +127,13 @@ function Iterator( _data, _next ) constructor {
 
 		return _iter;
 	}
+	
+	/// @method values
+	/// @memberof IteratorDict
+	///
+	/// @desc return Iterator of names
+	///
+	/// @return {Iterator}
 	
 	static values = function() {
 		var _iter = new Iterator( data, function() {
@@ -133,6 +151,13 @@ function Iterator( _data, _next ) constructor {
 		return _iter;
 	}
 	
+	/// @method to_map
+	/// @memberof IteratorDict
+	///
+	/// @desc return ds_map of key-value pairs
+	///
+	/// @return {ds_map}
+	
 	static to_map = function( _id ) {
 		var _ds = is_undefined( _id ) ? ds_map_create() : _id;
 
@@ -143,6 +168,13 @@ function Iterator( _data, _next ) constructor {
 
 		return _ds;
 	}
+	
+	/// @method to_struct
+	/// @memberof IteratorDict
+	///
+	/// @desc return ds_map of key-value pairs
+	///
+	/// @return {Struct}
 	
 	static to_struct = function( _id ) {
 		var _ds = is_undefined( _id ) ? {} : _id;
@@ -156,12 +188,16 @@ function Iterator( _data, _next ) constructor {
 	}
 }
 
-/// @func __iter_dict( object, next_key, get, is_done )
-/// @desc helper function for creating IteratorDict
+/// @func __iter_dict
+///
+/// @desc Helper function for creating IteratorDict
+///
 /// @arg {Any} object
 /// @arg {Method} next_key
 /// @arg {Method} get
 /// @arg {Method} is_done
+///
+/// @return {IteratorDict}
 
 function __iter_dict( _object, _next_key, _get, _is_done ) {
 	var _iter = new IteratorDict( _object, function() {
@@ -175,11 +211,46 @@ function __iter_dict( _object, _next_key, _get, _is_done ) {
 	return _iter;
 }
 
-/// @func IteratorCollection( )
-/// @desc Returns reversible iterator
+/// @func IteratorCollection( data, next, is_done )
+/// @name IteratorCollection
+/// @class
+/// @extends Iterator
+///
+/// @classdesc Reversible Iterator
+/// @see __iter_collection
+///
+/// @arg {Any} data
+/// @arg {Method()} next
+/// @arg {Method()} is_done
+///
+/// @return {Iterator} - iterator struct
 
 // TODO: Convert to method
 function IteratorCollection( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
+	
+	/// @method get
+	/// @memberof IteratorCollection
+	///
+	/// @desc returns element by key
+	///
+	/// @arg {Any} key
+	///
+	/// @return {Iterator}
+	
+	/// @method len
+	/// @memberof IteratorCollection
+	///
+	/// @desc returns amount of elements in iterable
+	///
+	/// @return {Iterator}
+	
+	/// @method reverse
+	/// @memberof IteratorCollection
+	///
+	/// @desc reverses iterator
+	///
+	/// @return {Iterator}
+	
 	static reverse = function() {
 		dir = -dir;
 		index = size - index - 1;
@@ -188,7 +259,15 @@ function IteratorCollection( _data, _next, _is_done ) : Iterator( _data, _next, 
 }
 
 /// @func __iter_collection( _object, _get, _len )
+///
 /// @desc Helper function for building IteratorCollection
+///
+/// @arg {Any} object
+/// @arg {Method(key)} get
+/// @arg {Method()} len
+///
+/// @return {IteratorCollection}
+
 function __iter_collection( _object, _get, _len ) {
 	var _iter = new IteratorCollection( _object, function() {
 		var _result = get( index );
@@ -213,7 +292,7 @@ function __iter_collection( _object, _get, _len ) {
 ///
 /// @arg {ds_list} list
 ///
-/// @return {Iterator}
+/// @return {IteratorCollection}
 
 ds_list_iter = function( _list ) {
 	return __iter_collection( _list, function( _n ) {
