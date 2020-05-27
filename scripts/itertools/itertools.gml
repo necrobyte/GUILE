@@ -51,11 +51,15 @@ function Iterator( _data, _next ) constructor {
 
 #region iter
 
-/// @func IteratorDict( data, next, is_done )
+/// @func IteratorDict
+///
 /// @desc Iterator for name-value keyed data structures
+///
 /// @arg {Any} data
-/// @arg {Method} next
-/// @arg {Method} is_done
+/// @arg {Method()} next
+/// @arg {Method()} is_done
+///
+/// @return {Iterator} - iterator struct
 
  IteratorDict = function ( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
 	static names = function() {
@@ -164,8 +168,13 @@ function __iter_collection( _object, _get, _len ) {
 	return _iter;
 }
 
-/// @func ds_list_iter( list )
-/// @arg list
+/// @func ds_list_iter
+/// 
+/// @desc Returns iterator object for ds_list data structure.
+///
+/// @arg {ds_list} list
+///
+/// @return {Iterator}
 
 ds_list_iter = function( _list ) {
 	return __iter_collection( _list, function( _n ) {
@@ -175,8 +184,13 @@ ds_list_iter = function( _list ) {
 	});
 }
 
-/// @func ds_stack_iter( stack )
-/// @arg stack
+/// @func ds_stack_iter
+/// 
+/// @desc Returns iterator object for ds_list data structure.
+///
+/// @arg {ds_stack} stack
+///
+/// @return {Iterator}
 
 ds_stack_iter = function( _stack ) {
 	var _iter = new Iterator( _stack, function() {
