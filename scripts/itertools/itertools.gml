@@ -1,6 +1,5 @@
 #region Iterator
 
-/// @constructor
 /// @func Iterator
 ///
 /// @desc returns Iterator struct
@@ -12,17 +11,39 @@
 
 // TODO: convert to method
 function Iterator( _data, _next ) constructor {
+	/// @lends Iterator
+	
+	/// @method is_done()
+	///
+	/// @desc Returns if Iterator is exhausted.
+	///
+	/// @return {Bool}
+	
 	is_done = ( argument_count < 3 ) ? function() { return false } : method( self, argument[ 2 ] );
 	__next = method( self, _next );
 	data = _data;
+	
+	/// @method __iter
+	///
+	/// @desc return self
+	///
+	/// @return {Iterator}
 	
 	__iter = function() {
 		return method_get_self( __next ); // hack to return self
 	}
 	
+	/// @method next
+	///
+	/// @return {Any}
+	
 	static next = function() {
 		return is_done() ? undefined : __next();
 	}
+	
+	/// @method to_array
+	///
+	/// @return {String}
 	
 	static to_array = function() {
 		var _a = [];
@@ -33,6 +54,12 @@ function Iterator( _data, _next ) constructor {
 		}
 		return _a;
 	}
+	
+	/// @method to_string
+	///
+	/// @arg {String} [separator]
+	///
+	/// @return {String}
 	
 	static to_string = function( _separator ) {
 		_separator = is_undefined( _separator ) ? "" : _separator;
@@ -672,9 +699,13 @@ _dropwhile = function( _iterable, _predicate ) {
 }
 
 /// @func _enumerate( iterable, [start] )
+///
 /// @desc Returns [ count, element ] for each element from iterable
+///
 /// @arg {Iterable} iterable
 /// @arg {Number} [start=0]
+///
+/// @return {Iterator} Returns array with count and the next value from input iterable.
 
  _enumerate = function ( _iterable ) {
 	return _zip( _count( ( argument_count > 1 ) ? argument[ 1 ] : 0 ), iter( _iterable ) );
