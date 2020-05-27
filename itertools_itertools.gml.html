@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_chain_from_iterableiterable">_chain_from_iterable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_cycle_iterable">_cycle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_list_iter">ds_list_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_map_itermap">ds_map_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_max_iterstack">ds_priority_max_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_min_iterstack">ds_priority_min_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_queue_iterstack">ds_queue_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_stack_iter">ds_stack_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorCollection">IteratorCollection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorDict">IteratorDict</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_accumulate">_accumulate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_chain_from_iterableiterable">_chain_from_iterable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_cycle_iterable">_cycle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_irange">_irange</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_range">_range</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_list_iter">ds_list_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_map_itermap">ds_map_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_max_iterstack">ds_priority_max_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_min_iterstack">ds_priority_min_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_queue_iterstack">ds_queue_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_stack_iter">ds_stack_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Iterator">Iterator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorCollection">IteratorCollection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorDict">IteratorDict</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Range">Range</a></span></li>
 </nav>
 
 <div id="main">
@@ -41,10 +41,15 @@
         <article>
             <pre class="prettyprint source linenums"><code>#region Iterator
 
-/// @func Iterator( data, next, [is_done] ]
+/// @constructor
+/// @func Iterator
+///
 /// @desc returns Iterator struct
-/// @arg {function} next
-/// @arg {function} [is_done]
+///
+/// @arg {Method()} next
+/// @arg {Method()} [is_done]
+///
+/// @return {Iterator}
 
 // TODO: convert to method
 function Iterator( _data, _next ) constructor {
@@ -380,11 +385,16 @@ function iter( _object ) {
 
 #region range
 
-/// @func Range( start, stop, step )
+/// @constructor
+/// @func Range
+///
 /// @desc range struct constructor
+///
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
+///
+/// @return {Struct}
 
 Range = function( _start, _stop, _step ) constructor {
 	
@@ -402,11 +412,15 @@ Range = function( _start, _stop, _step ) constructor {
 	}
 }
 
-/// @func _range( [start], stop, [step] )
-/// @desc returns iterable range struct
+/// @func _range
+///
+/// @desc helper function for calling Range constructor
+///
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
+///
+/// @return {Range} iterable Range struct
 
 _range = function( _stop ) {
 	var _start = argument_count > 1 ? _stop : 0;
@@ -418,11 +432,15 @@ _range = function( _stop ) {
 	return _result;
 }
 
-/// @func _irange( [start], stop, [step] )
+/// @func _irange
+///
 /// @desc returns range iterator
+///
 /// @arg {Number} [start=0]
 /// @arg {Number} stop
 /// @arg {Number} [step=1]
+///
+/// @return {Iterator}
 
 /// TODO: convert to method
 function _irange ( _stop ) {
@@ -450,11 +468,15 @@ function _irange ( _stop ) {
 
 #region iterators
 
-/// @func _accumulate( iterable, [func], [initial] )
+/// @func _accumulate
+///
 /// @desc Make an iterator that returns accumulated sums.
+///
 /// @arg {Iterable} iterable
 /// @arg {Method} [func]
 /// @arg {Any} [initial]
+///
+/// @yield {Any} accumulated sums
 
 _accumulate = function ( _iterable ) {
 	var _iter = new Iterator( iter( argument[ 0 ] ), function() {
@@ -1038,7 +1060,7 @@ _zip_longest = function() {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 17:23:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 17:29:45 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

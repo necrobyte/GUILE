@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_chain_from_iterableiterable">_chain_from_iterable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_cycle_iterable">_cycle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_list_iter">ds_list_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_map_itermap">ds_map_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_max_iterstack">ds_priority_max_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_min_iterstack">ds_priority_min_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_queue_iterstack">ds_queue_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_stack_iter">ds_stack_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorCollection">IteratorCollection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorDict">IteratorDict</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_accumulate">_accumulate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_chain_from_iterableiterable">_chain_from_iterable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_cycle_iterable">_cycle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_irange">_irange</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#_range">_range</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_list_iter">ds_list_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_map_itermap">ds_map_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_max_iterstack">ds_priority_max_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_priority_min_iterstack">ds_priority_min_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_queue_iterstack">ds_queue_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#ds_stack_iter">ds_stack_iter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Iterator">Iterator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorCollection">IteratorCollection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#IteratorDict">IteratorDict</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Range">Range</a></span></li>
 </nav>
 
 <div id="main">
@@ -117,6 +117,223 @@
 
     
 
+    <h4 class="name" id="_accumulate"><span class="type-signature"></span>_accumulate<span class="signature">(iterable, func<span class="signature-attributes">opt</span>, initial<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Make an iterator that returns accumulated sums.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line115">line 115</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>iterable</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Iterable</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Method</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initial</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Any</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
     <h4 class="name" id="_chain_from_iterableiterable"><span class="type-signature"></span>_chain_from_iterable<span class="signature">(iterable)</span><span class="type-signature"></span></h4>
 
     
@@ -160,7 +377,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line109">line 109</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -295,7 +512,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line126">line 126</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -387,7 +604,523 @@
 
     
 
-    <h4 class="name" id="ds_list_iter"><span class="type-signature"></span>ds_list_iter<span class="signature">(list)</span><span class="type-signature"> &rarr; {Iterator}</span></h4>
+    <h4 class="name" id="_irange"><span class="type-signature"></span>_irange<span class="signature">(start<span class="signature-attributes">opt</span>, stop, step<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Iterator">Iterator</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    returns range iterator
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line101">line 101</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>step</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="global.html#Iterator">Iterator</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="_range"><span class="type-signature"></span>_range<span class="signature">(start<span class="signature-attributes">opt</span>, stop, step<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Range">Range</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    helper function for calling Range constructor
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line90">line 90</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>step</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="global.html#Range">Range</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    iterable Range struct
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="ds_list_iter"><span class="type-signature"></span>ds_list_iter<span class="signature">(list)</span><span class="type-signature"> &rarr; {<a href="global.html#Iterator">Iterator</a>}</span></h4>
 
     
 
@@ -430,7 +1163,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line34">line 34</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line39">line 39</a>
     </li></ul></dd>
     
 
@@ -524,7 +1257,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><code>Iterator</code></span>
+<span class="param-type"><code><a href="global.html#Iterator">Iterator</a></code></span>
 
 
     </dd>
@@ -582,7 +1315,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line56">line 56</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -708,7 +1441,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line60">line 60</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -834,7 +1567,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line64">line 64</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -960,7 +1693,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line52">line 52</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -1047,7 +1780,7 @@
 
     
 
-    <h4 class="name" id="ds_stack_iter"><span class="type-signature"></span>ds_stack_iter<span class="signature">(stack)</span><span class="type-signature"> &rarr; {Iterator}</span></h4>
+    <h4 class="name" id="ds_stack_iter"><span class="type-signature"></span>ds_stack_iter<span class="signature">(stack)</span><span class="type-signature"> &rarr; {<a href="global.html#Iterator">Iterator</a>}</span></h4>
 
     
 
@@ -1090,7 +1823,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line43">line 43</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -1184,7 +1917,209 @@
     </dt>
     <dd>
         
-<span class="param-type"><code>Iterator</code></span>
+<span class="param-type"><code><a href="global.html#Iterator">Iterator</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="Iterator"><span class="type-signature"></span>Iterator<span class="signature">(next, is_done<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Iterator">Iterator</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    returns Iterator struct
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Method()</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>is_done</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Method()</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="global.html#Iterator">Iterator</a></code></span>
 
 
     </dd>
@@ -1246,7 +2181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line26">line 26</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -1286,7 +2221,7 @@
 
     
 
-    <h4 class="name" id="IteratorDict"><span class="type-signature"></span>IteratorDict<span class="signature">(data, next, is_done)</span><span class="type-signature"> &rarr; {Iterator}</span></h4>
+    <h4 class="name" id="IteratorDict"><span class="type-signature"></span>IteratorDict<span class="signature">(data, next, is_done)</span><span class="type-signature"> &rarr; {<a href="global.html#Iterator">Iterator</a>}</span></h4>
 
     
 
@@ -1329,7 +2264,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line7">line 7</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -1475,7 +2410,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><code>Iterator</code></span>
+<span class="param-type"><code><a href="global.html#Iterator">Iterator</a></code></span>
 
 
     </dd>
@@ -1485,6 +2420,262 @@
 <div class="param-desc">
     - iterator struct
 </div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="Range"><span class="type-signature"></span>Range<span class="signature">(start<span class="signature-attributes">opt</span>, stop, step<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Struct}</span></h4>
+
+    
+
+
+
+<div class="description">
+    range struct constructor
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line78">line 78</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>step</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Struct</code></span>
+
+
+    </dd>
+</dl>
+
 
     
 </div>
@@ -1510,7 +2701,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 17:23:00 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed May 27 2020 17:29:45 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
