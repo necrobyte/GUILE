@@ -484,7 +484,7 @@ function iter( _object ) {
 #region range
 
 /// @func Range( [start], stop, [step] )
-/// @name Iterator
+/// @name Range
 /// @class
 ///
 /// @classdesc range struct constructor
@@ -591,6 +591,9 @@ function _irange ( _stop ) {
 /// @arg {Any} [initial]
 ///
 /// @return {Iterator} Yields accumulated sums.
+///
+/// @example
+/// accumulate( [ 1, 2, 3, 4, 5 ] ) --> 1 3 6 10 15
 
 _accumulate = function ( _iterable ) {
 	var _iter = new Iterator( iter( argument[ 0 ] ), function() {
