@@ -49,7 +49,7 @@ function Iterator( _data, _next ) constructor {
 	/// @method to_array
 	/// @memberof Iterator
 	///
-	/// @return {String}
+	/// @return {Array}
 	
 	static to_array = function() {
 		var _a = [];
@@ -96,6 +96,7 @@ function Iterator( _data, _next ) constructor {
 /// @extends Iterator
 ///
 /// @classdesc Iterator for key-value styled data structures
+/// @see __iter_dict
 ///
 /// @arg {Any} data
 /// @arg {Method()} next
@@ -258,7 +259,7 @@ function IteratorCollection( _data, _next, _is_done ) : Iterator( _data, _next, 
 	}
 }
 
-/// @func __iter_collection( _object, _get, _len )
+/// @func __iter_collection
 ///
 /// @desc Helper function for building IteratorCollection
 ///
@@ -304,7 +305,7 @@ ds_list_iter = function( _list ) {
 
 /// @func ds_stack_iter
 /// 
-/// @desc Returns iterator object for ds_list data structure.
+/// @desc Returns iterator object for ds_stack data structure.
 ///
 /// @arg {ds_stack} stack
 ///
@@ -320,8 +321,13 @@ ds_stack_iter = function( _stack ) {
 	return _iter;
 }
 
-/// @func ds_queue_iter( stack )
-/// @arg queue
+/// @func ds_queue_iter
+///
+/// @desc Returns iterator object for ds_queue data structure.
+///
+/// @arg {ds_queue} queue
+///
+/// @return {Iterator}
 
 ds_queue_iter = function( _queue ) {
 	var _iter = new Iterator( _queue, function() {
@@ -333,8 +339,13 @@ ds_queue_iter = function( _queue ) {
 	return _iter;
 }
 
-/// @func ds_map_iter( map )
-/// @arg map
+/// @func ds_map_iter
+///
+/// @desc Returns iterator object for ds_queue data structure.
+///
+/// @arg {ds_map} map
+///
+/// @return {IteratorDict}
 
 ds_map_iter = function( _map ) {
 	var _iter = __iter_dict( _map, function(){
@@ -353,8 +364,13 @@ ds_map_iter = function( _map ) {
 	return _iter;
 }
 
-/// @func ds_priority_max_iter( stack )
-/// @arg priority
+/// @func ds_priority_max_iter
+///
+/// @desc Returns iterator object for ds_priority data structure.
+///
+/// @arg {ds_priority} priority
+///
+/// @return {Iterator} Yields max priority elements
 
 ds_priority_max_iter = function( _priority ) {
 	var _iter = new Iterator( _priority, function() {
@@ -366,8 +382,13 @@ ds_priority_max_iter = function( _priority ) {
 	return _iter;
 }
 
-/// @func ds_priority_min_iter( stack )
-/// @arg priority
+/// @func ds_priority_min_iter
+///
+/// @desc Returns iterator object for ds_priority data structure.
+///
+/// @arg {ds_priority} priority
+///
+/// @return {Iterator} Yields min priority elements
 
 ds_priority_min_iter = function( _priority ) {
 	var _iter = new Iterator( _priority, function() {
@@ -379,9 +400,14 @@ ds_priority_min_iter = function( _priority ) {
 	return _iter;
 }
 
-/// @func iter( object, [sentinel] )
-/// @arg object
-/// @arg [sentinel] used if object is method
+/// @func iter
+///
+/// @desc Creates Iterator from provided Iterable.
+///
+/// @arg {Iterable} object
+/// @arg {Any} [sentinel] used if object is method
+///
+/// @return {Iterator}
 
 // TODO: convert to method
 function iter( _object ) {
