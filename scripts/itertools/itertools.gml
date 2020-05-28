@@ -1,3 +1,5 @@
+/// @module itertools
+
 #region Iterator
 
 /// @func Iterator( data, next, [is_done] )
