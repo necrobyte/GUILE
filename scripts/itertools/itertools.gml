@@ -330,6 +330,60 @@ function __iter_collection( _object, _get, _len ) {
 	return _iter;
 }
 
+/// @func _tee
+///
+/// @desc returns n independent iterators from single iterable. Once _tee() has made a split, the original iterable should not be used anywhere else; otherwise, the iterable could get advanced without the tee objects being informed.
+///
+/// @arg {Iterable} iterable
+/// @arg {Number} [n=2]
+///
+/// @return {Array} Array containing n Iterators.
+///
+/// @example
+/// var t = _tee( range( 7 ) );
+///_zip( _t[0], _drop( 1, _t[ 1 ] ) ) --> [ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 5, 6 ]
+
+_tee = function( _iterable, _n ) {
+	var _iter = new Iterator( iter( _iterable), function() {
+		var _result = data.next();
+		for( var i = 0; i < size; i++ ) {
+			var _child = children[ i ];
+			_child.cache[ _child.size++ ] = _result;
+		}
+	}, function() {
+		return data.is_done();	
+	} );
+	
+	_iter.size = is_undefined( _n ) ? 2 : _n;
+	_iter.children = [ ];
+	
+	for( var i = 0; i < _iter.size; i++ ){
+		var _child = new Iterator( _iter, function() {
+			if ( size == 0 ) {
+				data.next();
+			}
+			return cache[ index++ ];
+		}, function() {
+			if ( index > 0 ) {
+				var _t = [];
+				size -= index;
+				array_copy( _t, 0, cache, index, size );
+				cache = _t;
+				index = 0;
+			}
+			return ( data.is_done() && ( size == 0 ) );
+		} );
+		
+		_child.cache = [ ];
+		_child.index = 0;
+		_child.size = 0;
+		
+		_iter.children[ i ] = _child;
+	}
+	
+	return _iter.children;
+}
+
 #endregion
 
 #region Range
@@ -645,7 +699,7 @@ function iter( _object ) {
 ///_accumulate( [ 1, 2, 3, 4, 5 ], undefined, 100 ) --> 101, 103, 106, 110, 115
 ///
 /// @example
-/// data = [ 3, 4, 6, 2, 1, 9, 0, 7, 5, 8 ]
+/// data = [ 3, 4, 6, 2, 1, 9, 0, 7, 5, 8 ];
 ///_accumulate( data, _max ).to_array()
 ///--> [ 3, 4, 6, 6, 6, 9, 9, 9, 9, 9 ]
 

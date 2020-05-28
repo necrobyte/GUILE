@@ -50,6 +50,28 @@ _ds = _priority( [ 1, 1 ], [ 2, 2] , [ 3, 3 ], [ 4, 4 ] );
 assert_equals( [4, 3, 2, 1], ds_priority_max_iter( _ds ).to_array(),		"ds_priority_max_iter" );
 ds_priority_destroy( _ds );
 
+
+/*
+	tee
+*/
+
+var _t = _tee( [ ] );
+
+assert_equals( [ ], _t[ 0 ].to_array(), "tee 1.1" );
+assert_equals( [ ], _t[ 1 ].to_array(), "tee 1.2" );
+
+_t = _tee( _range( 10 ) );
+
+assert_array_equals( _zip( _range( 10 ), _range( 10 ) ).to_array(), _zip( _t[0], _t[1] ).to_array(), "tee 2" );
+
+_t = _tee( _range( 10 ) );
+
+assert_array_equals( _chain( _range( 10 ), _range( 10 ) ).to_array(), _chain( _t[0], _t[1] ).to_array(), "tee 3" );
+
+_t = _tee( _range( 10 ) );
+
+assert_array_equals( _zip( _range( 10 ), _range( 1, 10 ) ).to_array(), _zip( _t[0], _drop( 1, _t[1] ) ).to_array(), "tee 4" );
+
 #endregion
 
 #region range
