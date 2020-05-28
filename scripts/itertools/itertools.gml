@@ -4,6 +4,7 @@
 
 /// @func Iterator( data, next, [is_done] )
 /// @name Iterator
+/// @memberof itertools
 /// @class
 ///
 /// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
@@ -305,6 +306,7 @@ function IteratorCollection( _data, _next, _is_done ) : Iterator( _data, _next, 
 }
 
 /// @func __iter_collection
+/// @memberof itertools
 ///
 /// @desc Helper function for building IteratorCollection
 ///
