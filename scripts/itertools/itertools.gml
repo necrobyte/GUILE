@@ -804,10 +804,10 @@ _chain_from_iterable = function( _iterable ) {
 
 /// @func _compress
 /// 
-/// @desc Make an iterator that filters elements from data returning only those that have a corresponding element in selectors that evaluates to True.
+/// @desc Make an iterator that filters elements from iterable returning only those that have a corresponding element in selectors that evaluates to True.
 /// Stops when either the data or selectors iterables has been exhausted.
 ///
-/// @arg {Iterable} data
+/// @arg {Iterable} iterable
 /// @arg {Iterable} [selectors]
 ///
 /// @return {Iterator} Yields matching elements.
@@ -815,8 +815,8 @@ _chain_from_iterable = function( _iterable ) {
 /// @example
 /// _compress( "ABCDEF", [ 1, 0, 1, 0, 1, 1 ] ) --> "A", "C", "E", "F"
 
-_compress = function( _data, _selectors ) {
-	var _iter = new Iterator( iter( _data ), function() {
+_compress = function( _iterable, _selectors ) {
+	var _iter = new Iterator( iter( _iterable ), function() {
 		ready = false;
 		return data.next();
 	}, function() {
