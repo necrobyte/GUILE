@@ -61,6 +61,30 @@ function Iterator( _data, _next ) constructor {
 		return is_done() ? undefined : __next();
 	}
 	
+	/// @method reduce
+	/// @memberof Iterator
+	///
+	/// @desc Apply function of two arguments cumulatively to the items of Iterator, from left to right, so as to reduce it to a single value.
+	///
+	/// @arg {Method(a,x)} function
+	/// @arg [Any] initializer
+	///
+	/// @return {Any}
+	///
+	/// @example
+	/// iter( [ 1, 2, 3, 4 ] ).reduce( function( _a, _x ) { return _a + _x; } ) --> 10
+	
+	static reduce = function( _function ) {
+		var _f = is_method( _function ) ? _function : method( undefined, _function );
+		var _acc = ( argument_count > 1 ) ? argument[ 1 ] : ( is_done() ? undefined : next() );
+		
+		while( !is_done() ) {
+			_acc = _f( _acc, next() );
+		}
+		
+		return _acc;
+	}
+	
 	/// @method to_array
 	/// @memberof Iterator
 	///
@@ -1084,7 +1108,7 @@ _imap = function( _function ) {
 		return false;
 	} );
 	
-	_iter.func = _function;
+	_iter.func = is_method( _function ) ? _function : method( undefined, _function );
 	_iter.size = argument_count - 1;
 	
 	for( var i = 0; i < _iter.size; i++ ) {
@@ -1185,6 +1209,27 @@ _islice = function( _iterable, _stop ) {
 	}
 	
 	return _iter;
+}
+
+/// @func _reduce
+///
+/// @desc Apply function of two arguments cumulatively to the items of Iterable, from left to right, so as to reduce it to a single value.
+/// @see _accumulate
+///
+/// @arg {Iterable} iterable
+/// @arg {Method(a,x)} function
+/// @arg [Any] initializer
+///
+/// @return {Any}
+///
+/// @example
+/// reduce( [1, 2, 3, 4], max ) --> 4
+
+_reduce = function( _iterable, _function ) {
+	if ( argument_count > 2 ) {
+		return iter( _iterable ).reduce( _function, argument[ 2 ] );	
+	}
+	return iter( _iterable ).reduce( _function );
 }
 
 /// @func _repeat

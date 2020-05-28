@@ -1,5 +1,10 @@
 #region iter
 
+assert_equals( 10, iter( [1,2,3,4] ).reduce( function( _a, _x ) { return _a + _x; } ), "iter reduce 1" );
+assert_equals( 24, iter( [1,2,3,4] ).reduce( function( _a, _x ) { return _a * _x; } ), "iter reduce 2" );
+assert_equals( 1, iter( [1,2,3,4] ).reduce( min ), "iter reduce 3" );
+assert_equals( undefined, iter( [] ).reduce( min ), "iter reduce 4" );
+
 assert_equals( "1234", iter( [1,2,3,4] ).to_string(),								"iter array" );
 assert_equals( [ 4, 3, 2, 1 ], iter( [ 1, 2, 3, 4 ] ).reverse().to_array(),			"reverse 1" );
 assert_equals( "A, B, C, D", to_string( iter( "ABCD" ), ", " ),						"iter string" );
@@ -192,6 +197,18 @@ var _s = [ 1, 3, 5, 20, 2, 4, 6, 8 ];
 
 assert_equals( [ 1, 3, 5 ], _takewhile( _s, function( _x ) { return ( _x < 10 ); } ).to_array(), "takepwhile 1" );
 assert_equals( [  ], _takewhile( [ ], function( _x ) { return ( _x < 10 ); } ).to_array(), "takewhile 2" );
+
+/*
+	reduce
+*/
+
+var _add = function( _a, _x ) { return _a + _x; };
+assert_equals( "abcdef", _reduce( [ "abc", "de", "f" ], _add ), "reduce 1" );
+assert_equals( 5040, _reduce( _range( 2, 8 ), function( _a, _x ) { return _a * _x; } ), "reduce 2" );
+assert_equals( 2432902008176640000, _reduce( _range( 2, 21 ), function( _a, _x ) { return _a * _x; } ), "reduce 3" );
+assert_equals( 285, _reduce( _imap( sqr, _range( 10 ) ) , _add ), "reduce 4" );
+assert_equals( 285, _reduce( _imap( sqr, _range( 10 ) ) , _add, 0 ), "reduce 5" );
+assert_equals( 0, _reduce( _imap( sqr, _range( 0 ) ) , _add, 0 ), "reduce 6" );
 
 /*
 	zip
