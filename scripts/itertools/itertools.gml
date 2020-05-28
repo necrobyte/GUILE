@@ -785,7 +785,7 @@ _chain = function() {
 ///
 /// @example
 /// _chain( [ "ABC", "DEF" ] ) --> "ABC", "DEF"
-/// _chain_from_iterable( [ "ABC", "DEF" ] ) --> "A", "B", "C", "D", "E", "F"
+///_chain_from_iterable( [ "ABC", "DEF" ] ) --> "A", "B", "C", "D", "E", "F"
 
 _chain_from_iterable = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -853,13 +853,12 @@ _compress = function( _iterable, _selectors ) {
 /// _count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
 
 _count = function() {
-	var _iter = new Iterator( undefined, function() {
-		var _result = start;
-		start += step;
+	var _iter = new Iterator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
+		var _result = data;
+		data += step;
 		return _result;
 	} );
 	
-	_iter.start = argument_count > 0 ? argument[ 0 ] : 0;
 	_iter.step = argument_count > 1 ? argument[ 1 ] : 1;
 
 	return _iter;
