@@ -4,7 +4,11 @@
 /// @name Iterator
 /// @class
 ///
-/// @classdesc Iterator struct
+/// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
+/// When no more data are available returns undefined. At this point, the iterator object is exhausted and any further calls to its next() method just return undefined again.
+/// Iterators are required to have an __iter() method that returns the iterator object itself so every iterator is also iterable and may be used in most places where other iterables are accepted.
+/// One notable exception is code which attempts multiple iteration passes. A container object (such as a list) produces a fresh new iterator each time you pass it to the iter() function or use it in a for loop.
+/// Attempting this with an iterator will just return the same exhausted iterator object used in the previous iteration pass, making it appear like an empty container.
 ///
 /// @arg {Any} data
 /// @arg {Method()} next
@@ -18,7 +22,7 @@ function Iterator( _data, _next ) constructor {
 	/// @method is_done
 	/// @memberof Iterator
 	///
-	/// @desc Returns if Iterator is exhausted.
+	/// @desc Returns true when Iterator is exhausted.
 	///
 	/// @return {Bool}
 	
@@ -29,7 +33,8 @@ function Iterator( _data, _next ) constructor {
 	/// @method __iter
 	/// @memberof Iterator
 	///
-	/// @desc return self
+	/// @desc Return self
+	/// @see iter
 	///
 	/// @return {Iterator}
 	
@@ -40,7 +45,15 @@ function Iterator( _data, _next ) constructor {
 	/// @method next
 	/// @memberof Iterator
 	///
+	/// @desc returns the next yielded element. If Iterator is exhausted, returns undefined.
+	///
 	/// @return {Any}
+	///
+	/// @example
+	/// var data = iter( "ABCD" );
+	/// while( !data.is_done() {
+	/// data.next(); --> "A", "B", "C", "D"
+	/// }
 	
 	static next = function() {
 		return is_done() ? undefined : __next();
@@ -49,7 +62,12 @@ function Iterator( _data, _next ) constructor {
 	/// @method to_array
 	/// @memberof Iterator
 	///
+	/// @desc Exhausts iterator and combines all of its elements into an array
+	///
 	/// @return {Array}
+	///
+	/// @example
+	/// iter( "1234" ).to_array() --> [ "1", "2", "3", "4" ]
 	
 	static to_array = function() {
 		var _a = [];
@@ -64,9 +82,14 @@ function Iterator( _data, _next ) constructor {
 	/// @method to_string
 	/// @memberof Iterator
 	///
+	/// @desc Exhausts iterator and combines all of its elements into a string.
+	///
 	/// @arg {String} [separator]
 	///
 	/// @return {String}
+	///
+	/// @example
+	/// iter( [ 1, 2, 3, 4 ] ).to_string() --> "1234"
 	
 	static to_string = function( _separator ) {
 		_separator = is_undefined( _separator ) ? "" : _separator;
@@ -85,10 +108,6 @@ function Iterator( _data, _next ) constructor {
 	}
 	
 }
-
-#endregion
-
-#region iter
 
 /// @func IteratorDict( data, next, [is_done] )
 /// @name IteratorDict
@@ -287,6 +306,105 @@ function __iter_collection( _object, _get, _len ) {
 	return _iter;
 }
 
+#endregion
+
+#region Range
+
+/// @func Range( [start], stop, [step] )
+/// @name Range
+/// @class
+///
+/// @classdesc range struct constructor
+/// @see _range
+///
+/// @arg {Number} [start=0]
+/// @arg {Number} stop
+/// @arg {Number} [step=1]
+///
+/// @return {Range}
+
+Range = function( _start, _stop, _step ) constructor {
+	
+	start = _start;
+	stop = _stop;
+	step = _step;
+	
+	/// @method __iter
+	/// @memberof Range
+	///
+	/// @return {Iterator}
+	
+	static __iter = function() {
+		return _irange( start, stop, step );
+	}
+	
+	/// @method reversed
+	/// @memberof Range
+	///
+	/// @return {Range}
+	
+	static reversed = function() {
+		stop += ( ( start - stop ) % step + step ) % step;
+		return new Range( stop - step, start - step, -step );	
+	}
+}
+
+/// @func _range
+///
+/// @desc helper function for calling Range constructor
+///
+/// @arg {Number} [start=0]
+/// @arg {Number} stop
+/// @arg {Number} [step=1]
+///
+/// @return {Range} iterable Range struct
+
+_range = function( _stop ) {
+	var _start = argument_count > 1 ? _stop : 0;
+	var _step = argument_count > 2 ? argument[ 2 ] : 1;
+	_stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
+	
+	var _result = new Range( _start, _stop, _step )
+	
+	return _result;
+}
+
+/// @func _irange
+///
+/// @desc returns range iterator
+///
+/// @arg {Number} [start=0]
+/// @arg {Number} stop
+/// @arg {Number} [step=1]
+///
+/// @return {Iterator}
+
+/// TODO: convert to method
+function _irange ( _stop ) {
+	var _iter = new Iterator( undefined, function() {
+			var _result = start;
+			start += step;
+			return _result;
+	}, function() {
+		return floor( ( start - stop ) / step ) >= 0;
+	} );
+	
+	_iter.start = argument_count > 1 ? _stop : 0;
+	_iter.step = argument_count > 2 ? argument[ 2 ] : 1;
+	_iter.stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
+	
+	_iter.reversed = method( _iter, function() {
+		stop += ( ( start - stop ) % step + step ) % step;
+		return _irange( stop - step, start - step, -step );
+	} );
+	
+	return _iter;
+}
+
+#endregion
+
+#region iter
+
 /// @func ds_list_iter
 /// 
 /// @desc Returns iterator object for ds_list data structure.
@@ -477,101 +595,6 @@ function iter( _object ) {
 		default:
 			return undefined;
 	end;
-}
-
-#endregion
-
-#region range
-
-/// @func Range( [start], stop, [step] )
-/// @name Range
-/// @class
-///
-/// @classdesc range struct constructor
-/// @see _range
-///
-/// @arg {Number} [start=0]
-/// @arg {Number} stop
-/// @arg {Number} [step=1]
-///
-/// @return {Range}
-
-Range = function( _start, _stop, _step ) constructor {
-	
-	start = _start;
-	stop = _stop;
-	step = _step;
-	
-	/// @method __iter
-	/// @memberof Range
-	///
-	/// @return {Iterator}
-	
-	static __iter = function() {
-		return _irange( start, stop, step );
-	}
-	
-	/// @method reversed
-	/// @memberof Range
-	///
-	/// @return {Range}
-	
-	static reversed = function() {
-		stop += ( ( start - stop ) % step + step ) % step;
-		return new Range( stop - step, start - step, -step );	
-	}
-}
-
-/// @func _range
-///
-/// @desc helper function for calling Range constructor
-///
-/// @arg {Number} [start=0]
-/// @arg {Number} stop
-/// @arg {Number} [step=1]
-///
-/// @return {Range} iterable Range struct
-
-_range = function( _stop ) {
-	var _start = argument_count > 1 ? _stop : 0;
-	var _step = argument_count > 2 ? argument[ 2 ] : 1;
-	_stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
-	
-	var _result = new Range( _start, _stop, _step )
-	
-	return _result;
-}
-
-/// @func _irange
-///
-/// @desc returns range iterator
-///
-/// @arg {Number} [start=0]
-/// @arg {Number} stop
-/// @arg {Number} [step=1]
-///
-/// @return {Iterator}
-
-/// TODO: convert to method
-function _irange ( _stop ) {
-	var _iter = new Iterator( undefined, function() {
-			var _result = start;
-			start += step;
-			return _result;
-	}, function() {
-		return floor( ( start - stop ) / step ) >= 0;
-	} );
-	
-	_iter.start = argument_count > 1 ? _stop : 0;
-	_iter.step = argument_count > 2 ? argument[ 2 ] : 1;
-	_iter.stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
-	
-	_iter.reversed = method( _iter, function() {
-		stop += ( ( start - stop ) % step + step ) % step;
-		return _irange( stop - step, start - step, -step );
-	} );
-	
-	return _iter;
 }
 
 #endregion
