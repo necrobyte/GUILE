@@ -366,10 +366,8 @@ _tee = function( _iterable, _n ) {
 		}, function() {
 			if ( index > 0 ) {
 				var _t = [];
-				size -= index;
-				array_copy( _t, 0, cache, index, size );
+				array_copy( _t, 0, cache, index--, --size );
 				cache = _t;
-				index = 0;
 			}
 			return ( data.is_done() && ( size == 0 ) );
 		} );
