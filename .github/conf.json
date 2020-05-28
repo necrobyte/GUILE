@@ -14,7 +14,7 @@
         "monospaceLinks": false
     },
     "markdown": {
-        "hardwrap": true,
+        "hardwrap": false,
         "excludeTags": ["author"]
     }
 }
