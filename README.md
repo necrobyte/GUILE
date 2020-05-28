@@ -1,4 +1,5 @@
 # GUILE
 Gamemaker Universal Iterator Library Extension
 
-JSDoc https://necrobyte.github.io/GUILE/index.html
+[Github](https://github.com/necrobyte/GUILE/)
+[JSDoc](https://necrobyte.github.io/GUILE/index.html)
