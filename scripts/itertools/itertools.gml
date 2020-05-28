@@ -51,9 +51,9 @@ function Iterator( _data, _next ) constructor {
 	///
 	/// @example
 	/// var data = iter( "ABCD" );
-	/// while( !data.is_done() {
-	/// data.next(); --> "A", "B", "C", "D"
-	/// }
+	///while( !data.is_done() {
+	///    data.next(); --> "A", "B", "C", "D"
+	///}
 	
 	static next = function() {
 		return is_done() ? undefined : __next();
@@ -850,7 +850,7 @@ _compress = function( _iterable, _selectors ) {
 ///
 /// @example
 /// _count( 10 ) --> 10, 11, 12, 13, 14, ...
-/// _count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
+///_count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
 
 _count = function() {
 	var _iter = new Iterator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
@@ -968,8 +968,8 @@ _dropwhile = function( _iterable, _predicate ) {
 ///
 /// @example
 /// seasons = [ "Spring", "Summer", "Fall", "Winter" ];
-/// _enumerate( seasons ) --> [ 0, "Spring" ], [ 1, "Summer" ], [ 2, "Fall" ], [ 3, "Winter" ]
-/// _enumerate( seasons, 1 ) --> [ 1, "Spring" ], [ 2, "Summer" ], [ 3, "Fall" ], [ 4, "Winter" ]
+///_enumerate( seasons ) --> [ 0, "Spring" ], [ 1, "Summer" ], [ 2, "Fall" ], [ 3, "Winter" ]
+///_enumerate( seasons, 1 ) --> [ 1, "Spring" ], [ 2, "Summer" ], [ 3, "Fall" ], [ 4, "Winter" ]
 
  _enumerate = function ( _iterable ) {
 	return _zip( _count( ( argument_count > 1 ) ? argument[ 1 ] : 0 ), iter( _iterable ) );
@@ -1229,9 +1229,9 @@ _imap_from_iterable = function( _function, _iterable ) {
 ///
 /// @example
 /// _islice( "ABCDEFG", 2 ) --> "A", "B"
-/// _islice( "ABCDEFG", 2, 4 ) --> "C", "D"
-/// _islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F"
-/// _islice( "ABCDEFG", 0, undefined, 2 ) --> "A", "C", "E", "G"
+///_islice( "ABCDEFG", 2, 4 ) --> "C", "D"
+///_islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F"
+///_islice( "ABCDEFG", 0, undefined, 2 ) --> "A", "C", "E", "G"
 
 _islice = function( _iterable, _stop ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1292,11 +1292,11 @@ _reduce = function( _iterable, _function ) {
 ///
 /// @example
 /// _repeat( 10, 3 ) --> 10, 10, 10
-/// _repeat( 10 ) --> 10, 10, 10, 10, 10, ...
+///_repeat( 10 ) --> 10, 10, 10, 10, 10, ...
 ///
 /// @example
 /// _imap( function( x, n ) { return power(n) }, _range( 10 ), _repeat( 2 ) ).to_array()
-/// --> [ 0, 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
+///--> [ 0, 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
 
 _repeat = function( _object ) {
 	var _iter = new Iterator( _object, function() {
@@ -1323,10 +1323,10 @@ _repeat = function( _object ) {
 ///
 /// @example
 /// _take( 5, _count() ) --> 0, 1, 2, 3, 4
-/// _take( 7, _repeat( [ 1, 2, 3 ] ) --> 1, 2, 3, 1, 2, 3, 1
+///_take( 7, _repeat( [ 1, 2, 3 ] ) --> 1, 2, 3, 1, 2, 3, 1
 
 _take = function( _n, _iterable ) {
-	return _islice( _iterable, _n );	
+	return _islice( _iterable, _n );
 }
 
 /// @func _takewhile
