@@ -457,21 +457,20 @@ _range = function( _stop ) {
 
 /// TODO: convert to method
 function _irange ( _stop ) {
-	var _iter = new Iterator( undefined, function() {
-			var _result = start;
-			start += step;
+	var _iter = new Iterator( ( argument_count > 1 ) ? _stop : 0, function() {
+			var _result = data;
+			data += step;
 			return _result;
 	}, function() {
-		return floor( ( start - stop ) / step ) >= 0;
+		return floor( ( data - stop ) / step ) >= 0;
 	} );
 	
-	_iter.start = argument_count > 1 ? _stop : 0;
-	_iter.step = argument_count > 2 ? argument[ 2 ] : 1;
-	_iter.stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
+	_iter.step = ( argument_count > 2 ) ? argument[ 2 ] : 1;
+	_iter.stop = ( ( argument_count > 1 ) ? argument[ 1 ] : _stop );
 	
 	_iter.reversed = method( _iter, function() {
-		stop += ( ( start - stop ) % step + step ) % step;
-		return _irange( stop - step, start - step, -step );
+		var _stop = stop + ( ( data - stop ) % step + step ) % step;
+		return _irange( _stop - step, data - step, -step );
 	} );
 	
 	return _iter;
