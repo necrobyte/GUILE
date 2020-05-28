@@ -1,4 +1,4 @@
-/// @module itertools
+/// @namespace itertools
 
 #region Iterator
 
@@ -636,6 +636,7 @@ function iter( _object ) {
 /// If func is supplied, it should be a function of two arguments. Elements of the input iterable may be any type that can be accepted as arguments to func.
 ///
 /// Usually, the number of elements output matches the input iterable. However, if the optional argument initial is provided, the accumulation leads off with the initial value so that the output has one more element than the input iterable.
+/// @see _reduce
 ///
 /// @arg {Iterable} iterable
 /// @arg {Method( a, b )} [func]
