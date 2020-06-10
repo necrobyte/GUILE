@@ -92,9 +92,9 @@ function Iterator( _data, _next ) constructor {
 	///
 	/// @example
 	/// var data = iter( "ABCD" );
-	/// while( !data.is_done() {
-	/// data.next(); --> "A", "B", "C", "D"
-	/// }
+	///while( !data.is_done() {
+	///    data.next(); --> "A", "B", "C", "D"
+	///}
 	
 	static next = function() {
 		return is_done() ? undefined : __next();
@@ -407,10 +407,8 @@ _tee = function( _iterable, _n ) {
 		}, function() {
 			if ( index > 0 ) {
 				var _t = [];
-				size -= index;
-				array_copy( _t, 0, cache, index, size );
+				array_copy( _t, 0, cache, index--, --size );
 				cache = _t;
-				index = 0;
 			}
 			return ( data.is_done() &amp;&amp; ( size == 0 ) );
 		} );
@@ -500,21 +498,20 @@ _range = function( _stop ) {
 
 /// TODO: convert to method
 function _irange ( _stop ) {
-	var _iter = new Iterator( undefined, function() {
-			var _result = start;
-			start += step;
+	var _iter = new Iterator( ( argument_count > 1 ) ? _stop : 0, function() {
+			var _result = data;
+			data += step;
 			return _result;
 	}, function() {
-		return floor( ( start - stop ) / step ) >= 0;
+		return floor( ( data - stop ) / step ) >= 0;
 	} );
 	
-	_iter.start = argument_count > 1 ? _stop : 0;
-	_iter.step = argument_count > 2 ? argument[ 2 ] : 1;
-	_iter.stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
+	_iter.step = ( argument_count > 2 ) ? argument[ 2 ] : 1;
+	_iter.stop = ( ( argument_count > 1 ) ? argument[ 1 ] : _stop );
 	
 	_iter.reversed = method( _iter, function() {
-		stop += ( ( start - stop ) % step + step ) % step;
-		return _irange( stop - step, start - step, -step );
+		var _stop = stop + ( ( data - stop ) % step + step ) % step;
+		return _irange( _stop - step, data - step, -step );
 	} );
 	
 	return _iter;
@@ -829,7 +826,7 @@ _chain = function() {
 ///
 /// @example
 /// _chain( [ "ABC", "DEF" ] ) --> "ABC", "DEF"
-/// _chain_from_iterable( [ "ABC", "DEF" ] ) --> "A", "B", "C", "D", "E", "F"
+///_chain_from_iterable( [ "ABC", "DEF" ] ) --> "A", "B", "C", "D", "E", "F"
 
 _chain_from_iterable = function( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -848,10 +845,10 @@ _chain_from_iterable = function( _iterable ) {
 
 /// @func _compress
 /// 
-/// @desc Make an iterator that filters elements from data returning only those that have a corresponding element in selectors that evaluates to True.
+/// @desc Make an iterator that filters elements from iterable returning only those that have a corresponding element in selectors that evaluates to True.
 /// Stops when either the data or selectors iterables has been exhausted.
 ///
-/// @arg {Iterable} data
+/// @arg {Iterable} iterable
 /// @arg {Iterable} [selectors]
 ///
 /// @return {Iterator} Yields matching elements.
@@ -859,8 +856,8 @@ _chain_from_iterable = function( _iterable ) {
 /// @example
 /// _compress( "ABCDEF", [ 1, 0, 1, 0, 1, 1 ] ) --> "A", "C", "E", "F"
 
-_compress = function( _data, _selectors ) {
-	var _iter = new Iterator( iter( _data ), function() {
+_compress = function( _iterable, _selectors ) {
+	var _iter = new Iterator( iter( _iterable ), function() {
 		ready = false;
 		return data.next();
 	}, function() {
@@ -894,16 +891,15 @@ _compress = function( _data, _selectors ) {
 ///
 /// @example
 /// _count( 10 ) --> 10, 11, 12, 13, 14, ...
-/// _count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
+///_count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
 
 _count = function() {
-	var _iter = new Iterator( undefined, function() {
-		var _result = start;
-		start += step;
+	var _iter = new Iterator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
+		var _result = data;
+		data += step;
 		return _result;
 	} );
 	
-	_iter.start = argument_count > 0 ? argument[ 0 ] : 0;
 	_iter.step = argument_count > 1 ? argument[ 1 ] : 1;
 
 	return _iter;
@@ -1013,8 +1009,8 @@ _dropwhile = function( _iterable, _predicate ) {
 ///
 /// @example
 /// seasons = [ "Spring", "Summer", "Fall", "Winter" ];
-/// _enumerate( seasons ) --> [ 0, "Spring" ], [ 1, "Summer" ], [ 2, "Fall" ], [ 3, "Winter" ]
-/// _enumerate( seasons, 1 ) --> [ 1, "Spring" ], [ 2, "Summer" ], [ 3, "Fall" ], [ 4, "Winter" ]
+///_enumerate( seasons ) --> [ 0, "Spring" ], [ 1, "Summer" ], [ 2, "Fall" ], [ 3, "Winter" ]
+///_enumerate( seasons, 1 ) --> [ 1, "Spring" ], [ 2, "Summer" ], [ 3, "Fall" ], [ 4, "Winter" ]
 
  _enumerate = function ( _iterable ) {
 	return _zip( _count( ( argument_count > 1 ) ? argument[ 1 ] : 0 ), iter( _iterable ) );
@@ -1274,9 +1270,9 @@ _imap_from_iterable = function( _function, _iterable ) {
 ///
 /// @example
 /// _islice( "ABCDEFG", 2 ) --> "A", "B"
-/// _islice( "ABCDEFG", 2, 4 ) --> "C", "D"
-/// _islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F"
-/// _islice( "ABCDEFG", 0, undefined, 2 ) --> "A", "C", "E", "G"
+///_islice( "ABCDEFG", 2, 4 ) --> "C", "D"
+///_islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F"
+///_islice( "ABCDEFG", 0, undefined, 2 ) --> "A", "C", "E", "G"
 
 _islice = function( _iterable, _stop ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
@@ -1337,11 +1333,11 @@ _reduce = function( _iterable, _function ) {
 ///
 /// @example
 /// _repeat( 10, 3 ) --> 10, 10, 10
-/// _repeat( 10 ) --> 10, 10, 10, 10, 10, ...
+///_repeat( 10 ) --> 10, 10, 10, 10, 10, ...
 ///
 /// @example
 /// _imap( function( x, n ) { return power(n) }, _range( 10 ), _repeat( 2 ) ).to_array()
-/// --> [ 0, 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
+///--> [ 0, 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
 
 _repeat = function( _object ) {
 	var _iter = new Iterator( _object, function() {
@@ -1368,10 +1364,10 @@ _repeat = function( _object ) {
 ///
 /// @example
 /// _take( 5, _count() ) --> 0, 1, 2, 3, 4
-/// _take( 7, _repeat( [ 1, 2, 3 ] ) --> 1, 2, 3, 1, 2, 3, 1
+///_take( 7, _repeat( [ 1, 2, 3 ] ) --> 1, 2, 3, 1, 2, 3, 1
 
 _take = function( _n, _iterable ) {
-	return _islice( _iterable, _n );	
+	return _islice( _iterable, _n );
 }
 
 /// @func _takewhile
@@ -1506,7 +1502,7 @@ _zip_longest = function() {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 10 2020 22:21:22 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 10 2020 22:27:47 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
