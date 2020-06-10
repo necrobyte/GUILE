@@ -1,0 +1,3 @@
+[submodule "GLUE"]
+	path = .
+	url = https://github.com/necrobyte/GLUE
