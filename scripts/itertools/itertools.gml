@@ -1154,25 +1154,7 @@ _imap = function( _function ) {
 			a[i] = data[i].next();	
 		}
 		
-		switch ( size ) {
-			case 1: return func( a[0] );
-			case 2: return func( a[0], a[1] );
-			case 3: return func( a[0], a[1], a[2] );
-			case 4: return func( a[0], a[1], a[2], a[3] );
-			case 5: return func( a[0], a[1], a[2], a[3], a[4] );
-			case 6: return func( a[0], a[1], a[2], a[3], a[4], a[5] );
-			case 7: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6] );
-			case 8: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7] );
-			case 9: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8] );
-			case 10: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9] );
-			case 11: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10] );
-			case 12: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11] );
-			case 13: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12] );
-			case 14: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13] );
-			case 15: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14] );
-			default:
-				return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15] );
-		}
+		return apply( func, a );
 	}, function( ) {
 		for ( var i = 0; i < size; i++ ) {
 			if ( data[ i ].is_done() ) {
@@ -1212,25 +1194,7 @@ _imap_from_iterable = function( _function, _iterable ) {
 			size = array_length( a );
 		}
 		
-		switch ( size ) {
-			case 1: return func( a[0] );
-			case 2: return func( a[0], a[1] );
-			case 3: return func( a[0], a[1], a[2] );
-			case 4: return func( a[0], a[1], a[2], a[3] );
-			case 5: return func( a[0], a[1], a[2], a[3], a[4] );
-			case 6: return func( a[0], a[1], a[2], a[3], a[4], a[5] );
-			case 7: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6] );
-			case 8: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7] );
-			case 9: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8] );
-			case 10: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9] );
-			case 11: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10] );
-			case 12: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11] );
-			case 13: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12] );
-			case 14: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13] );
-			case 15: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14] );
-			default:
-				return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15] );
-		}
+		return apply( func, a );
 	}, function( ) {
 		return data.is_done();
 	} );
