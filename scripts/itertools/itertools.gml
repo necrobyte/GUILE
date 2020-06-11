@@ -367,7 +367,7 @@ function __iter_collection( _object, _get, _len ) {
 /// var t = _tee( range( 7 ) );
 ///_zip( _t[0], _drop( 1, _t[ 1 ] ) ) --> [ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 5, 6 ]
 
-function _tee( _iterable, _n ) {
+function _tee( _iterable ) {
 	var _iter = new Iterator( iter( _iterable), function() {
 		var _result = data.next();
 		for( var i = 0; i < size; i++ ) {
@@ -378,7 +378,7 @@ function _tee( _iterable, _n ) {
 		return data.is_done();	
 	} );
 	
-	_iter.size = is_undefined( _n ) ? 2 : _n;
+	_iter.size = ( argument_count > 1 ) ? argument[ 1 ] : 2;
 	_iter.children = [ ];
 	
 	for( var i = 0; i < _iter.size; i++ ){
@@ -1009,7 +1009,7 @@ function _dropwhile( _iterable, _predicate ) {
 /// @example
 /// _filter( _range( 10 ), function( x ) { return x % 2 } ) --> 1, 3, 5, 7, 9
 
-function _filter( _iterable, _function ) {
+function _filter( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		var _result = cache;
 		check = true;
@@ -1029,8 +1029,8 @@ function _filter( _iterable, _function ) {
 		return check;
 	});
 	
-	_iter.cache = undefined; 
-	_iter.filter = is_undefined( _function ) ? _truth : _function;
+	_iter.cache = undefined;
+	_iter.filter = ( argument_count > 1 ) ? argument[ 1 ] : _truth;
 	_iter.check = true;
 	
 	return _iter;
@@ -1049,7 +1049,7 @@ function _filter( _iterable, _function ) {
 /// @example
 /// _filter_false( _range( 10 ), function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
 
-function _filter_false( _iterable, _function ) {
+function _filter_false( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		var _result = cache;
 		check = true;
@@ -1070,7 +1070,7 @@ function _filter_false( _iterable, _function ) {
 	} );
 	
 	_iter.cache = undefined; 
-	_iter.filter = is_undefined( _function ) ? _truth : _function;
+	_iter.filter = ( argument_count > 1 ) ? argument[ 1 ] : _truth;
 	_iter.check = true;
 	
 	return _iter;
