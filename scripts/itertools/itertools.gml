@@ -446,8 +446,8 @@ Range = function( _start, _stop, _step ) constructor {
 	/// @return {Range}
 	
 	static reversed = function() {
-		stop += ( ( start - stop ) % step + step ) % step;
-		return new Range( stop - step, start - step, -step );	
+		var _stop = stop + _mod( start - stop, step );
+		return new Range( _stop - step, start - step, -step );
 	}
 }
 
@@ -495,7 +495,7 @@ function _irange ( _stop ) {
 	_iter.stop = ( ( argument_count > 1 ) ? argument[ 1 ] : _stop );
 	
 	_iter.reversed = method( _iter, function() {
-		var _stop = stop + ( ( data - stop ) % step + step ) % step;
+		var _stop = stop + _mod( data - stop, step );
 		return _irange( _stop - step, data - step, -step );
 	} );
 	
@@ -761,7 +761,7 @@ _accumulate = function ( _iterable ) {
 		_iter.check = !_iter.data.is_done();
 	}
 	
-	_iter.func = function( _a, _b ) { return _a + _b };
+	_iter.func = _add;
 	
 	return _iter;
 }
@@ -1034,7 +1034,7 @@ _filter = function( _iterable, _function ) {
 	});
 	
 	_iter.cache = undefined; 
-	_iter.filter = is_undefined( _function ) ? function( _a ) { return bool( _a ); } : _function;
+	_iter.filter = is_undefined( _function ) ? _truth : _function;
 	_iter.check = true;
 	
 	return _iter;
@@ -1074,7 +1074,7 @@ _filter_false = function ( _iterable, _function ) {
 	} );
 	
 	_iter.cache = undefined; 
-	_iter.filter = is_undefined( _function ) ? function( _a ) { return bool( _a ); } : _function;
+	_iter.filter = is_undefined( _function ) ? _truth : _function;
 	_iter.check = true;
 	
 	return _iter;
@@ -1124,7 +1124,7 @@ _group_by = function ( _iterable ) {
 		return check;
 	} );
 	
-	_iter.key_func = ( argument_count > 1 ) ? argument[ 1 ] : function( _x ) { return _x };
+	_iter.key_func = ( argument_count > 1 ) ? argument[ 1 ] : _identity;
 	_iter.group = [];
 	_iter.cache = undefined;
 	_iter.key = undefined;
@@ -1265,7 +1265,7 @@ _islice = function( _iterable, _stop ) {
 
 _reduce = function( _iterable, _function ) {
 	if ( argument_count > 2 ) {
-		return iter( _iterable ).reduce( _function, argument[ 2 ] );	
+		return iter( _iterable ).reduce( _function, argument[ 2 ] );
 	}
 	return iter( _iterable ).reduce( _function );
 }

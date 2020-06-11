@@ -224,10 +224,9 @@ assert_equals( [  ], _takewhile( [ ], function( _x ) { return ( _x < 10 ); } ).t
 	reduce
 */
 
-var _add = function( _a, _x ) { return _a + _x; };
 assert_equals( "abcdef", _reduce( [ "abc", "de", "f" ], _add ), "reduce 1" );
-assert_equals( 5040, _reduce( _range( 2, 8 ), function( _a, _x ) { return _a * _x; } ), "reduce 2" );
-assert_equals( 2432902008176640000, _reduce( _range( 2, 21 ), function( _a, _x ) { return _a * _x; } ), "reduce 3" );
+assert_equals( 5040, _reduce( _range( 2, 8 ), _mul ), "reduce 2" );
+assert_equals( 2432902008176640000, _reduce( _range( 2, 21 ), _mul ), "reduce 3" );
 assert_equals( 285, _reduce( _imap( sqr, _range( 10 ) ) , _add ), "reduce 4" );
 assert_equals( 285, _reduce( _imap( sqr, _range( 10 ) ) , _add, 0 ), "reduce 5" );
 assert_equals( 0, _reduce( _imap( sqr, _range( 0 ) ) , _add, 0 ), "reduce 6" );
