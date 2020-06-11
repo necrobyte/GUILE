@@ -13,7 +13,7 @@
 
 function Generator( _data, _next ) constructor {
 	/// @method is_done
-	/// @memberof Iterator
+	/// @memberof Generator
 	///
 	/// @desc Returns true when Iterator is exhausted.
 	///
@@ -27,7 +27,7 @@ function Generator( _data, _next ) constructor {
 	data = _data;
 	
 	/// @method __iter
-	/// @memberof Iterator
+	/// @memberof Generator
 	///
 	/// @desc Return self
 	/// @see iter
@@ -39,7 +39,7 @@ function Generator( _data, _next ) constructor {
 	}
 	
 	/// @method next
-	/// @memberof Iterator
+	/// @memberof Generator
 	///
 	/// @desc returns the next yielded element. If Iterator is exhausted, returns undefined.
 	///
