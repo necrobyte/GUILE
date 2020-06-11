@@ -1,6 +1,8 @@
 {
   "resources": [
+    {"id":{"name":"arraytools","path":"scripts/arraytools/arraytools.yy",},"order":3,},
     {"id":{"name":"itertools","path":"scripts/itertools/itertools.yy",},"order":0,},
+    {"id":{"name":"arraytools_test","path":"scripts/arraytools_test/arraytools_test.yy",},"order":4,},
     {"id":{"name":"util","path":"scripts/util/util.yy",},"order":1,},
     {"id":{"name":"itertools_test","path":"scripts/itertools_test/itertools_test.yy",},"order":2,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
