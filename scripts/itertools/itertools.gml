@@ -73,7 +73,6 @@ function Generator( _data, _next ) constructor {
 ///
 /// @return {Iterator}
 
-// TODO: convert to method
 function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) constructor {
 	
 	/// @method is_done
@@ -173,7 +172,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 ///
 /// @return {Iterator} - iterator struct
 
- IteratorDict = function ( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
+ function IteratorDict( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
 
 	/// @method names
 	/// @memberof IteratorDict
@@ -295,7 +294,6 @@ function __iter_dict( _object, _next_key, _get, _is_done ) {
 ///
 /// @return {Iterator} - iterator struct
 
-// TODO: Convert to method
 function IteratorCollection( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
 	
 	/// @method get
@@ -369,7 +367,7 @@ function __iter_collection( _object, _get, _len ) {
 /// var t = _tee( range( 7 ) );
 ///_zip( _t[0], _drop( 1, _t[ 1 ] ) ) --> [ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 5, 6 ]
 
-_tee = function( _iterable, _n ) {
+function _tee( _iterable, _n ) {
 	var _iter = new Iterator( iter( _iterable), function() {
 		var _result = data.next();
 		for( var i = 0; i < size; i++ ) {
@@ -425,7 +423,7 @@ _tee = function( _iterable, _n ) {
 ///
 /// @return {Range}
 
-Range = function( _start, _stop, _step ) constructor {
+function Range( _start, _stop, _step ) constructor {
 	
 	start = _start;
 	stop = _stop;
@@ -481,7 +479,6 @@ _range = function( _stop ) {
 ///
 /// @return {Iterator}
 
-/// TODO: convert to method
 function _irange ( _stop ) {
 	var _iter = new Iterator( ( argument_count > 1 ) ? _stop : 0, function() {
 			var _result = data;
@@ -514,7 +511,7 @@ function _irange ( _stop ) {
 ///
 /// @return {IteratorCollection}
 
-ds_list_iter = function( _list ) {
+function ds_list_iter( _list ) {
 	return __iter_collection( _list, function( _n ) {
 		return data[| _n];
 	}, function() {
@@ -530,7 +527,7 @@ ds_list_iter = function( _list ) {
 ///
 /// @return {Iterator}
 
-ds_stack_iter = function( _stack ) {
+function ds_stack_iter( _stack ) {
 	var _iter = new Iterator( _stack, function() {
 		return ds_stack_pop( data );
 	}, function() {
@@ -548,7 +545,7 @@ ds_stack_iter = function( _stack ) {
 ///
 /// @return {Iterator}
 
-ds_queue_iter = function( _queue ) {
+function ds_queue_iter( _queue ) {
 	var _iter = new Iterator( _queue, function() {
 		return ds_queue_dequeue( data );
 	}, function() {
@@ -566,7 +563,7 @@ ds_queue_iter = function( _queue ) {
 ///
 /// @return {IteratorDict}
 
-ds_map_iter = function( _map ) {
+function ds_map_iter( _map ) {
 	var _iter = __iter_dict( _map, function(){
 			item = ( index++ > 0 ) ? ds_map_find_next( data, item ) : ds_map_find_first( data );
 			return item;
@@ -591,7 +588,7 @@ ds_map_iter = function( _map ) {
 ///
 /// @return {Iterator} Yields max priority elements
 
-ds_priority_max_iter = function( _priority ) {
+function ds_priority_max_iter( _priority ) {
 	var _iter = new Iterator( _priority, function() {
 		return ds_priority_delete_max( data );
 	}, function() {
@@ -609,7 +606,7 @@ ds_priority_max_iter = function( _priority ) {
 ///
 /// @return {Iterator} Yields min priority elements
 
-ds_priority_min_iter = function( _priority ) {
+function ds_priority_min_iter( _priority ) {
 	var _iter = new Iterator( _priority, function() {
 		return ds_priority_delete_min( data );
 	}, function() {
@@ -628,7 +625,6 @@ ds_priority_min_iter = function( _priority ) {
 ///
 /// @return {Iterator}
 
-// TODO: convert to method
 function iter( _object ) {
 	
 	switch ( typeof( _object ) ) {
@@ -725,7 +721,7 @@ function iter( _object ) {
 ///_accumulate( data, _max ).to_array()
 ///--> [ 3, 4, 6, 6, 6, 9, 9, 9, 9, 9 ]
 
-_accumulate = function ( _iterable ) {
+function _accumulate( _iterable ) {
 	var _iter = new Iterator( iter( argument[ 0 ] ), function() {
 		if ( data.is_done() ) {
 			check = false;
@@ -779,7 +775,7 @@ _accumulate = function ( _iterable ) {
 /// @example
 /// _chain( "ABC", "DEF" ) --> "A", "B", "C", "D", "E", "F"
 
-_chain = function() {
+function _chain() {
 	var _iter = new Iterator( [ ], function() {
 		return data[ index ].next();
 	}, function() {
@@ -812,7 +808,7 @@ _chain = function() {
 /// _chain( [ "ABC", "DEF" ] ) --> "ABC", "DEF"
 ///_chain_from_iterable( [ "ABC", "DEF" ] ) --> "A", "B", "C", "D", "E", "F"
 
-_chain_from_iterable = function( _iterable ) {
+function _chain_from_iterable( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		return item.next();
 	}, function() {
@@ -840,7 +836,7 @@ _chain_from_iterable = function( _iterable ) {
 /// @example
 /// _compress( "ABCDEF", [ 1, 0, 1, 0, 1, 1 ] ) --> "A", "C", "E", "F"
 
-_compress = function( _iterable, _selectors ) {
+function _compress( _iterable, _selectors ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		ready = false;
 		return data.next();
@@ -877,7 +873,7 @@ _compress = function( _iterable, _selectors ) {
 /// _count( 10 ) --> 10, 11, 12, 13, 14, ...
 ///_count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
 
-_count = function() {
+function _count() {
 	var _iter = new Generator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
 		var _result = data;
 		data += step;
@@ -900,7 +896,7 @@ _count = function() {
 /// @example
 /// _cycle( [ 1, 2, 3, 4 ] ) --> 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, ...
 
-_cycle = function( _iterable ) {
+function _cycle( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		if ( size > 0 ) {
 			return cache[ index++ % size ];
@@ -938,7 +934,7 @@ _cycle = function( _iterable ) {
 /// @example
 /// _drop( 2, "abcdef" ) --> "b", "c", "d", "e", "f"
 
-_drop = function( _n, _iterable ) {
+function _drop( _n, _iterable ) {
 	return _islice( _iterable, _n, undefined );	
 }
 
@@ -955,7 +951,7 @@ _drop = function( _n, _iterable ) {
 /// @example
 /// _dropwhile( [ 1, 4, 6, 4, 1 ], function( x ) { return x < 5 } ) --> 6, 4, 1
 
-_dropwhile = function( _iterable, _predicate ) {
+function _dropwhile( _iterable, _predicate ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		var _result = cache;
 		check = data.is_done();
@@ -996,7 +992,7 @@ _dropwhile = function( _iterable, _predicate ) {
 ///_enumerate( seasons ) --> [ 0, "Spring" ], [ 1, "Summer" ], [ 2, "Fall" ], [ 3, "Winter" ]
 ///_enumerate( seasons, 1 ) --> [ 1, "Spring" ], [ 2, "Summer" ], [ 3, "Fall" ], [ 4, "Winter" ]
 
- _enumerate = function ( _iterable ) {
+ function _enumerate( _iterable ) {
 	return _zip( _count( ( argument_count > 1 ) ? argument[ 1 ] : 0 ), iter( _iterable ) );
 }
 
@@ -1013,7 +1009,7 @@ _dropwhile = function( _iterable, _predicate ) {
 /// @example
 /// _filter( _range( 10 ), function( x ) { return x % 2 } ) --> 1, 3, 5, 7, 9
 
-_filter = function( _iterable, _function ) {
+function _filter( _iterable, _function ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		var _result = cache;
 		check = true;
@@ -1053,7 +1049,7 @@ _filter = function( _iterable, _function ) {
 /// @example
 /// _filter_false( _range( 10 ), function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
 
-_filter_false = function ( _iterable, _function ) {
+function _filter_false( _iterable, _function ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		var _result = cache;
 		check = true;
@@ -1093,7 +1089,7 @@ _filter_false = function ( _iterable, _function ) {
 /// @example
 /// _take( 2, _group_by( "AAAABBBCCDAABBB" ) ) --> { key: "A", group: [ "A", "A", "A", "A" ] }, { key: "B", group: [ "B", "B", "B" ] }
 
-_group_by = function ( _iterable ) {
+function _group_by( _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		check = true;
 		return cache;
@@ -1146,7 +1142,7 @@ _group_by = function ( _iterable ) {
 /// @example
 /// _imap( function( x, n ) { return power( x, n ) }, [ 2, 3, 10 ], [ 5, 2, 3 ] ) --> 32, 9, 1000
 
-_imap = function( _function ) {
+function _imap( _function ) {
 	var _iter = new Iterator( [ ], function() {
 		var a = [];
 		
@@ -1186,7 +1182,7 @@ _imap = function( _function ) {
 /// @example
 /// _imap_from_iterable( function( x, n ) { return power( x, n ) }, [ [ 2, 5 ], [ 3, 2 ], [ 10, 5 ] ] ) --> 32, 9, 1000
 
-_imap_from_iterable = function( _function, _iterable ) {
+function _imap_from_iterable( _function, _iterable ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		
 		var a = data.next();
@@ -1222,7 +1218,7 @@ _imap_from_iterable = function( _function, _iterable ) {
 ///_islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F"
 ///_islice( "ABCDEFG", 0, undefined, 2 ) --> "A", "C", "E", "G"
 
-_islice = function( _iterable, _stop ) {
+function _islice( _iterable, _stop ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		start += step;
 		index++;
@@ -1263,7 +1259,7 @@ _islice = function( _iterable, _stop ) {
 /// @example
 /// _reduce( [1, 2, 3, 4], max ) --> 4
 
-_reduce = function( _iterable, _function ) {
+function _reduce( _iterable, _function ) {
 	if ( argument_count > 2 ) {
 		return iter( _iterable ).reduce( _function, argument[ 2 ] );
 	}
@@ -1287,7 +1283,7 @@ _reduce = function( _iterable, _function ) {
 /// _imap( function( x, n ) { return power(n) }, _range( 10 ), _repeat( 2 ) ).to_array()
 ///--> [ 0, 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
 
-_repeat = function( _object ) {
+function _repeat( _object ) {
 	var _iter = new Iterator( _object, function() {
 		--n;
 		return data;
@@ -1314,7 +1310,7 @@ _repeat = function( _object ) {
 /// _take( 5, _count() ) --> 0, 1, 2, 3, 4
 ///_take( 7, _repeat( [ 1, 2, 3 ] ) --> 1, 2, 3, 1, 2, 3, 1
 
-_take = function( _n, _iterable ) {
+function _take( _n, _iterable ) {
 	return _islice( _iterable, _n );
 }
 
@@ -1331,7 +1327,7 @@ _take = function( _n, _iterable ) {
 /// @example
 /// _takewhile( [ 1, 4, 6, 4, 1 ], function( x ) { return x < 5 } ) --> 1, 4
 
-_takewhile = function( _iterable, _predicate ) {
+function _takewhile( _iterable, _predicate ) {
 	var _iter = new Iterator( iter( _iterable ), function() {
 		var _result = cache;
 		check = true;
@@ -1368,7 +1364,7 @@ _takewhile = function( _iterable, _predicate ) {
 /// @example
 /// _zip( "ABCD", "xy" ) --> [ "A", "x" ], [ "B", "y" ]
 
-_zip = function() {
+function _zip() {
 	var _iter = new Iterator( [ ], function() {
 		var _result = [];
 		for ( var i = 0; i < size; i++ ) {
@@ -1406,7 +1402,7 @@ _zip = function() {
 /// @example
 /// _zip_longest( "ABCD", "xy", "-" ) --> [ "A", "x" ], [ "B", "y" ], [ "C", "-" ], [ "D", "-" ]
 
-_zip_longest = function() {
+function _zip_longest() {
 	var _iter = new Iterator( [ ], function() {
 		var _result = [];
 		for ( var i = 0; i < size; i++ ) {
