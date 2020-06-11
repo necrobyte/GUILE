@@ -1,24 +1,17 @@
 #region Iterator
 
-/// @func Iterator( data, next, [is_done] )
-/// @name Iterator
+/// @func Generator( data, next )
+/// @name Generator
 /// @class
 ///
-/// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
-/// When no more data are available returns undefined. At this point, the iterator object is exhausted and any further calls to its next() method just return undefined again.
-/// Iterators are required to have an __iter() method that returns the iterator object itself so every iterator is also iterable and may be used in most places where other iterables are accepted.
-/// One notable exception is code which attempts multiple iteration passes. A container object (such as a list) produces a fresh new iterator each time you pass it to the iter() function or use it in a for loop.
-/// Attempting this with an iterator will just return the same exhausted iterator object used in the previous iteration pass, making it appear like an empty container.
+/// @classdesc Iterator that can never be exhausted
 ///
 /// @arg {Any} data
 /// @arg {Method()} next
-/// @arg {Method()} [is_done]
 ///
-/// @return {Iterator}
+/// @return {Iterator} - iterator struct
 
-// TODO: convert to method
-function Iterator( _data, _next ) constructor {
-	
+function Generator( _data, _next ) constructor {
 	/// @method is_done
 	/// @memberof Iterator
 	///
@@ -26,7 +19,10 @@ function Iterator( _data, _next ) constructor {
 	///
 	/// @return {Bool}
 	
-	is_done = ( argument_count < 3 ) ? function() { return false } : method( self, argument[ 2 ] );
+	is_done = function() {
+		return false;	
+	};
+	
 	__next = method( self, _next );
 	data = _data;
 	
@@ -58,6 +54,36 @@ function Iterator( _data, _next ) constructor {
 	static next = function() {
 		return is_done() ? undefined : __next();
 	}
+ }
+
+/// @func Iterator( data, next, [is_done] )
+/// @name Iterator
+/// @class
+/// @extends Generator
+///
+/// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
+/// When no more data are available returns undefined. At this point, the iterator object is exhausted and any further calls to its next() method just return undefined again.
+/// Iterators are required to have an __iter() method that returns the iterator object itself so every iterator is also iterable and may be used in most places where other iterables are accepted.
+/// One notable exception is code which attempts multiple iteration passes. A container object (such as a list) produces a fresh new iterator each time you pass it to the iter() function or use it in a for loop.
+/// Attempting this with an iterator will just return the same exhausted iterator object used in the previous iteration pass, making it appear like an empty container.
+///
+/// @arg {Any} data
+/// @arg {Method()} next
+/// @arg {Method()} is_done
+///
+/// @return {Iterator}
+
+// TODO: convert to method
+function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) constructor {
+	
+	/// @method is_done
+	/// @memberof Iterator
+	///
+	/// @desc Returns true when Iterator is exhausted.
+	///
+	/// @return {Bool}
+	
+	is_done = method( self, _is_done );
 	
 	/// @method reduce
 	/// @memberof Iterator
@@ -650,7 +676,7 @@ function iter( _object ) {
 		case "method":
 			var _sentinel = ( argument_count > 1 ) ? argument[ 1 ] : "";
 			
-			var _iter = new Iterator( function() {
+			var _iter = new Iterator( _sentinel, function() {
 				check = true;
 				return cache;
 			}, function() {
@@ -662,7 +688,6 @@ function iter( _object ) {
 			} );
 			
 			_iter.get = _object;
-			_iter.data = _sentinel;
 			_iter.cache = undefined;
 			_iter.check = true;
 		
@@ -853,7 +878,7 @@ _compress = function( _iterable, _selectors ) {
 ///_count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
 
 _count = function() {
-	var _iter = new Iterator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
+	var _iter = new Generator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
 		var _result = data;
 		data += step;
 		return _result;
