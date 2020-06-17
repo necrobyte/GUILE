@@ -47,6 +47,10 @@ function Array( _object ) constructor {
 	/// @desc Size of array dimensions cached.
 	strides = [];
 	
+	/// @field c_order
+	/// @memberof Array
+	///
+	/// @desc Dimensions order. True means row-first, false is row-last.
 	c_order = ( argument_count > 2 ) ? argument[ 2 ] : true;
 		
 	/// @method get
@@ -65,11 +69,13 @@ function Array( _object ) constructor {
 		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
 			_c = argument[ 0 ];	
 		} else {
-			_c = argument;
+			for( var i = 0; i < argument_count; i++ ) {
+				_c[ i ] = argument[ i ];
+			}
 		}
 		var _n = 0;
 		for( var i = 0; i < ndim; i++ ) {
-			_n += _c[ i ] * stride[ i ];
+			_n += _c[ i ] * strides[ i ];
 		}
 		return data[ _n ];
 	}
@@ -89,7 +95,9 @@ function Array( _object ) constructor {
 		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
 			_c = argument[ 0 ];	
 		} else {
-			_c = argument;
+			for( var i = 0; i < argument_count; i++ ) {
+				_c[ i ] = argument[ i ];
+			};
 		}
 		var _n = 0;
 		for( var i = 0; i < ndim; i++ ) {
@@ -116,10 +124,30 @@ function Array( _object ) constructor {
 ///array_append( a, 4, 5 );
 ///a --> [ 1, 2, 3, 4, 5 ];
 
-function array_append( _array, _item ) {
+function array_append( _array ) {
 	var n = array_length( _array );
 	for( var i = 1; i < argument_count; i++ ) {
-		_array[ n++ ] = argument[ i ];	
+		_array[@ n++ ] = argument[ i ];
+	}
+}
+
+/// @func array_extend
+///
+/// @desc Extend the array by appending all the items from the iterable.
+///
+/// @arg {Array} array
+/// @arg {Iterable} iterable
+///
+/// @example
+/// var a = [ 1, 2, 3 ];
+///array_extend( a, [ 4, 5 ] );
+///a --> [ 1, 2, 3, 4, 5 ];
+
+function array_extend( _array, _iterable ) {
+	var n = array_length( _array );
+	var _data = iter( _iterable );
+	while ( !_data.is_done() ) {
+		_array[@ n++ ] = _data.next();
 	}
 }
 
@@ -128,8 +156,8 @@ function array_append( _array, _item ) {
 /// @desc swaps two array elements
 ///
 /// @arg {Array} array
-/// @arg {Number} a
-/// @arg {Number} b
+/// @arg {Number} a first element index
+/// @arg {Number} b second element index
 ///
 /// @example
 /// var a = [ 1, 2, 3, 4, 5 ];
@@ -159,6 +187,10 @@ function array_map( a, func ) {
 	
 	return _result;
 }
+
+#endregion
+
+#region sorting
 
 /// @func array_sort
 ///
@@ -196,7 +228,9 @@ function array_qsort( a ) {
 			if ( ( _right - _left ) == 1 ) {
 				if ( _keys[ _left ] > _keys[ _right ] ) {
 					array_swap( a, _left, _right );
-					array_swap( _keys, _left, _right );
+					if ( key ) {
+						array_swap( _keys, _left, _right );
+					}
 				}
 				break;
 			}
