@@ -22,5 +22,7 @@ array_delete( a, 2 );
 log( a );
 array_delete( a, -2 );
 log( array_pop( a ), a );
+array_reverse( a );
+log( a );
 
 #endregion

@@ -249,10 +249,10 @@ function array_swap( _array, a, b ) {
 /// @arg {Method} func
 
 function array_map( a, func ) {
-	var _size = array_length( a );
+	var n = array_length( a );
 	var _result = [ ];
 	
-	for( var i = 0; i < _size; i++ ) {
+	for( var i = 0; i < n; i++ ) {
 		_result[ i ] = func( a[ i ] );
 	}
 	
@@ -280,6 +280,26 @@ function array_pop( _array ) {
 	array_resize( _array, n - 1 );
 	
 	return _result;
+}
+
+/// @func array_reverse
+///
+/// @desc Reverse the elements of the array in place
+///
+/// @arg {Array} array
+///
+/// @example
+/// var a = [ 1, 2, 3, 4, 5 ];
+///array_reverse( a );
+///a --> [ 5, 4, 3, 2, 1 ];
+
+function array_reverse( _array ) {
+	var n = array_length( _array );
+	var m = n div 2;
+	
+	for( var i = 0; i < m; i++ ) {
+		array_swap( _array, i, n - i  - 1 );
+	}
 }
 
 #endregion
@@ -312,7 +332,6 @@ function array_sort( a ) {
 function array_qsort( a ) {
 	var key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
 	var _keys = is_array( key ) ? key : ( is_undefined( key ) ? a : array_map( a, key ) );
-	log( "keys: ", _keys );
 	
 	var _left = ( argument_count > 2 ) ? argument[ 2 ] : 0;
 	var _right = ( argument_count > 3 ) ? argument[ 3 ] : array_length( a ) - 1;
