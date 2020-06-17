@@ -196,6 +196,39 @@ function array_extend( _array, _iterable ) {
 	}
 }
 
+/// @func array_index
+///
+/// @desc Return zero-based index in the list of the first item whose value is equal to x. Returns undefined if no such item.
+///
+/// @arg {Array} array
+/// @arg {Any} value
+/// @arg {Number} [start=0]
+/// @arg {Number} [stop=infinity]
+///
+/// @return {Number}
+///
+/// @example
+/// array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4 ) --> 3
+///array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4, 4 ) --> 7
+///array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4, 4, 6 ) --> undefined
+
+function array_index( _array, _value ) {
+	var n = array_length( _array );
+	var _start = ( argument_count > 2 ) ? argument[ 2 ] : undefined;
+	_start = is_undefined( _start ) ? 0 : ( ( _start < 0 ) ? _start + n : _start );
+	var _stop = ( argument_count > 3 ) ? argument[ 3 ] : undefined;
+	_stop = clamp( is_undefined( _stop ) ? n : ( ( _stop < 0 ) ? _stop + n : _stop ), 0, n );
+	
+	while ( _start < _stop ) {
+		if ( _array[ _start ] == _value ) {
+			return _start;
+		}
+		++_start;
+	}
+	
+	return undefined;
+}
+
 /// @func array_insert
 ///
 /// @desc Insert an item at a given position.

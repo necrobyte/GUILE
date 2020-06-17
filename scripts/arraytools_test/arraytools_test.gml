@@ -28,6 +28,15 @@ array_reverse( a );
 log( a );
 
 /*
+	index
+*/
+
+assert_equals( 3, array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4 ), "index 1" );
+assert_equals( 7, array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4, 4 ), "index 2" );
+assert_equals( 7, array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4, -4 ), "index 3" );
+assert_equals( undefined, array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4, 4, 6 ), "index 4" );
+
+/*
 	slice
 */
 
