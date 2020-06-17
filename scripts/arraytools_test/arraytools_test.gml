@@ -1,7 +1,9 @@
 #region sorting
 
-log( string( [ 1,4,6,3,5,6,4,2 ] ) );
-log( array_sort( [1,4,6,3,5,6,4,2] ) );
+assert_equals( [ 1,2,3,4,4,5,6,6 ], array_sort( [1,4,6,3,5,6,4,2] ), "sort 1" );
+assert_equals( [ 1,2,3,4,4,5,6,6 ], array_sort( [1,4,6,3,5,6,4,2], undefined ), "sort 2" );
+assert_equals( [ 2,3,4,4,5,6,6,7 ], array_sort( [7,4,6,3,5,6,4,2], undefined, false ), "sort 3" );
+assert_equals( [ 6,6,5,4,4,3,2,1 ], array_sort( [1,4,6,3,5,6,4,2], undefined, true ), "sort 4" );
 
 #endregion
 

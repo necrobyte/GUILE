@@ -346,37 +346,44 @@ function array_slice( _array ) {
 /// @desc quicksort array
 ///
 /// @arg {Array} array
-/// @arg {Method} [key]
+/// @arg {Method} [key=undefined]
+/// @arg {Bool} [reverse=false]
 ///
 /// @return {Array} Input array but sorted using quicksort algorithm
 
 function array_sort( a ) {
-	var key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
-	return array_qsort( a, key );
+	if ( array_length( a ) < 2 ) {
+		return a;	
+	}
+	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
+	return array_qsort( a, _key, _reverse );
 }
 
 /// @func array_qsort
 ///
-/// @desc quicksort array
+/// @desc quicksort array using Hoare partitioning
 ///
 /// @arg {Array} array
-/// @arg {Method} [key]
+/// @arg {Method} [key=undefined]
+/// @arg {Bool} [reverse=false]
 ///
 /// @return {Array} Input array but sorted using quicksort algorithm
 
 function array_qsort( a ) {
-	var key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
-	var _keys = is_array( key ) ? key : ( is_undefined( key ) ? a : array_map( a, key ) );
+	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
+	var _keys = is_array( _key ) ? _key : ( is_undefined( _key ) ? a : array_map( a, _key ) );
 	
-	var _left = ( argument_count > 2 ) ? argument[ 2 ] : 0;
-	var _right = ( argument_count > 3 ) ? argument[ 3 ] : array_length( a ) - 1;
+	var _left = ( argument_count > 3 ) ? argument[ 3 ] : 0;
+	var _right = ( argument_count > 4 ) ? argument[ 4 ] : array_length( a ) - 1;
 	
 	if ( _left < _right ) {
 		do {
 			if ( ( _right - _left ) == 1 ) {
-				if ( _keys[ _left ] > _keys[ _right ] ) {
+				if ( _reverse ? _keys[ _left ] < _keys[ _right ] : _keys[ _left ] > _keys[ _right ] ) {
 					array_swap( a, _left, _right );
-					if ( key ) {
+					if ( _key ) {
 						array_swap( _keys, _left, _right );
 					}
 				}
@@ -388,23 +395,33 @@ function array_qsort( a ) {
 			var p = ( i + j ) >> 1;
 			
 			do {
-				while ( _keys[ i ] < _keys[ p ] ) {
-					++i;	
+				if ( _reverse ) {
+					while ( _keys[ i ] > _keys[ p ] ) {
+						++i;
+					}
+					while ( _keys[ j ] < _keys[ p ] ) {
+						--j;
+					}
+				} else {
+					while ( _keys[ i ] < _keys[ p ] ) {
+						++i;
+					}
+					while ( _keys[ j ] > _keys[ p ] ) {
+						--j;
+					}
 				}
-				while ( _keys[ j ] > _keys[ p ] ) {
-					--j;	
-				}
+				
 				if ( i <= j ) {
 					if( i != j ) {
 						array_swap( a, i, j );
-						if ( key ) {
+						if ( _key ) {
 							array_swap( _keys, i, j );
 						}
 					}
 					if ( p == i ) {
-						p = j;	
-					} else if ( p ==j ) {
-						p = i;	
+						p = j;
+					} else if ( p == j ) {
+						p = i;
 					}
 					++i;
 					--j;
@@ -413,12 +430,12 @@ function array_qsort( a ) {
 			
 			if ( ( j - _left ) > ( _right - i ) ) {
 				if ( i < _right ) {
-					array_qsort( a, _keys, i, _right );	
+					array_qsort( a, _key ? _keys : _key, _reverse, i, _right );
 				}
 				_right = j;
 			} else {
 				if( _left < j ) {
-					array_qsort( a, _keys, _left, j );
+					array_qsort( a, _key ? _keys : _key, _reverse, _left, j );
 				}
 				_left = i;
 			}	
