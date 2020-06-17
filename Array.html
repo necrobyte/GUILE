@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Generator - Documentation</title>
+    <title>Array - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Generator</h1>
+    <h1 class="page-title">Array</h1>
     
 
     
@@ -42,10 +42,10 @@
 <header>
     
         <h2>
-        Generator
+        Array
         </h2>
         
-            <div class="class-description"><p>Iterator that can never be exhausted</p></div>
+            <div class="class-description"><p>Multi-dimensional array</p></div>
         
     
 </header>
@@ -60,7 +60,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Generator"><span class="type-signature"></span>new Generator<span class="signature">(data, next)</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
+    <h4 class="name" id="Array"><span class="type-signature"></span>new Array<span class="signature">(object, ndmin<span class="signature-attributes">opt</span>, c_order<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Array.html">Array</a>}</span></h4>
 
     
 
@@ -99,7 +99,287 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line1">line 1</a>
+        <a href="arraytools_arraytools.gml.html">arraytools/arraytools.gml</a>, <a href="arraytools_arraytools.gml.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>object</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="Array.html">Array</a></code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ndmin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>minimum number of dimensions</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>c_order</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Bool</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>the memory layout of the array. If true, layout is row major.</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="Array.html">Array</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    <ul>
+<li>Array struct</li>
+</ul>
+</div>
+
+    
+</div>
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".get"><span class="type-signature">(static) </span>get<span class="signature">(index0, index1)</span><span class="type-signature"> &rarr; {Any}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Returns array element</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arraytools_arraytools.gml.html">arraytools/arraytools.gml</a>, <a href="arraytools_arraytools.gml.html#line46">line 46</a>
     </li></ul></dd>
     
 
@@ -143,13 +423,13 @@
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>index0</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>Any</code></span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -169,15 +449,36 @@
 
         <tr>
             
-                <td class="name"><code>next</code></td>
+                <td class="name"><code>index1</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>Method()</code></span>
+<span class="param-type"><code>Number</code></span>
 
 
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>...</code></td>
+            
+
+            <td class="type">
             
             </td>
 
@@ -219,349 +520,6 @@
     </dt>
     <dd>
         
-<span class="param-type"><code><a href="Iterator.html">Iterator</a></code></span>
-
-
-    </dd>
-</dl>
-
-
-<div class="param-desc">
-    <ul>
-<li>iterator struct</li>
-</ul>
-</div>
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id=".__iter"><span class="type-signature">(static) </span>__iter<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Return self</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line21">line 21</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="global.html#iter">iter</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code><a href="Iterator.html">Iterator</a></code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id=".is_done"><span class="type-signature">(static) </span>is_done<span class="signature">()</span><span class="type-signature"> &rarr; {Bool}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Returns true when Iterator is exhausted.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line13">line 13</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Bool</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id=".next"><span class="type-signature">(static) </span>next<span class="signature">()</span><span class="type-signature"> &rarr; {Any}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>returns the next yielded element. If Iterator is exhausted, returns undefined.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line30">line 30</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
 <span class="param-type"><code>Any</code></span>
 
 
@@ -574,15 +532,213 @@
 
 
 
-<div class="section-examples">
-<h5>Example</h5>
-
-    <pre class="prettyprint"><code>var data = iter( "ABCD" );
-while( !data.is_done() {
-    data.next(); --> "A", "B", "C", "D"
-}</code></pre>
-
 </div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".set"><span class="type-signature">(static) </span>set<span class="signature">(value, index0, index1)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Writes new value at position index.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arraytools_arraytools.gml.html">arraytools/arraytools.gml</a>, <a href="arraytools_arraytools.gml.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Any</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index0</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>...</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </div>
         
