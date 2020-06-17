@@ -146,6 +146,18 @@ function array_clear( _array ) {
 	array_resize( _array, 0 );	
 }
 
+/// @func array_clone
+///
+/// @desc Returns copy of the input array.
+///
+/// @arg {Array} array
+
+function array_clone( _array ) {
+	var _result = [ ];
+	array_copy( _result, 0, _array, 0, array_length( _array ) );
+	return _result;
+}
+
 /// @func array_delete
 ///
 /// @desc Removes element with specified index from the array
@@ -331,7 +343,9 @@ function array_qsort( a ) {
 				if ( i <= j ) {
 					if( i != j ) {
 						array_swap( a, i, j );
-						array_swap( _keys, i, j );
+						if ( key ) {
+							array_swap( _keys, i, j );
+						}
 					}
 					if ( p == i ) {
 						p = j;	
