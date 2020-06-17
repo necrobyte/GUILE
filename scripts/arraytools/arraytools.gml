@@ -302,6 +302,41 @@ function array_reverse( _array ) {
 	}
 }
 
+/// @func array_slice
+///
+/// @desc
+///
+/// @arg {Array} array
+/// @arg {Number} [start=0]
+/// @arg {Number} [stop=infinity]
+/// @arg {Number} [step=1]
+
+function array_slice( _array ) {
+	var n = array_length( _array );
+	var _start = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	_start = is_undefined( _start ) ? 0 : ( ( _start < 0 ) ? _start + n : _start );
+	var _stop = ( argument_count > 2 ) ? argument[ 2 ] : undefined;
+	_stop = is_undefined( _stop ) ? n : ( ( _stop < 0 ) ? _stop + n : _stop );
+	var _step = ( argument_count > 3 ) ? argument[ 3 ] : undefined;
+	_step = is_undefined( _step ) ? 1 : _step;
+	
+	if ( _step < 0 ) {
+		var t = _stop + _mod( _start - _stop, _step );
+		_stop = _start + sign( _step );
+		_start = t + sign( _step );
+	}
+	
+	var _result = [ ];
+	var _size = 0;
+	
+	while( ( ( _start - _stop ) / _step ) < 0 ) {
+		_result[ _size++ ] = _array[ _start ];
+		_start += _step;
+	}
+	
+	return _result;
+}
+
 #endregion
 
 #region sorting
