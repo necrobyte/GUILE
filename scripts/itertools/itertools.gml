@@ -1245,27 +1245,6 @@ function _islice( _iterable, _stop ) {
 	return _iter;
 }
 
-/// @func _reduce
-///
-/// @desc Apply function of two arguments cumulatively to the items of Iterable, from left to right, so as to reduce it to a single value.
-/// @see _accumulate
-///
-/// @arg {Iterable} iterable
-/// @arg {Method(a,x)} function
-/// @arg [Any] initializer
-///
-/// @return {Any}
-///
-/// @example
-/// _reduce( [1, 2, 3, 4], max ) --> 4
-
-function _reduce( _iterable, _function ) {
-	if ( argument_count > 2 ) {
-		return iter( _iterable ).reduce( _function, argument[ 2 ] );
-	}
-	return iter( _iterable ).reduce( _function );
-}
-
 /// @func _repeat
 ///
 /// @desc Iterator that returns object over and over again.
@@ -1432,6 +1411,72 @@ function _zip_longest() {
 	}
 	
 	return _iter;
+}
+
+#endregion
+
+#region misc
+
+/// @func _all
+///
+/// @desc Return True if all elements of the iterable are true (or if the iterable is empty).
+///
+/// @arg {Iterable} iterable
+///
+/// @return {Bool}
+
+function _all( _iterable ) {
+	_iterable = iter( _iterable );
+	
+	while( !_iterable.is_done() ) {
+		if ( !_iterable.next() ) {
+			return false;	
+		}
+	}
+	
+	return true;
+}
+
+
+/// @func _any
+///
+/// @desc Return true if any element of the iterable is true. If the iterable is empty, return false. 
+///
+/// @arg {Iterable} iterable
+///
+/// @return {Bool}
+
+function _any( _iterable ) {
+	_iterable = iter( _iterable );
+	
+	while( !_iterable.is_done() ) {
+		if ( _iterable.next() ) {
+			return true;	
+		}
+	}
+	
+	return false;
+}
+
+/// @func _reduce
+///
+/// @desc Apply function of two arguments cumulatively to the items of Iterable, from left to right, so as to reduce it to a single value.
+/// @see _accumulate
+///
+/// @arg {Iterable} iterable
+/// @arg {Method(a,x)} function
+/// @arg [Any] initializer
+///
+/// @return {Any}
+///
+/// @example
+/// _reduce( [1, 2, 3, 4], max ) --> 4
+
+function _reduce( _iterable, _function ) {
+	if ( argument_count > 2 ) {
+		return iter( _iterable ).reduce( _function, argument[ 2 ] );
+	}
+	return iter( _iterable ).reduce( _function );
 }
 
 #endregion

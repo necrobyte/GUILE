@@ -143,7 +143,7 @@ function array_append( _array ) {
 ///a --> [  ];
 
 function array_clear( _array ) {
-	array_resize( _array, 0 );	
+	array_resize( _array, 0 );
 }
 
 /// @func array_clone
@@ -304,7 +304,7 @@ function array_reverse( _array ) {
 
 /// @func array_slice
 ///
-/// @desc
+/// @desc Return part of the array.
 ///
 /// @arg {Array} array
 /// @arg {Number} [start=0]
