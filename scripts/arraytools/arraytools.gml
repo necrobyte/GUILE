@@ -129,6 +129,8 @@ function array_append( _array ) {
 	for( var i = 1; i < argument_count; i++ ) {
 		_array[@ n++ ] = argument[ i ];
 	}
+	
+	return _array;
 }
 
 /// @func array_clear
@@ -144,6 +146,8 @@ function array_append( _array ) {
 
 function array_clear( _array ) {
 	array_resize( _array, 0 );
+	
+	return _array;
 }
 
 /// @func array_clone
@@ -199,6 +203,8 @@ function array_delete( _array, _index ) {
 	}
 	
 	array_resize( _array, n - 1 );
+	
+	return _array;
 }
 
 /// @func array_extend
@@ -216,9 +222,12 @@ function array_delete( _array, _index ) {
 function array_extend( _array, _iterable ) {
 	var n = array_length( _array );
 	var _data = iter( _iterable );
+	
 	while ( !_data.is_done() ) {
 		_array[@ n++ ] = _data.next();
 	}
+	
+	return _array;
 }
 
 /// @func array_index
@@ -278,6 +287,8 @@ function array_insert( _array, _index, _value ) {
 	}
 	
 	_array[@ _index ] = _value;
+	
+	return _array;
 }
 
 /// @func array_map
@@ -321,6 +332,22 @@ function array_pop( _array ) {
 	return _result;
 }
 
+/// @func array_remove
+///
+/// @desc
+///
+/// @arg {Array} array
+/// @arg {Any} value
+
+function array_remove( _array, _value ) {
+	var _index = array_index( _array, _value );
+	if ( !is_undefined( _index ) ) {
+		array_delete( _array, _index );
+	}
+	
+	return _array;
+}
+
 /// @func array_reverse
 ///
 /// @desc Reverse the elements of the array in place
@@ -339,6 +366,8 @@ function array_reverse( _array ) {
 	for( var i = 0; i < m; i++ ) {
 		array_swap( _array, i, n - i  - 1 );
 	}
+	
+	return _array;
 }
 
 /// @func array_slice
@@ -349,6 +378,8 @@ function array_reverse( _array ) {
 /// @arg {Number} [start=0]
 /// @arg {Number} [stop=infinity]
 /// @arg {Number} [step=1]
+///
+/// @return {Array}
 
 function array_slice( _array ) {
 	var n = array_length( _array );
