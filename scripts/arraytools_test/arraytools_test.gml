@@ -18,5 +18,9 @@ array_insert( a, 2, 3 );
 log( a );
 array_insert( a, -1, 5 );
 log( a );
+array_delete( a, 2 );
+log( a );
+array_delete( a, -2 );
+log( a );
 
 #endregion

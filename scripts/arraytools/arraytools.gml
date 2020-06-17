@@ -146,6 +146,24 @@ function array_clear( _array ) {
 	array_resize( _array, 0 );	
 }
 
+/// @func array_delete
+///
+/// @desc Removes element with specified index from the array
+///
+/// @arg {Array} array
+/// @arg {Number} index
+
+function array_delete( _array, _index ) {
+	var n = array_length( _array );
+	_index = ( _index < 0 ) ? _index + n : _index;
+	
+	while ( ++_index < n ) {
+		_array[@ _index - 1 ] = _array[ _index ];
+	}
+	
+	array_resize( _array, n - 1 );
+}
+
 /// @func array_extend
 ///
 /// @desc Extend the array by appending all the items from the iterable.
@@ -183,14 +201,13 @@ function array_extend( _array, _iterable ) {
 
 function array_insert( _array, _index, _value ) {
 	var n = array_length( _array );
-	_index = clamp( ( _index < 0 ) ? _index + n : _index, 0, n );
+	_index = ( _index < 0 ) ? _index + n : _index;
 	
 	if ( _index < n ) {
 		array_copy( _array, _index + 1, _array, _index, n - _index );
 	}
 	
 	_array[@ _index ] = _value;
-	
 }
 
 /// @func array_swap
