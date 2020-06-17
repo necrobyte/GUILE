@@ -166,6 +166,33 @@ function array_extend( _array, _iterable ) {
 	}
 }
 
+/// @func array_insert
+///
+/// @desc Insert an item at a given position.
+///
+/// @arg {Array} array
+/// @arg {Number} index Index of the element before which to insert the new value.
+/// @arg {Any} value
+///
+/// @example
+/// var a = [ 1, 2, 4, 6 ];
+///array_insert( a, 2, 3 );
+///a --> [ 1, 2, 3, 4, 6 ];
+///array_insert( a, -1, 5 );
+///a --> [ 1, 2, 3, 4, 5, 6 ];
+
+function array_insert( _array, _index, _value ) {
+	var n = array_length( _array );
+	_index = clamp( ( _index < 0 ) ? _index + n : _index, 0, n );
+	
+	if ( _index < n ) {
+		array_copy( _array, _index + 1, _array, _index, n - _index );
+	}
+	
+	_array[@ _index ] = _value;
+	
+}
+
 /// @func array_swap
 ///
 /// @desc swaps two array elements
