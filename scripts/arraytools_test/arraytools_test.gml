@@ -10,7 +10,9 @@ log( array_sort( [1,4,6,3,5,6,4,2] ) );
 var a = [ 1, 2, 3 ];
 array_append( a, 4, 5 );
 log( a );
-array_extend( a, [ 6, 7 ] );
+array_clear( a );
+log( a );
+array_extend( a, [ 1, 2, 3 ] );
 log( a );
 
 #endregion

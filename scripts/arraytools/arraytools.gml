@@ -131,6 +131,21 @@ function array_append( _array ) {
 	}
 }
 
+/// @func array_clear
+///
+/// @desc Remove all elements from the array.
+///
+/// @arg {Array} array
+///
+/// @example
+/// var a = [ 1, 2, 3 ];
+///array_clear( a );
+///a --> [  ];
+
+function array_clear( _array ) {
+	array_resize( _array, 0 );	
+}
+
 /// @func array_extend
 ///
 /// @desc Extend the array by appending all the items from the iterable.
