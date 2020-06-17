@@ -117,7 +117,7 @@ function Array( _object ) constructor {
 /// @desc Add items to the end of the array
 ///
 /// @arg {Array} array
-/// @arg {...} items
+/// @arg ... items
 ///
 /// @example
 /// var a = [ 1, 2, 3 ];
