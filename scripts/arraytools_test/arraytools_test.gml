@@ -21,6 +21,6 @@ log( a );
 array_delete( a, 2 );
 log( a );
 array_delete( a, -2 );
-log( a );
+log( array_pop( a ), a );
 
 #endregion

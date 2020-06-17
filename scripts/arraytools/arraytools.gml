@@ -247,6 +247,29 @@ function array_map( a, func ) {
 	return _result;
 }
 
+/// @func array_pop
+///
+/// @desc Remove the item at the given position in the array, and return it.
+///
+/// @arg {Array} array
+/// @arg {Number} [index=-1]
+
+function array_pop( _array ) {
+	var _index = ( argument_count > 1 ) ? argument[ 1 ] : -1;
+	var n = array_length( _array );
+	_index = ( _index < 0 ) ? _index + n : _index;
+	
+	var _result = _array[ _index ];
+	
+	while ( ++_index < n ) {
+		_array[@ _index - 1 ] = _array[ _index ];
+	}
+	
+	array_resize( _array, n - 1 );
+	
+	return _result;
+}
+
 #endregion
 
 #region sorting
