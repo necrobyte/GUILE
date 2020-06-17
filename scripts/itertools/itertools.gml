@@ -172,7 +172,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 ///
 /// @return {Iterator} - iterator struct
 
- function IteratorDict( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
+function IteratorDict( _data, _next, _is_done ) : Iterator( _data, _next, _is_done ) constructor {
 
 	/// @method names
 	/// @memberof IteratorDict
