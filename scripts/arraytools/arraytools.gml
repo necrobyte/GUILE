@@ -158,6 +158,31 @@ function array_clone( _array ) {
 	return _result;
 }
 
+/// @func array_count
+///
+/// @desc Return the number of times x appears in the list.
+///
+/// @arg {Array} array
+/// @arg {Any} value
+///
+/// @return {Number}
+///
+/// @example
+/// array_count( [ 2, 3, 4, 3, 10, 3, 5, 6, 3 ], 3 ) --> 4
+
+function array_count( _array, _value ) {
+	var n = array_length( _array );
+	var _result = 0;
+	
+	for( var i = 0; i < n; i++ ) {
+		if ( _array[ i ] == _value ) {
+			++_result;
+		}
+	}
+	
+	return _result;
+}
+
 /// @func array_delete
 ///
 /// @desc Removes element with specified index from the array
@@ -198,7 +223,7 @@ function array_extend( _array, _iterable ) {
 
 /// @func array_index
 ///
-/// @desc Return zero-based index in the list of the first item whose value is equal to x. Returns undefined if no such item.
+/// @desc Return zero-based index in the list of the first item whose value is equal to given value. Returns undefined if no such item.
 ///
 /// @arg {Array} array
 /// @arg {Any} value

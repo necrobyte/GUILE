@@ -28,6 +28,13 @@ array_reverse( a );
 log( a );
 
 /*
+	count
+*/
+
+assert_equals( 4, array_count( [ 2, 3, 4, 3, 10, 3, 5, 6, 3 ], 3 ), "count 1" );
+assert_equals( 0, array_count( [ 2, 3, 4, 3, 10, 3, 5, 6, 3 ], 7 ), "count 2" );
+
+/*
 	index
 */
 
