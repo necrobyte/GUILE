@@ -1,3 +1,128 @@
+#region Array
+
+/// @func Array( dimensions )
+/// @name Array
+/// @class
+///
+/// @classdesc Multi-dimensional array
+///
+/// @arg {Array} object
+/// @arg {Number} [ndmin=0] minimum number of dimensions 
+/// @arg {Bool} [c_order=true] the memory layout of the array. If true, layout is row major.
+///
+/// @return {Array} - Array struct
+
+function Array( _object ) constructor {
+	/// @field data
+	/// @memberof Array
+	///
+	/// @desc 1d array as buffer
+	data = _object;
+	
+	/// @field shape
+	/// @memberof Array
+	///
+	/// @desc Size of Array in every dimension
+	shape = [];
+	
+	/// @field ndim
+	/// @memberof Array
+	///
+	/// @desc Number of array dimensions.
+	///
+	/// @return {Number}
+	
+	if ( argument_count > 1 ) {
+		ndim = argument[ 1 ];
+		for( var i = 0;	i < ndim; i++ ) {
+			shape[ i ] = 0;
+		}
+	} else {
+		ndim = 0;
+	}
+	
+	/// @field strides
+	/// @memberof Array
+	///
+	/// @desc Size of array dimensions cached.
+	strides = [];
+	
+	c_order = ( argument_count > 2 ) ? argument[ 2 ] : true;
+		
+	/// @method get
+	/// @memberof Array
+	///
+	/// @arg {Number} index0
+	/// @arg {Number} index1
+	/// @arg ...
+	///
+	/// @desc Returns array element
+	///
+	/// @return {Any}
+	
+	static get = function() {
+		var _c = [];
+		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
+			_c = argument[ 0 ];	
+		} else {
+			_c = argument;
+		}
+		var _n = 0;
+		for( var i = 0; i < ndim; i++ ) {
+			_n += _c[ i ] * stride[ i ];
+		}
+		return data[ _n ];
+	}
+	
+	/// @method set
+	/// @memberof Array
+	///
+	/// @arg {Any} value
+	/// @arg {Number} index0
+	/// @arg {Number} index1
+	/// @arg ...
+	///
+	/// @desc Writes new value at position index.
+	
+	static set = function( _value ) {
+		var _c = [];
+		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
+			_c = argument[ 0 ];	
+		} else {
+			_c = argument;
+		}
+		var _n = 0;
+		for( var i = 0; i < ndim; i++ ) {
+			_n += _c[ i ] * stride[ i ];
+		}
+		return data[ _n ] = _value;
+	}
+	
+}
+
+#endregion
+
+#region array
+
+/// @func array_append
+///
+/// @desc Add items to the end of the array
+///
+/// @arg {Array} array
+/// @arg {...} items
+///
+/// @example
+/// var a = [ 1, 2, 3 ];
+///array_append( a, 4, 5 );
+///a --> [ 1, 2, 3, 4, 5 ];
+
+function array_append( _array, _item ) {
+	var n = array_length( _array );
+	for( var i = 1; i < argument_count; i++ ) {
+		_array[ n++ ] = argument[ i ];	
+	}
+}
+
 /// @func array_swap
 ///
 /// @desc swaps two array elements
@@ -5,6 +130,11 @@
 /// @arg {Array} array
 /// @arg {Number} a
 /// @arg {Number} b
+///
+/// @example
+/// var a = [ 1, 2, 3, 4, 5 ];
+///array_swap( 1, 3 );
+///a --> [ 1, 4, 3, 2, 5 ];
 
 function array_swap( _array, a, b ) {
 	var _t = _array[ a ];
@@ -114,3 +244,4 @@ function array_qsort( a ) {
 	return a;
 }
 
+#endregion
