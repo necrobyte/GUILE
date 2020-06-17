@@ -280,25 +280,6 @@ function array_insert( _array, _index, _value ) {
 	_array[@ _index ] = _value;
 }
 
-/// @func array_swap
-///
-/// @desc swaps two array elements
-///
-/// @arg {Array} array
-/// @arg {Number} a first element index
-/// @arg {Number} b second element index
-///
-/// @example
-/// var a = [ 1, 2, 3, 4, 5 ];
-///array_swap( 1, 3 );
-///a --> [ 1, 4, 3, 2, 5 ];
-
-function array_swap( _array, a, b ) {
-	var _t = _array[ a ];
-	_array[@ a ] = _array[ b ];
-	_array[@ b ] = _t;
-}
-
 /// @func array_map
 ///
 /// @desc Applies function to every item of input aray
@@ -393,6 +374,25 @@ function array_slice( _array ) {
 	}
 	
 	return _result;
+}
+
+/// @func array_swap
+///
+/// @desc swaps two array elements
+///
+/// @arg {Array} array
+/// @arg {Number} a first element index
+/// @arg {Number} b second element index
+///
+/// @example
+/// var a = [ 1, 2, 3, 4, 5 ];
+///array_swap( 1, 3 );
+///a --> [ 1, 4, 3, 2, 5 ];
+
+function array_swap( _array, a, b ) {
+	var _t = _array[ a ];
+	_array[@ a ] = _array[ b ];
+	_array[@ b ] = _t;
 }
 
 #endregion
