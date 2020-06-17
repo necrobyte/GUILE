@@ -1479,4 +1479,21 @@ function _reduce( _iterable, _function ) {
 	return iter( _iterable ).reduce( _function );
 }
 
+/// @func _sorted
+///
+/// @desc Returns a new sorted array from the items in iterable
+///
+/// @arg {Iterable} iterable
+/// @arg {Method} [key=undefined]
+/// @arg {Bool} [_reverse=false]
+///
+/// @example
+/// _sorted( [ 5, 2, 3, 1, 4 ] ) --> [ 1, 2, 3, 4, 5 ]
+
+function _sorted( _iterable ) {
+	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
+	return array_sort( iter( _iterable ).to_array(), _key, _reverse );
+}
+
 #endregion

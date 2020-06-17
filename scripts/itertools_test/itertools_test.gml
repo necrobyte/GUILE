@@ -256,3 +256,9 @@ assert_equals( [ ], _zip_longest( ).to_array(), "zip_longest 5" );
 assert_equals( [ ], _zip_longest( [ ] ).to_array(), "zip_longest 6" );
 
 #endregion
+
+#region misc
+
+log( [ 1, 2, 3, 4, 5 ], _sorted( [ 5, 2, 3, 1, 4 ] ), "sorted 1" );
+
+#endregion
