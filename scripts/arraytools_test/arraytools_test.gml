@@ -41,6 +41,14 @@ assert_equals( 0, array_count( [ 2, 3, 4, 3, 10, 3, 5, 6, 3 ], 7 ), "count 2" );
 assert_equals( [ 1, 2, 3, 4, 5 ], array_extend( [ 1, 2, 3 ], [ 4, 5 ] ), "extend 1" );
 
 /*
+	flat
+*/
+
+assert_equals( [ ], array_flat( [ ] ), "flat 1" );
+assert_equals( [ 1, 2, 3, 4 ], array_flat( [ 1, 2, 3, 4 ] ), "flat 2" );
+assert_equals( [ 1, 2, 3, 4 ], array_flat( [ [ 1, 2 ], [ 3, 4 ] ] ), "flat 3" );
+
+/*
 	index
 */
 

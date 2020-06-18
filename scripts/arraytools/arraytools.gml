@@ -101,9 +101,45 @@ function Array( _object ) constructor {
 		}
 		var _n = 0;
 		for( var i = 0; i < ndim; i++ ) {
-			_n += _c[ i ] * stride[ i ];
+			_n += _c[ i ] * strides[ i ];
 		}
 		return data[ _n ] = _value;
+	}
+	
+	/// @method to_array
+	/// @memberof Array
+	///
+	/// @desc Converts data to n-dimensional array
+	
+	static to_array = function() {
+		var _result = [ ];
+		
+		var _index = [ ];
+		
+		for( var i = 0; i < ndim; i++ ) {
+			_index[ i ] = 0;
+		}
+		
+		
+		
+		return _result;
+	}
+	
+	/// @method to_string
+	/// @memberof Array
+	///
+	/// @desc Returns string representation of Array
+	///
+	/// @return {String}
+	
+	static to_string = function() {
+		var _result = "[ ";
+		
+		
+		
+		_result += " ]";
+		
+		return _result;
 	}
 	
 }
@@ -228,6 +264,34 @@ function array_extend( _array, _iterable ) {
 	}
 	
 	return _array;
+}
+
+/// @func array_flat
+///
+/// @desc reduces array dimensions to 1
+///
+/// @arg {Array} array
+
+function array_flat( _array ) {
+	var n = array_length( _array );
+	var _result = [ ];
+	var _count = 0;
+	
+	for( var i = 0; i < n; i++ ) {
+		var _item = _array[ i ];
+		if ( is_array( _item ) ) {
+			_item = array_flat( _item );
+			var _size = array_length( _item );
+			
+			for( var j = 0; j < _size; j++ ) {
+				_result[ _count++ ] = _item[ j ];	
+			}
+		} else {
+			_result[ _count++ ] = _item;	
+		}
+	}
+	
+	return _result;
 }
 
 /// @func array_index
