@@ -131,18 +131,18 @@ assert_equals( [ 3 ], array_slice( [ 0, 1, 2, 3, 4, 5 ], 3, 4 ), "slice 10" );
 #region Array
 
 var a = new Array( [ ] );
-log( a.data, a.shape );
+log( a.to_string(), a.shape );
 
 a = new Array( [ 1, 2, 3, 4 ] );
-log( a.data, a.shape );
+log( a.to_string(), a.shape );
 
 a = new Array( [ [ 1, 2] , [ 3, 4 ] ] );
-log( a.data, a.shape );
+log( a.to_string(), a.shape );
 a.set( 0, [ 0, 0 ] );
-log( a.data, a.shape );
+log( a.to_string(), a.shape );
 log( a.get( 1, 1 ) );
 
 a = new Array( [ [ 1, 2] , [ 3, 4, 5 ] ] );
-log( a.data, a.shape );
+log( a.to_string(), a.shape );
 
 #endregion

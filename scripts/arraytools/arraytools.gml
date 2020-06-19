@@ -1,6 +1,6 @@
 #region Array
 
-/// @func Array( dimensions )
+/// @func Array( _object )
 /// @name Array
 /// @class
 ///
@@ -159,9 +159,32 @@ function Array( _object ) constructor {
 	static to_string = function() {
 		var _result = "[ ";
 		
-		_result += " ]";
+		var _size = array_length( data );
+		var _comma = "";
+		var _ndim = ndim - 1;
 		
-		return _result;
+		var i = 0;
+		while( i < _size ) {
+			for( var j = 0; j < _ndim; j++ ) {
+				if ( i % strides[ j ] == 0 ) {
+					_result += _comma + "[ ";
+					_comma = "";
+				}
+			}
+				
+			_result += _comma + string( data[ i ] );
+			_comma = ",";
+			
+			if ( i++ ) {
+				for( var j = 0; j < _ndim; j++ ) {
+					if ( i % strides[ j ] == 0 ) {
+						_result += " ]";
+					}
+				}
+			}
+		}
+		
+		return _result + " ]";
 	}	
 }
 
