@@ -217,7 +217,7 @@ assert_equals( [  ], _dropwhile( [ ], function( _x ) { return ( _x < 10 ); } ).t
 
 var _s = [ 1, 3, 5, 20, 2, 4, 6, 8 ];
 
-assert_equals( [ 1, 3, 5 ], _takewhile( _s, function( _x ) { return ( _x < 10 ); } ).to_array(), "takepwhile 1" );
+assert_equals( [ 1, 3, 5 ], _takewhile( _s, function( _x ) { return ( _x < 10 ); } ).to_array(), "takewhile 1" );
 assert_equals( [  ], _takewhile( [ ], function( _x ) { return ( _x < 10 ); } ).to_array(), "takewhile 2" );
 
 /*
