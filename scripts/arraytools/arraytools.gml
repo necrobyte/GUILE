@@ -428,7 +428,7 @@ function array_pop( _array ) {
 
 /// @func array_remove
 ///
-/// @desc
+/// @desc Removes array element at given position
 ///
 /// @arg {Array} array
 /// @arg {Any} value
