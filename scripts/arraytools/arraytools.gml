@@ -438,15 +438,17 @@ function array_reverse( _array ) {
 /// @desc Returns array shape
 ///
 /// @arg {Array} array
+/// @arg {Bool} [row_first=true]
 ///
 /// @return {Array}
 
 function array_shape( _array ) {
+	var _row_first = ( argument_count > 1 ) ? argument[ 1 ] : true;
 	var n = array_length( _array );
 	var _result = [ n ];
 	
 	var _dim = ( ( n > 0 ) && is_array( _array[ 0 ] ) ) ? array_shape( _array[ 0 ] ) : [ ];
-		
+	
 	for( var i = 1; i < n; i++ ) {
 		if ( !array_equals( array_shape( _array[ i ] ), _dim ) ) {
 			_dim = undefined;
@@ -456,6 +458,10 @@ function array_shape( _array ) {
 	
 	if( is_array( _dim ) ) {
 		array_extend( _result, _dim );
+	}
+	
+	if ( !_row_first ) {
+		array_reverse( _result );
 	}
 	
 	return _result;

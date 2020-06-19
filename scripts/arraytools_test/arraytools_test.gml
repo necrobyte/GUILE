@@ -95,6 +95,7 @@ assert_equals( [ 1, 2 ],  array_shape( [[ 1, 2 ]] ), "shape 6" );
 assert_equals( [ 2, 2 ], array_shape( [ [ 1, 2 ],[ 3, 4 ] ] ), "shape 7" );
 assert_equals( [ 2 ], array_shape( [ [ 1, 2 ],[ 3, 4, 5 ] ] ), "shape 8" );
 assert_equals( [ 2, 2, 2 ], array_shape( [ [ [ 1, 2 ],[ 3, 4 ] ], [ [ 5, 6 ], [ 7, 8 ] ] ] ), "shape 9" );
+assert_equals( [ 1, 2 ],  array_shape( [ [ 1 ], [ 2 ] ], false ), "shape 5" );
 
 /*
 	slice
