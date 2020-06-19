@@ -131,18 +131,23 @@ assert_equals( [ 3 ], array_slice( [ 0, 1, 2, 3, 4, 5 ], 3, 4 ), "slice 10" );
 #region Array
 
 var a = new Array( [ ] );
-log( a.to_string(), a.shape );
+assert_equals( [ 0 ], a.shape, "Array empty shape" );
+assert_equals( string( [ ] ), a.to_string(), "Array empty to_string" );
+assert_equals( [ ], a.to_array(), "Array empty to_array" );
 
 a = new Array( [ 1, 2, 3, 4 ] );
-log( a.to_string(), a.shape );
+assert_equals( [ 4 ], a.shape, "Array 1d shape" );
+assert_equals( string( [ 1, 2, 3, 4 ] ), a.to_string(), "Array 1d to_string" );
+assert_equals( [ 1, 2, 3, 4 ], a.to_array(), "Array 1d to_array" );
 
-a = new Array( [ [ 1, 2] , [ 3, 4 ] ] );
-log( a.to_string(), a.shape );
+a = new Array( [ [ 1, 2 ] , [ 3, 4 ] ] );
+assert_equals( [ 2, 2 ], a.shape, "Array 2d shape" );
+assert_equals( string( [ [ 1, 2 ] , [ 3, 4 ] ] ), a.to_string(), "Array 2d to_string" );
+assert_equals( 4, a.get( 1, 1 ), "Array get" );
 a.set( 0, [ 0, 0 ] );
-log( a.to_string(), a.shape );
-log( a.get( 1, 1 ) );
+assert_array_equals( [ [ 0, 2 ] , [ 3, 4 ] ], a.to_array(), "Array 2d to_array" );
 
 a = new Array( [ [ 1, 2] , [ 3, 4, 5 ] ] );
-log( a.to_string(), a.shape );
+assert_equals( [ 2 ], a.shape, "Array non-rectangular" );
 
 #endregion
