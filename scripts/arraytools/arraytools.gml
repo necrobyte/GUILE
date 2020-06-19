@@ -116,8 +116,8 @@ function Array( _object ) constructor {
 	static set = function( _value ) {
 		var _c = [];
 		
-		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
-			_c = argument[ 0 ];
+		if ( ( argument_count == 2 ) && is_array( argument[ 1 ] ) ) {
+			_c = argument[ 1 ];
 		} else {
 			for( var i = 0; i < argument_count; i++ ) {
 				_c[ i ] = argument[ i ];
@@ -129,7 +129,7 @@ function Array( _object ) constructor {
 			_n += _c[ i ] * strides[ i ];
 		}
 		
-		return data[ _n ] = _value;
+		data[ _n ] = _value;
 	}
 	
 	/// @method to_array

@@ -138,6 +138,9 @@ log( a.data, a.shape );
 
 a = new Array( [ [ 1, 2] , [ 3, 4 ] ] );
 log( a.data, a.shape );
+a.set( 0, [ 0, 0 ] );
+log( a.data, a.shape );
+log( a.get( 1, 1 ) );
 
 a = new Array( [ [ 1, 2] , [ 3, 4, 5 ] ] );
 log( a.data, a.shape );
