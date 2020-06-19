@@ -117,11 +117,11 @@ function Array( _object ) constructor {
 		var _c = [];
 		
 		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
-			_c = argument[ 0 ];	
+			_c = argument[ 0 ];
 		} else {
 			for( var i = 0; i < argument_count; i++ ) {
 				_c[ i ] = argument[ i ];
-			};
+			}
 		}
 		
 		var _n = 0;
