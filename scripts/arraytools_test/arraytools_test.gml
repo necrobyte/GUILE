@@ -28,6 +28,17 @@ assert_equals( [ ], array_clear( [ 1, 2, 3, 4, 5 ] ), "clear 1" );
 assert_equals( [ 1, 2, 3, 4, 5 ], array_clone( [ 1, 2, 3, 4, 5 ] ), "clone 1" );
 
 /*
+	concat
+*/
+
+assert_equals( [ ], array_concat( ), "concat 1" );
+assert_equals( [ ], array_concat( [ ] ), "concat 2" );
+assert_equals( [ 1, 2, 3 ], array_concat( 1, 2, 3 ), "concat 3" );
+assert_equals( [ 1, 2, 3 ], array_concat( [ 1, 2 ], 3 ), "concat 4" );
+assert_equals( [ 1, 2, 3, 4 ], array_concat( [ 1, 2 ], [ 3, 4 ] ), "concat 4" );
+assert_equals( [ 1, 2, 3, 4, 5 ], array_concat( [ 1, 2 ], 3, [ 4, 5 ] ), "concat 5" );
+
+/*
 	count
 */
 
