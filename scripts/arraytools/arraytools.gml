@@ -198,6 +198,8 @@ function Array( _object ) constructor {
 				for( var j = _ndim; j >= 0; j-- ) {
 					if ( i % strides[ j ] == 0 ) {
 						_result += " ]";
+					} else {
+						break;	
 					}
 				}
 			}
