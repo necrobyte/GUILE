@@ -140,8 +140,7 @@ function Array( _object ) constructor {
 		_result += " ]";
 		
 		return _result;
-	}
-	
+	}	
 }
 
 #endregion
@@ -432,6 +431,34 @@ function array_reverse( _array ) {
 	}
 	
 	return _array;
+}
+
+/// @func array_shape
+///
+/// @desc Returns array shape
+///
+/// @arg {Array} array
+///
+/// @return {Array}
+
+function array_shape( _array ) {
+	var n = array_length( _array );
+	var _result = [ n ];
+	
+	var _dim = ( ( n > 0 ) && is_array( _array[ 0 ] ) ) ? array_shape( _array[ 0 ] ) : [ ];
+		
+	for( var i = 1; i < n; i++ ) {
+		if ( !array_equals( array_shape( _array[ i ] ), _dim ) ) {
+			_dim = undefined;
+			break;
+		}
+	}
+	
+	if( is_array( _dim ) ) {
+		array_extend( _result, _dim );
+	}
+	
+	return _result;
 }
 
 /// @func array_slice
