@@ -58,6 +58,9 @@ assert_equals( [ 1, 2, 3, 4, 5 ], array_extend( [ 1, 2, 3 ], [ 4, 5 ] ), "extend
 assert_equals( [ ], array_flat( [ ] ), "flat 1" );
 assert_equals( [ 1, 2, 3, 4 ], array_flat( [ 1, 2, 3, 4 ] ), "flat 2" );
 assert_equals( [ 1, 2, 3, 4 ], array_flat( [ [ 1, 2 ], [ 3, 4 ] ] ), "flat 3" );
+assert_equals( [ 1, 2, 3, 4 ], array_flat( [ [ [ 1, 2 ], [ 3, 4 ] ] ] ), "flat 4" );
+assert_equals( [ [ 1, 2 ], [ 3, 4 ] ], array_flat( [ [ [ 1, 2 ], [ 3, 4 ] ] ], 1 ), "flat 5" );
+assert_equals( [ 1, 2, 3, 4 ], array_flat( [ [ [ 1, 2 ], [ 3, 4 ] ] ], 2 ), "flat 6" );
 
 /*
 	index

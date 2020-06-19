@@ -23,7 +23,7 @@ function Array( _object ) constructor {
 	/// @memberof Array
 	///
 	/// @desc Size of Array in every dimension
-	shape = [];
+	shape = array_shape( _object );
 	
 	/// @field ndim
 	/// @memberof Array
@@ -34,25 +34,44 @@ function Array( _object ) constructor {
 	
 	if ( argument_count > 1 ) {
 		ndim = argument[ 1 ];
-		for( var i = 0;	i < ndim; i++ ) {
-			shape[ i ] = 0;
+		var n = ndim - array_length( shape );
+		
+		if( n > 0 ) {
+			var _a = [ ];
+			for( var i = 0; i < n; i++ ) {
+				_a [ i ] = 1;
+			}
+			shape = array_concat( _a, shape );
+		} else {
+			ndim -= n;
 		}
 	} else {
-		ndim = 0;
+		ndim = array_length( shape );
 	}
 	
 	/// @field strides
 	/// @memberof Array
 	///
 	/// @desc Size of array dimensions cached.
-	strides = [];
+	strides = [ ];
+	var _stride = 1;
+	strides[ ndim - 1 ] = 1;
+	
+	for ( var i = ndim - 2; i >= 0; i++ ) {
+		_stride *= shape[ i ];
+		strides[ i ] = _stride;
+	}
 	
 	/// @field c_order
 	/// @memberof Array
 	///
 	/// @desc Dimensions order. True means row-first, false is row-last.
 	c_order = ( argument_count > 2 ) ? argument[ 2 ] : true;
-		
+	
+	if (! c_order ) {
+		array_reverse( strides );
+		array_reverse( shape );
+	}
 	/// @method get
 	/// @memberof Array
 	///
@@ -65,7 +84,8 @@ function Array( _object ) constructor {
 	/// @return {Any}
 	
 	static get = function() {
-		var _c = [];
+		var _c = [ ];
+		
 		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
 			_c = argument[ 0 ];	
 		} else {
@@ -73,10 +93,12 @@ function Array( _object ) constructor {
 				_c[ i ] = argument[ i ];
 			}
 		}
+		
 		var _n = 0;
 		for( var i = 0; i < ndim; i++ ) {
 			_n += _c[ i ] * strides[ i ];
 		}
+		
 		return data[ _n ];
 	}
 	
@@ -92,6 +114,7 @@ function Array( _object ) constructor {
 	
 	static set = function( _value ) {
 		var _c = [];
+		
 		if ( ( argument_count == 1 ) && is_array( argument[ 0 ] ) ) {
 			_c = argument[ 0 ];	
 		} else {
@@ -99,10 +122,12 @@ function Array( _object ) constructor {
 				_c[ i ] = argument[ i ];
 			};
 		}
+		
 		var _n = 0;
 		for( var i = 0; i < ndim; i++ ) {
 			_n += _c[ i ] * strides[ i ];
 		}
+		
 		return data[ _n ] = _value;
 	}
 	
@@ -119,8 +144,6 @@ function Array( _object ) constructor {
 		for( var i = 0; i < ndim; i++ ) {
 			_index[ i ] = 0;
 		}
-		
-		
 		
 		return _result;
 	}
@@ -298,24 +321,27 @@ function array_extend( _array, _iterable ) {
 
 /// @func array_flat
 ///
-/// @desc reduces array dimensions to 1
+/// @desc Reduces array dimensions to 1. If depth supplied, flattens the array partially.
 ///
 /// @arg {Array} array
+/// @arg {Number} [depth=infinity]
+///
+/// @return {Array}
 
 function array_flat( _array ) {
+	var _depth = ( argument_count > 1 ) ? argument[ 1 ] : infinity;
 	var n = array_length( _array );
 	var _result = [ ];
 	var _count = 0;
 	
 	for( var i = 0; i < n; i++ ) {
 		var _item = _array[ i ];
-		if ( is_array( _item ) ) {
-			_item = array_flat( _item );
+		if ( is_array( _item ) && _depth ) {
+			_item = array_flat( _item, _depth - 1 );
 			var _size = array_length( _item );
 			
-			for( var j = 0; j < _size; j++ ) {
-				_result[ _count++ ] = _item[ j ];	
-			}
+			array_copy( _result, _count, _item, 0, _size );
+			_count += _size;
 		} else {
 			_result[ _count++ ] = _item;	
 		}
