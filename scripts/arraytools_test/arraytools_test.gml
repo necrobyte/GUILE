@@ -127,3 +127,19 @@ assert_equals( [ 4, 5 ], array_slice( [ 0, 1, 2, 3, 4, 5 ], -2 ), "slice 9" );
 assert_equals( [ 3 ], array_slice( [ 0, 1, 2, 3, 4, 5 ], 3, 4 ), "slice 10" );
 
 #endregion
+
+#region Array
+
+var a = new Array( [ ] );
+log( a.data, a.shape );
+
+a = new Array( [ 1, 2, 3, 4 ] );
+log( a.data, a.shape );
+
+a = new Array( [ [ 1, 2] , [ 3, 4 ] ] );
+log( a.data, a.shape );
+
+a = new Array( [ [ 1, 2] , [ 3, 4, 5 ] ] );
+log( a.data, a.shape );
+
+#endregion

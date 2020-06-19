@@ -13,12 +13,6 @@
 /// @return {Array} - Array struct
 
 function Array( _object ) constructor {
-	/// @field data
-	/// @memberof Array
-	///
-	/// @desc 1d array as buffer
-	data = _object;
-	
 	/// @field shape
 	/// @memberof Array
 	///
@@ -57,10 +51,16 @@ function Array( _object ) constructor {
 	var _stride = 1;
 	strides[ ndim - 1 ] = 1;
 	
-	for ( var i = ndim - 2; i >= 0; i++ ) {
+	for ( var i = ndim - 2; i >= 0; i-- ) {
 		_stride *= shape[ i ];
 		strides[ i ] = _stride;
 	}
+	
+	/// @field data
+	/// @memberof Array
+	///
+	/// @desc 1d array as buffer
+	data = array_flat( _object, ndim - 1 );
 	
 	/// @field c_order
 	/// @memberof Array
@@ -72,6 +72,7 @@ function Array( _object ) constructor {
 		array_reverse( strides );
 		array_reverse( shape );
 	}
+	
 	/// @method get
 	/// @memberof Array
 	///
@@ -157,8 +158,6 @@ function Array( _object ) constructor {
 	
 	static to_string = function() {
 		var _result = "[ ";
-		
-		
 		
 		_result += " ]";
 		
