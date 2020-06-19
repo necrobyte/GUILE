@@ -199,7 +199,7 @@ function array_clone( _array ) {
 
 /// @func array_concat
 ///
-/// @desc Concatenates arrarguments into array.
+/// @desc Concatenates arrarguments into a new array.
 ///
 /// @arg {Array} ...
 ///
@@ -488,7 +488,7 @@ function array_shape( _array ) {
 	}
 	
 	if( is_array( _dim ) ) {
-		array_extend( _result, _dim );
+		_result = array_concat( _result, _dim );
 	}
 	
 	if ( !_row_first ) {
