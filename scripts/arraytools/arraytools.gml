@@ -140,10 +140,27 @@ function Array( _object ) constructor {
 	static to_array = function() {
 		var _result = [ ];
 		
-		var _index = [ ];
+		var _size = array_length( data );
 		
-		for( var i = 0; i < ndim; i++ ) {
-			_index[ i ] = 0;
+		var _ndim = ndim - 1;
+		
+		var i = 0;
+		while( i < _size ) {
+			for( var j = 0; j < _ndim; j++ ) {
+				if ( i % strides[ j ] == 0 ) {
+					// start new array
+				}
+			}
+				
+			// append
+			
+			if ( i++ ) {
+				for( var j = 0; j < _ndim; j++ ) {
+					if ( i % strides[ j ] == 0 ) {
+						// close array
+					}
+				}
+			}
 		}
 		
 		return _result;
@@ -161,14 +178,16 @@ function Array( _object ) constructor {
 		
 		var _size = array_length( data );
 		var _comma = "";
-		var _ndim = ndim - 1;
+		var _ndim = ndim - 2;
 		
 		var i = 0;
 		while( i < _size ) {
-			for( var j = 0; j < _ndim; j++ ) {
+			for( var j = _ndim; j >= 0; j-- ) {
 				if ( i % strides[ j ] == 0 ) {
 					_result += _comma + "[ ";
 					_comma = "";
+				} else {
+					break;	
 				}
 			}
 				
@@ -176,7 +195,7 @@ function Array( _object ) constructor {
 			_comma = ",";
 			
 			if ( i++ ) {
-				for( var j = 0; j < _ndim; j++ ) {
+				for( var j = _ndim; j >= 0; j-- ) {
 					if ( i % strides[ j ] == 0 ) {
 						_result += " ]";
 					}
@@ -185,7 +204,7 @@ function Array( _object ) constructor {
 		}
 		
 		return _result + " ]";
-	}	
+	}
 }
 
 #endregion
