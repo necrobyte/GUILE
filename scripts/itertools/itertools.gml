@@ -459,14 +459,30 @@ function Range( _start, _stop, _step ) constructor {
 ///
 /// @return {Range} iterable Range struct
 
-_range = function( _stop ) {
+function _range( _stop ) {
 	var _start = argument_count > 1 ? _stop : 0;
 	var _step = argument_count > 2 ? argument[ 2 ] : 1;
 	_stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
 	
-	var _result = new Range( _start, _stop, _step )
+	return new Range( _start, _stop, _step )
+}
+
+/// @func _arange
+///
+/// @desc returns range array
+///
+/// @arg {Number} [start=0]
+/// @arg {Number} stop
+/// @arg {Number} [step=1]
+///
+/// @return {Array}
+
+function _arange( _stop ) {
+	var _start = argument_count > 1 ? _stop : 0;
+	var _step = argument_count > 2 ? argument[ 2 ] : 1;
+	_stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
 	
-	return _result;
+	return _irange( _start, _stop, _step ).to_array();
 }
 
 /// @func _irange

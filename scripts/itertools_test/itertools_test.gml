@@ -1,6 +1,6 @@
 #region iter
 
-assert_equals( 10, iter( [1,2,3,4] ).reduce( function( _a, _x ) { return _a + _x; } ), "iter reduce 1" );
+assert_equals( 10, iter( _arange( 5 ) ).reduce( function( _a, _x ) { return _a + _x; } ), "iter reduce 1" );
 assert_equals( 24, iter( [1,2,3,4] ).reduce( function( _a, _x ) { return _a * _x; } ), "iter reduce 2" );
 assert_equals( 1, iter( [1,2,3,4] ).reduce( min ), "iter reduce 3" );
 assert_equals( undefined, iter( [] ).reduce( min ), "iter reduce 4" );
