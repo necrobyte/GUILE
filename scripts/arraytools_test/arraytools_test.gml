@@ -152,9 +152,16 @@ assert_array_equals( [ [ 0, 2 ] , [ 3, 4 ] ], a.to_array(), "Array 2d to_array" 
 a = new Array( [ [ 1, 2] , [ 3, 4, 5 ] ] );
 assert_equals( [ 2 ], a.shape, "Array non-rectangular" );
 
-a = new Array( _arange( 1, 5 ) );
-log( a.to_string() );
-a.reshape( [ 2, 2 ] );
-log( a.to_string() );
+a = new Array( _arange( 12 ) );
+assert_equals( _arange( 12 ), a.to_array(), "Array to_array" );
+assert_equals( _arange( 12 ), a.T().to_array(), "Array T 1" );
+
+a.reshape( [ 2, 6 ] );
+assert_array_equals( [ [ 0,1,2,3,4,5 ],[ 6,7,8,9,10,11 ] ], a.to_array(), "Array reshape 1" );
+assert_array_equals( [ [ 0,6 ],[ 1,7 ],[ 2,8 ],[ 3,9 ],[ 4,10 ],[ 5,11 ] ], a.T().to_array(), "Array T 2" );
+
+a.reshape( [ 6, 2 ] );
+assert_array_equals(  [ [ 0,1 ],[ 2,3 ],[ 4,5 ],[ 6,7 ],[ 8,9 ],[ 10,11 ] ], a.to_array(), "Array reshape 2" );
+assert_array_equals( [ [ 0,2,4,6,8,10 ],[ 1,3,5,7,9,11 ] ], a.T().to_array(), "Array T 3" );
 
 #endregion

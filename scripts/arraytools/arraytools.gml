@@ -52,7 +52,7 @@ function Array( _object ) constructor {
 	strides[ ndim - 1 ] = 1;
 	
 	for ( var i = ndim - 2; i >= 0; i-- ) {
-		_stride *= shape[ i ];
+		_stride *= shape[ i + 1 ];
 		strides[ i ] = _stride;
 	}
 	
@@ -120,9 +120,9 @@ function Array( _object ) constructor {
 		var _stride = 1;
 		strides = [ ];
 		strides[ ndim - 1 ] = 1;
-	
+		
 		for ( var i = ndim - 2; i >= 0; i-- ) {
-			_stride *= shape[ i ];
+			_stride *= shape[ i + 1 ];
 			strides[ i ] = _stride;
 		}
 	}
@@ -178,10 +178,35 @@ function Array( _object ) constructor {
 		var _shape = array_clone( shape );
 		array_reverse( _shape );
 		
-		var _data = array_clone( data );
+		var _data = [ ];
+		var n = array_length( data );
+		array_resize( _data, n );
+		
+		var _coord = [ ];
+		var _item = 0;
+		array_resize( _coord, ndim );
+		
+		for ( var i = 0; i < n; i++ ) {
+			_data[ i ] = data[ _item ];
+			
+			_item += strides[ 0 ];
+			
+			if ( _item >= n ) {
+				_item -= n;
+				for( var j = 1; j < ndim; j++ ) {
+					if( ++_coord[ j ] >= shape[ j ] ) {
+						_coord[ j++ ] = 0;
+						_item -= strides[ j - 1 ];
+					} else {
+						_item += strides[ j ];
+						break;
+					}
+				}
+			}
+		}
 		
 		var _result = new Array( _data );
-		_result.shape = _shape;
+		_result.reshape( _shape );
 		
 		return _result;
 	}
@@ -215,6 +240,7 @@ function Array( _object ) constructor {
 					var _index = k div strides[ j ];
 					k = k % strides[ j ];
 					_thread = j ? _thread[ _index ] : _result[ _index ];
+					
 					if ( ! is_array( _thread ) ) {
 						if ( j ) {
 							_thread = [ ];
@@ -226,7 +252,6 @@ function Array( _object ) constructor {
 				}
 			}
 			
-			// append
 			array_copy( _thread, 0, data, i, _stride );
 			i += _stride;
 			_thread = undefined;
@@ -259,7 +284,7 @@ function Array( _object ) constructor {
 					break;	
 				}
 			}
-				
+			
 			_result += _comma + string( data[ i ] );
 			_comma = ",";
 			
