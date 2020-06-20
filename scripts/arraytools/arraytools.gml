@@ -76,11 +76,11 @@ function Array( _object ) constructor {
 	/// @method get
 	/// @memberof Array
 	///
+	/// @desc Returns array element
+	///
 	/// @arg {Number} index0
 	/// @arg {Number} index1
 	/// @arg ...
-	///
-	/// @desc Returns array element
 	///
 	/// @return {Any}
 	
@@ -106,13 +106,13 @@ function Array( _object ) constructor {
 	/// @method set
 	/// @memberof Array
 	///
+	/// @desc Writes new value at position index.
+	///
 	/// @arg {Any} value
 	/// @arg {Number} index0
 	/// @arg {Number} index1
 	/// @arg ...
-	///
-	/// @desc Writes new value at position index.
-	
+		
 	static set = function( _value ) {
 		var _c = [];
 		
@@ -132,10 +132,23 @@ function Array( _object ) constructor {
 		data[ _n ] = _value;
 	}
 	
+	/// method size
+	/// @memberof Array
+	///
+	/// @desc returns number of elements in Array
+	///
+	/// @return {Number}
+	
+	static size = function() {
+		return array_length( data );	
+	}
+	
 	/// @method to_array
 	/// @memberof Array
 	///
 	/// @desc Converts data to n-dimensional array
+	///
+	/// @return {Array}
 	
 	static to_array = function() {
 		var _result = [ ];
