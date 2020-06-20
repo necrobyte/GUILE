@@ -402,17 +402,25 @@ function array_flat( _array ) {
 	var n = array_length( _array );
 	var _result = [ ];
 	var _count = 0;
+	var _len = undefined;
 	
 	for( var i = 0; i < n; i++ ) {
 		var _item = _array[ i ];
 		if ( is_array( _item ) && _depth ) {
 			_item = array_flat( _item, _depth - 1 );
 			var _size = array_length( _item );
+			_len = _len ? _len : _size;
+			
+			if ( _size != _len ) {
+				array_copy( _result, 0, _array, 0, n );
+				break;	
+			}
 			
 			array_copy( _result, _count, _item, 0, _size );
 			_count += _size;
 		} else {
-			_result[ _count++ ] = _item;	
+			array_copy( _result, 0, _array, 0, n );
+			break;
 		}
 	}
 	

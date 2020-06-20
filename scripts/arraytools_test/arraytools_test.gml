@@ -61,6 +61,8 @@ assert_equals( [ 1, 2, 3, 4 ], array_flat( [ [ 1, 2 ], [ 3, 4 ] ] ), "flat 3" );
 assert_equals( [ 1, 2, 3, 4 ], array_flat( [ [ [ 1, 2 ], [ 3, 4 ] ] ] ), "flat 4" );
 assert_equals( [ [ 1, 2 ], [ 3, 4 ] ], array_flat( [ [ [ 1, 2 ], [ 3, 4 ] ] ], 1 ), "flat 5" );
 assert_equals( [ 1, 2, 3, 4 ], array_flat( [ [ [ 1, 2 ], [ 3, 4 ] ] ], 2 ), "flat 6" );
+assert_equals( [ [ 1, 2 ], [ 3, 4, 5 ] ], array_flat( [ [ 1, 2 ], [ 3, 4, 5 ] ] ), "flat 7" );
+assert_equals( [ 1, 2, 3, [ 4, 5 ] ], array_flat( [ [ 1, 2 ], [ 3, [ 4, 5 ] ] ] ), "flat 8" );
 
 /*
 	index
