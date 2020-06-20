@@ -192,6 +192,7 @@ assert_equals( [ 0, 2, 4, 6 ], _take( 4, _filter( _count(), function( _a ) { ret
 /*
 	filter_false
 */
+
 assert_equals( [ 1, 3, 5 ], _filter_false( _irange( 6 ), function( _a ) { return ( _a % 2 == 0 ); } ).to_array(), "filter 1" );
 assert_equals( [ 0, 0, 0 ], _filter_false( [ 0, 1, 0, 2, 0 ] ).to_array(), "filter 2" );
 assert_equals( [ 1, 3, 5, 7 ], _take( 4, _filter_false( _count(), function( _a ) { return ( _a % 2 == 0 ); } ) ).to_array(), "filter 3" );
@@ -199,9 +200,19 @@ assert_equals( [ 1, 3, 5, 7 ], _take( 4, _filter_false( _count(), function( _a )
 /*
 	enumerate
 */
+
 assert_array_equals( [ [ 0, "a" ], [ 1, "b" ], [ 2, "c" ] ], _enumerate( "abc" ).to_array(), "enumerate 1" );
 assert_array_equals( [ [ 11, "a" ], [ 12, "b" ], [ 13, "c" ] ], _enumerate( "abc", 11 ).to_array(), "enumerate 2" );
 assert_equals( [ ], _enumerate( [ ] ).to_array(), "enumerate 3" );
+
+/*
+	ndenumerate
+*/
+
+assert_array_equals( [ [ [ 0,0 ],1 ],[ [ 0,1 ],2 ],[ [ 1,0 ],3 ],[ [ 1,1 ],4 ] ], _ndenumerate( [[ 1, 2 ], [ 3, 4 ]] ).to_array(), "ndenumerate 1" );
+assert_array_equals( [ [ [ 0 ],1 ],[ [ 1 ],2 ],[ [ 2 ],3 ],[ [ 3 ],4 ] ], _ndenumerate( [ 1, 2, 3, 4 ] ).to_array(), "ndenumerate 2" );
+assert_equals( [ ], _ndenumerate( [ ] ).to_array(), "ndenumerate 3" );
+assert_array_equals( [ [ [ 0,0,0 ],1 ],[ [ 0,0,1 ],2 ],[ [ 0,1,0 ],3 ],[ [ 0,1,1 ],4 ],[ [ 1,0,0 ],5 ],[ [ 1,0,1 ],6 ],[ [ 1,1,0 ],7 ],[ [ 1,1,1 ],8 ] ], _ndenumerate( [ [[ 1, 2 ], [ 3, 4 ]], [[ 5, 6 ], [ 7, 8 ]] ] ).to_array(), "ndenumerate 4" );
 
 /*
 	dropwhile

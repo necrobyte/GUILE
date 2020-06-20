@@ -1261,6 +1261,47 @@ function _islice( _iterable, _stop ) {
 	return _iter;
 }
 
+/// @func _ndenumerate
+///
+/// @desc Return an iterator yielding pairs of array coordinates and values.
+///
+/// @arg {Array} array
+///
+/// @return {Iterator} Yields pairs of array coordinates and values.
+///
+/// @example
+/// _ndenumerate( [ [ 0, 1 ], [ 2, 3 ] ] ) --> [ [ 0,0 ], 0 ], [ [ 0,1 ], 1 ], [ [ 1,0 ], 2 ], [ [ 1,1 ], 3 ]
+
+function _ndenumerate( _array ) {
+	var _iter = new Iterator( array_flat( _array ), function() {
+		var k = index;
+		var t = [ ];
+		for( var i = 0; i <= ndim; i++ ) {
+			t[ i ] = k div strides[ i ];
+			k %= strides[ i ];
+		}
+		
+		return [ t, data[ index++ ] ];
+	}, function() {
+		return ( index >= size );
+	} );
+	
+	var _shape = array_shape( _array );
+	_iter.ndim = array_length( _shape ) - 1;
+	_iter.index = 0;
+	_iter.size = array_length( _iter.data );
+	
+	var _stride = 1;
+	_iter.strides[ _iter.ndim ] = 1;
+	
+	for ( var i = _iter.ndim - 1; i >= 0; i-- ) {
+		_stride *= _shape[ i ];
+		_iter.strides[ i ] = _stride;
+	}
+	
+	return _iter;
+}
+
 /// @func _repeat
 ///
 /// @desc Iterator that returns object over and over again.
