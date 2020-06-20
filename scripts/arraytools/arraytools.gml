@@ -103,6 +103,30 @@ function Array( _object ) constructor {
 		return data[ _n ];
 	}
 	
+	/// @method reshape
+	/// @memberof Array
+	///
+	/// @desc Changes Array dimensions
+	///
+	/// @arg {Array} dimensions
+	
+	static reshape = function( _shape ) {
+		if ( ( _reduce( _shape, _mul ) != array_length( data ) ) ) {
+			show_error( "Total size of new array must be unchanged", true );
+		}
+		
+		shape = _shape;
+		ndim = array_length( shape );
+		var _stride = 1;
+		strides = [ ];
+		strides[ ndim - 1 ] = 1;
+	
+		for ( var i = ndim - 2; i >= 0; i-- ) {
+			_stride *= shape[ i ];
+			strides[ i ] = _stride;
+		}
+	}
+	
 	/// @method set
 	/// @memberof Array
 	///
@@ -141,6 +165,25 @@ function Array( _object ) constructor {
 	
 	static size = function() {
 		return array_length( data );	
+	}
+	
+	/// @method T
+	/// @memberof Array
+	///
+	/// @desc Returns transposed copy of Array
+	///
+	/// @return {Array}
+	
+	static T = function() {
+		var _shape = array_clone( shape );
+		array_reverse( _shape );
+		
+		var _data = array_clone( data );
+		
+		var _result = new Array( _data );
+		_result.shape = _shape;
+		
+		return _result;
 	}
 	
 	/// @method to_array

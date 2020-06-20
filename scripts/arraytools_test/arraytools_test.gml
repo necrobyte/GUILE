@@ -152,4 +152,9 @@ assert_array_equals( [ [ 0, 2 ] , [ 3, 4 ] ], a.to_array(), "Array 2d to_array" 
 a = new Array( [ [ 1, 2] , [ 3, 4, 5 ] ] );
 assert_equals( [ 2 ], a.shape, "Array non-rectangular" );
 
+a = new Array( _arange( 1, 5 ) );
+log( a.to_string() );
+a.reshape( [ 2, 2 ] );
+log( a.to_string() );
+
 #endregion
