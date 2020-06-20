@@ -1273,7 +1273,10 @@ function _islice( _iterable, _stop ) {
 /// _ndenumerate( [ [ 0, 1 ], [ 2, 3 ] ] ) --> [ [ 0,0 ], 0 ], [ [ 0,1 ], 1 ], [ [ 1,0 ], 2 ], [ [ 1,1 ], 3 ]
 
 function _ndenumerate( _array ) {
-	var _iter = new Iterator( array_flat( _array ), function() {
+	var _shape = array_shape( _array );
+	var _ndim = array_length( _shape ) - 1;
+	
+	var _iter = new Iterator( array_flat( _array, _ndim ), function() {
 		var k = index;
 		var t = [ ];
 		for( var i = 0; i <= ndim; i++ ) {
@@ -1286,8 +1289,8 @@ function _ndenumerate( _array ) {
 		return ( index >= size );
 	} );
 	
-	var _shape = array_shape( _array );
-	_iter.ndim = array_length( _shape ) - 1;
+	var _shape = _shape;
+	_iter.ndim = _ndim;
 	_iter.index = 0;
 	_iter.size = array_length( _iter.data );
 	
