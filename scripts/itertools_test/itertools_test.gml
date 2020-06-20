@@ -217,6 +217,7 @@ assert_array_equals( [ [ [ 0,0,0 ],1 ],[ [ 0,0,1 ],2 ],[ [ 0,1,0 ],3 ],[ [ 0,1,1
 /*
 	dropwhile
 */
+
 var _s = [ 1, 3, 5, 20, 2, 4, 6, 8 ];
 
 assert_equals( [ 20, 2, 4, 6, 8 ], _dropwhile( _s, function( _x ) { return ( _x < 10 ); } ).to_array(), "dropwhile 1" );
