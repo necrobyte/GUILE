@@ -73,6 +73,28 @@ function Array( _object ) constructor {
 		array_reverse( shape );
 	}
 	
+	/// @method flat
+	/// @memberof Array
+	///
+	/// @desc returns 1d-iterator over Array
+	///
+	/// @return Iterator
+	
+	static flat = function() {
+		return iter( data );	
+	}
+	
+	/// @method flatten
+	/// @memberof Array
+	///
+	/// @desc returns 1d copy of Array
+	///
+	/// @return Array
+	
+	static flatten = function() {
+		return new Array( data );
+	}
+	
 	/// @method get
 	/// @memberof Array
 	///
@@ -115,9 +137,7 @@ function Array( _object ) constructor {
 			show_error( "Total size of new array must be unchanged", true );
 		}
 		
-		var _data = array_clone( data );
-		
-		var _result = new Array( _data );
+		var _result = flatten();
 		_result.resize( _shape );
 		
 		return _result;
@@ -197,9 +217,7 @@ function Array( _object ) constructor {
 	/// @return {Array}
 	
 	static T = function() {
-		var _data = array_clone( data );
-				
-		var _result = new Array( _data );
+		var _result = flatten();
 		_result.resize( shape );
 		_result.transpose();
 		
