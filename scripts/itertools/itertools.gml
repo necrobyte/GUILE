@@ -113,13 +113,16 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///
 	/// @desc Returns a new sorted array from the items in iterable
 	///
-	/// @arg {Iterable} iterable
 	/// @arg {Method} [key=undefined]
 	/// @arg {Bool} [_reverse=false]
+	///
+	/// @example
+	/// iter( [ 5, 2, 3, 1, 4 ] ).sorted() --> [ 1, 2, 3, 4, 5 ]
 	
 	static sorted = function( ) {
-		var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
-		var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
+		var _key = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		var _reverse = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
 		return array_sort( to_array(), _key, _reverse );
 	}
 	
@@ -1565,7 +1568,8 @@ function _reduce( _iterable, _function ) {
 function _sorted( _iterable ) {
 	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
 	var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
-	return array_sort( iter( _iterable ).to_array(), _key, _reverse );
+	
+	return iter( _iterable ).sorted( _key, _reverse );
 }
 
 #endregion
