@@ -108,6 +108,21 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		return _acc;
 	}
 	
+	/// @method sorted
+	/// @memberof Iterator
+	///
+	/// @desc Returns a new sorted array from the items in iterable
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Method} [key=undefined]
+	/// @arg {Bool} [_reverse=false]
+	
+	static sorted = function( ) {
+		var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+		var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
+		return array_sort( to_array(), _key, _reverse );
+	}
+	
 	/// @method to_array
 	/// @memberof Iterator
 	///
