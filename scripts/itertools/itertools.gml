@@ -84,6 +84,47 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	
 	is_done = method( self, _is_done );
 	
+	/// @method filter
+	/// @memberof Iterator
+	///
+	/// @desc Construct an iterator from those elements of iterable for which function returns true.
+	/// @see _filter_false
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Method(e)} [function]
+	///
+	/// @return {Iterator} Yields elements from iterable for which function returns true.
+	///
+	/// @example
+	/// _irange( 10 ).filter( function( x ) { return x % 2 } ) --> 1, 3, 5, 7, 9
+	
+	static filter = function() {
+		var _iter = new Iterator( __iter(), function() {
+			var _result = cache;
+			check = true;
+			cache = data.next();
+			return _result;
+		}, function() {
+			if ( check ) {
+				while( !data.is_done() ) {
+					var _cache = data.next();
+					if ( filter( _cache ) ) {
+						cache = _cache;
+						check = false;
+						return false;
+					}
+				}
+			}
+			return check;
+		});
+		
+		_iter.cache = undefined;
+		_iter.filter = ( argument_count > 0 ) ? argument[ 0 ] : _truth;
+		_iter.check = true;
+		
+		return _iter;
+	}
+	
 	/// @method reduce
 	/// @memberof Iterator
 	///
@@ -908,11 +949,13 @@ function _compress( _iterable, _selectors ) {
 ///_count( 2.5, 0.5 ) --> 2.50, 3, 3.50 ...
 
 function _count() {
-	var _iter = new Generator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
+	var _iter = new Iterator( ( argument_count > 0 ) ? argument[ 0 ] : 0, function() {
 		var _result = data;
 		data += step;
 		return _result;
-	} );
+	}, function() {
+		return false;	
+	});
 	
 	_iter.step = argument_count > 1 ? argument[ 1 ] : 1;
 
@@ -1044,30 +1087,9 @@ function _dropwhile( _iterable, _predicate ) {
 /// _filter( _range( 10 ), function( x ) { return x % 2 } ) --> 1, 3, 5, 7, 9
 
 function _filter( _iterable ) {
-	var _iter = new Iterator( iter( _iterable ), function() {
-		var _result = cache;
-		check = true;
-		cache = data.next();
-		return _result;
-	}, function() {
-		if ( check ) {
-			while( !data.is_done() ) {
-				var _cache = data.next();
-				if ( filter( _cache ) ) {
-					cache = _cache;
-					check = false;
-					return false;
-				}
-			}
-		}
-		return check;
-	});
+	var _function = ( argument_count > 1 ) ? argument[ 1 ] : _truth;
 	
-	_iter.cache = undefined;
-	_iter.filter = ( argument_count > 1 ) ? argument[ 1 ] : _truth;
-	_iter.check = true;
-	
-	return _iter;
+	return iter( _iterable ).filter( _function );
 }
 
 /// @func _filter_false

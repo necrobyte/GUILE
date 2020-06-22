@@ -188,6 +188,7 @@ assert_array_equals([["A","A","A","A"],["B","B","B"],["C","C"],["D"],["A","A"],[
 assert_equals( [ 0, 2, 4 ], _filter( _irange( 6 ), function( _a ) { return ( _a % 2 == 0 ); } ).to_array(), "filter 1" );
 assert_equals( [ 1, 2 ], _filter( [ 0, 1, 0, 2, 0 ] ).to_array(), "filter 2" );
 assert_equals( [ 0, 2, 4, 6 ], _take( 4, _filter( _count(), function( _a ) { return ( _a % 2 == 0 ); } ) ).to_array(), "filter 3" );
+assert_equals( [ 0, 2, 4 ], _irange( 6 ).filter( function( _a ) { return ( _a % 2 == 0 ); } ).to_array(), "filter 1" );
 
 /*
 	filter_false
