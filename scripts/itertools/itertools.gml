@@ -84,6 +84,42 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	
 	is_done = method( self, _is_done );
 	
+	/// @method compress
+	/// 
+	/// @desc Make an iterator that filters elements from iterable returning only those that have a corresponding element in selectors that evaluates to True.
+	/// Stops when either the data or selectors iterables has been exhausted.
+	///
+	/// @arg {Iterable} [selectors]
+	///
+	/// @return {Iterator} Yields matching elements.
+	///
+	/// @example
+	/// iter( "ABCDEF" ).compress( [ 1, 0, 1, 0, 1, 1 ] ) --> "A", "C", "E", "F"
+
+	static compress = function( _selectors ) {
+		var _iter = new Iterator( __iter(), function() {
+			ready = false;
+			return data.next();
+		}, function() {
+			if ( !ready ) {
+				while( !( selectors.is_done() || data.is_done() )) {
+					if ( !selectors.next() ) {
+						data.next();
+					} else {
+						ready = true;
+						break;
+					}
+				}
+			}
+			return ( !ready );
+		});
+	
+		_iter.selectors = iter( _selectors );
+		_iter.ready = false;
+	
+		return _iter;
+	}
+	
 	/// @method filter
 	/// @memberof Iterator
 	///
@@ -912,27 +948,7 @@ function _chain_from_iterable( _iterable ) {
 /// _compress( "ABCDEF", [ 1, 0, 1, 0, 1, 1 ] ) --> "A", "C", "E", "F"
 
 function _compress( _iterable, _selectors ) {
-	var _iter = new Iterator( iter( _iterable ), function() {
-		ready = false;
-		return data.next();
-	}, function() {
-		if ( !ready ) {
-			while( !( selectors.is_done() || data.is_done() )) {
-				if ( !selectors.next() ) {
-					data.next();
-				} else {
-					ready = true;
-					break;
-				}
-			}
-		}
-		return ( !ready );
-	});
-	
-	_iter.selectors = iter( _selectors );
-	_iter.ready = false;
-	
-	return _iter;
+	return iter( _iterable ).compress( _selectors );
 }
 
 /// @func _count
