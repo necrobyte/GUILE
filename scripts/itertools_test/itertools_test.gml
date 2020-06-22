@@ -275,5 +275,6 @@ assert_equals( [ ], _zip_longest( [ ] ).to_array(), "zip_longest 6" );
 #region misc
 
 assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 5, 2, 3, 1, 4 ] ).sorted(), "sorted 1" );
+assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 1, 2, 3, 4, 5 ] ).slice( 0, undefined ).to_array(), "slice 1" );
 
 #endregion

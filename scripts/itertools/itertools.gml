@@ -165,7 +165,6 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @memberof Iterator
 	///
 	/// @desc Construct an iterator from those elements of iterable for which function returns false.
-	/// @see _filter
 	///
 	/// @arg {Method} [function]
 	///
