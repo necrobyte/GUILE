@@ -85,6 +85,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	is_done = method( self, _is_done );
 	
 	/// @method compress
+	/// @memberof Iterator
 	/// 
 	/// @desc Make an iterator that filters elements from iterable returning only those that have a corresponding element in selectors that evaluates to True.
 	/// Stops when either the data or selectors iterables has been exhausted.
@@ -158,6 +159,46 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		_iter.filter = ( argument_count > 0 ) ? argument[ 0 ] : _truth;
 		_iter.check = true;
 		
+		return _iter;
+	}
+	
+	/// @method filter_false
+	/// @memberof Iterator
+	///
+	/// @desc Construct an iterator from those elements of iterable for which function returns false.
+	/// @see _filter
+	///
+	/// @arg {Method} [function]
+	///
+	/// @@return {Iterator} Yields elements from iterable for which function returns false.
+	///
+	/// @example
+	/// _filter_false( _range( 10 ), function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
+
+	function filter_false( ) {
+		var _iter = new Iterator( __iter(), function() {
+			var _result = cache;
+			check = true;
+			cache = data.next();
+			return _result;
+		}, function() {
+			if ( check ) {
+				while( !data.is_done() ) {
+					var _cache = data.next();
+					if ( !filter( _cache ) ) {
+						cache = _cache;
+						check = false;
+						return false;
+					}
+				}
+			}
+			return check;
+		} );
+	
+		_iter.cache = undefined; 
+		_iter.filter = ( argument_count > 0 ) ? argument[ 0 ] : _truth;
+		_iter.check = true;
+	
 		return _iter;
 	}
 	
@@ -1122,30 +1163,9 @@ function _filter( _iterable ) {
 /// _filter_false( _range( 10 ), function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
 
 function _filter_false( _iterable ) {
-	var _iter = new Iterator( iter( _iterable ), function() {
-		var _result = cache;
-		check = true;
-		cache = data.next();
-		return _result;
-	}, function() {
-		if ( check ) {
-			while( !data.is_done() ) {
-				var _cache = data.next();
-				if ( !filter( _cache ) ) {
-					cache = _cache;
-					check = false;
-					return false;
-				}
-			}
-		}
-		return check;
-	} );
+	var _function = ( argument_count > 1 ) ? argument[ 1 ] : _truth;
 	
-	_iter.cache = undefined; 
-	_iter.filter = ( argument_count > 1 ) ? argument[ 1 ] : _truth;
-	_iter.check = true;
-	
-	return _iter;
+	return iter( _iterable ).filter_false( _function );
 }
 
 /// @func _group_by
