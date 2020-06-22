@@ -202,7 +202,61 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		return _iter;
 	}
 	
+	/// @method group_by
+	/// @memberof Iterator
+	///
+	/// @desc Make an iterator that returns consecutive keys and groups from the iterable.
+	///
+	/// @arg {Method} [key] Function computing a key value for each element. If not specified or is undefined, key defaults to an identity function and returns the element unchanged.
+	/// Generally, the iterable needs to already be sorted on the same key function.
+	///
+	/// @return {Iterator} Yields struct with key and array group for each group.
+	///
+	/// @example
+	/// _take( 2, iter( "AAAABBBCCDAABBB" ).group_by() ) --> { key: "A", group: [ "A", "A", "A", "A" ] }, { key: "B", group: [ "B", "B", "B" ] }
+
+	function group_by() {
+		var _iter = new Iterator( __iter(), function() {
+			check = true;
+			return cache;
+		}, function() {
+			if ( check ) {
+				var _size = array_length( group );
+				while( !data.is_done() ) {
+					check = false;
+					var _a = data.next();
+					var _key = key_func( _a );
+				
+					if ( _size == 0 ) {
+						key = _key;	
+					}
+					
+					if ( ( _key != key ) || ( data.is_done() ) ) {
+						cache = {};
+						cache.key = key;
+						cache.group = group;
+						key = _key;
+						group = [ _a ];
+						break;
+					} else {
+						group[ _size++ ] = _a;	
+					}
+				}
+			}
+			return check;
+		} );
+	
+		_iter.key_func = ( argument_count > 0 ) ? argument[ 0 ] : _identity;
+		_iter.group = [];
+		_iter.cache = undefined;
+		_iter.key = undefined;
+		_iter.check = true;
+	
+		return _iter;
+	}
+	
 	/// @method map
+	/// @memberof Iterator
 	///
 	/// @desc Return an iterator that applies function to every item of iterable, yielding the results.
 	///
@@ -1198,43 +1252,9 @@ function _filter_false( _iterable ) {
 /// _take( 2, _group_by( "AAAABBBCCDAABBB" ) ) --> { key: "A", group: [ "A", "A", "A", "A" ] }, { key: "B", group: [ "B", "B", "B" ] }
 
 function _group_by( _iterable ) {
-	var _iter = new Iterator( iter( _iterable ), function() {
-		check = true;
-		return cache;
-	}, function() {
-		if ( check ) {
-			var _size = array_length( group );
-			while( !data.is_done() ) {
-				check = false;
-				var _a = data.next();
-				var _key = key_func( _a );
-				
-				if ( _size == 0 ) {
-					key = _key;	
-				}
-					
-				if ( ( _key != key ) || ( data.is_done() ) ) {
-					cache = {};
-					cache.key = key;
-					cache.group = group;
-					key = _key;
-					group = [ _a ];
-					break;
-				} else {
-					group[ _size++ ] = _a;	
-				}
-			}
-		}
-		return check;
-	} );
+	var _key_func = ( argument_count > 1 ) ? argument[ 1 ] : _identity;
 	
-	_iter.key_func = ( argument_count > 1 ) ? argument[ 1 ] : _identity;
-	_iter.group = [];
-	_iter.cache = undefined;
-	_iter.key = undefined;
-	_iter.check = true;
-	
-	return _iter;
+	return iter( _iterable ).group_by( _key_func );
 }
 
 /// @func _imap
