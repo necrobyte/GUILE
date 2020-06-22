@@ -115,6 +115,28 @@ function Array( _object ) constructor {
 			show_error( "Total size of new array must be unchanged", true );
 		}
 		
+		var _data = array_clone( data );
+		
+		var _result = new Array( _data );
+		_result.resize( _shape );
+		
+		return _result;
+	}
+	
+	/// @method resize
+	/// @memberof Array
+	///
+	/// @desc Changes Array dimensions
+	///
+	/// @arg {Array} dimensions
+	
+	static resize = function( _shape ) {
+		var _new_size = _reduce( _shape, _mul );
+		
+		if ( array_length( data ) != _new_size ) {
+			array_resize( data, _new_size );	
+		}
+		
 		shape = _shape;
 		ndim = array_length( shape );
 		var _stride = 1;
@@ -206,7 +228,7 @@ function Array( _object ) constructor {
 		}
 		
 		var _result = new Array( _data );
-		_result.reshape( _shape );
+		_result.resize( _shape );
 		
 		return _result;
 	}
