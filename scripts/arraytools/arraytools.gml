@@ -197,16 +197,33 @@ function Array( _object ) constructor {
 	/// @return {Array}
 	
 	static T = function() {
+		var _data = array_clone( data );
+				
+		var _result = new Array( _data );
+		_result.resize( shape );
+		_result.transpose();
+		
+		return _result;
+	}
+	
+	/// @method transpose
+	/// @memberof Array
+	///
+	/// @desc Transposes Array
+	///
+	/// @return {Array}
+	
+	static transpose = function() {
 		var _shape = array_clone( shape );
 		array_reverse( _shape );
-		
-		var _data = [ ];
-		var n = array_length( data );
-		array_resize( _data, n );
 		
 		var _coord = [ ];
 		var _item = 0;
 		array_resize( _coord, ndim );
+		
+		var _data = [ ];
+		var n = array_length( data );
+		array_resize( _data, n );
 		
 		for ( var i = 0; i < n; i++ ) {
 			_data[ i ] = data[ _item ];
@@ -227,10 +244,9 @@ function Array( _object ) constructor {
 			}
 		}
 		
-		var _result = new Array( _data );
-		_result.resize( _shape );
+		data = _data;
 		
-		return _result;
+		resize( _shape );
 	}
 	
 	/// @method to_array
