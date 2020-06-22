@@ -125,7 +125,6 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @memberof Iterator
 	///
 	/// @desc Construct an iterator from those elements of iterable for which function returns true.
-	/// @see _filter_false
 	///
 	/// @arg {Iterable} iterable
 	/// @arg {Method(e)} [function]
@@ -173,7 +172,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @@return {Iterator} Yields elements from iterable for which function returns false.
 	///
 	/// @example
-	/// _filter_false( _range( 10 ), function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
+	/// _irange( 10 ).filter_false( function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
 
 	function filter_false( ) {
 		var _iter = new Iterator( __iter(), function() {
@@ -294,6 +293,51 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		}
 		
 		return _acc;
+	}
+	
+	/// @method slice
+	/// @memberof Iterator
+	///
+	/// @desc Make an iterator that returns selected elements from the iterable. If start is non-zero, then elements from the iterable are skipped until start is reached. Afterward, elements are returned consecutively unless step is set higher than one which results in items being skipped. If stop is undefined, then iteration continues until the iterator is exhausted, if at all; otherwise, it stops at the specified position.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Number} [start=0]
+	/// @arg {Number} stop
+	/// @arg {Number} [step=1]
+	///
+	/// @return {Iterator} Yields only elements from range.
+	///
+	/// @example
+	/// iter( "ABCDEFG" ).slice( 2 ) --> "A", "B"
+	///iter( "ABCDEFG" ).slice( 2, 4 ) --> "C", "D"
+	///iter( "ABCDEFG" ).slice( 2, undefined ) --> "C", "D", "E", "F", "G"
+	///iter( "ABCDEFG" ).slice( 0, undefined, 2 ) --> "A", "C", "E", "G"
+	
+	function slice( _stop ) {
+		var _iter = new Iterator( __iter(), function() {
+			start += step;
+			index++;
+			return data.next();
+		}, function() {
+			while(( index < start ) && !data.is_done() ) {
+				data.next();
+				index++;
+			}
+	
+			return ( ( index >= stop ) || ( data.is_done() ) );
+		});
+	
+		_iter.index = 0;
+	
+		_iter.start = argument_count > 1 ? _stop : 0;
+		_iter.step = argument_count > 2 ? argument[ 2 ] : 1;
+		_iter.stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
+	
+		if ( is_undefined( _iter.stop ) ) {
+			_iter.stop = infinity;	
+		}
+	
+		return _iter;
 	}
 	
 	/// @method sorted
@@ -1343,34 +1387,15 @@ function _imap_from_iterable( _function, _iterable ) {
 /// @example
 /// _islice( "ABCDEFG", 2 ) --> "A", "B"
 ///_islice( "ABCDEFG", 2, 4 ) --> "C", "D"
-///_islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F"
+///_islice( "ABCDEFG", 2, undefined ) --> "C", "D", "E", "F", "G"
 ///_islice( "ABCDEFG", 0, undefined, 2 ) --> "A", "C", "E", "G"
 
 function _islice( _iterable, _stop ) {
-	var _iter = new Iterator( iter( _iterable ), function() {
-		start += step;
-		index++;
-		return data.next();
-	}, function() {
-		while(( index < start ) && !data.is_done() ) {
-			data.next();
-			index++;
-		}
+	var _start = argument_count > 2 ? _stop : 0;
+	var _step = argument_count > 3 ? argument[ 3 ] : 1;
+	_stop = argument_count > 2 ? argument[ 2 ] : _stop;
 	
-		return ( ( index >= stop ) || ( data.is_done() ) );
-	});
-	
-	_iter.index = 0;
-	
-	_iter.start = argument_count > 2 ? _stop : 0;
-	_iter.step = argument_count > 3 ? argument[ 3 ] : 1;
-	_iter.stop = ( argument_count > 2 ? argument[ 2 ] : _stop );
-	
-	if ( is_undefined( _iter.stop ) ) {
-		_iter.stop = infinity;	
-	}
-	
-	return _iter;
+	return iter( _iterable ).slice( _start, _stop, _step );
 }
 
 /// @func _ndenumerate
