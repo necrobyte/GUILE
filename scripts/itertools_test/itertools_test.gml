@@ -137,6 +137,7 @@ assert_equals( "abcd", _take( 4, _chain_from_iterable( [ "abc", "def" ] ) ).to_s
 
 assert_array_equals( _imap( function( _a, _b ) { return _a * _b; }, _count(), [ 1, 2, 3 ] ).to_array(),
 	_imap_from_iterable( function( _a, _b ) { return _a * _b; }, _zip( _count(), [ 1, 2, 3 ] ) ).to_array(), "imap 1" );
+assert_equals( [ 4, 9, 100 ], iter( [ 2, 3, 10 ] ).map( function( x ) { return x * x; } ).to_array(), "imap 2" );
 	
 /*
 	compress

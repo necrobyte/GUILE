@@ -202,6 +202,22 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		return _iter;
 	}
 	
+	/// @method map
+	///
+	/// @desc Return an iterator that applies function to every item of iterable, yielding the results.
+	///
+	/// @arg {Method} function
+	/// @arg {Iterable} [...]
+	///
+	/// @return {Iterator} Yields result of passing an emement of every argument into a function.
+	///
+	/// @example
+	/// iter( [ 2, 3, 10 ] ).map( function( x ) { return x * x; } ) --> 4, 9, 100
+
+	function map( _function ) {
+		return _imap( _function, __iter() );
+	}
+	
 	/// @method reduce
 	/// @memberof Iterator
 	///
