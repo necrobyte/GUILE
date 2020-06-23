@@ -164,7 +164,12 @@ a = new Array( _arange( 12 ) ).reshape( [ 6, 2 ] );
 assert_array_equals(  [ [ 0,1 ],[ 2,3 ],[ 4,5 ],[ 6,7 ],[ 8,9 ],[ 10,11 ] ], a.to_array(), "Array reshape 2" );
 assert_array_equals( [ [ 0,2,4,6,8,10 ],[ 1,3,5,7,9,11 ] ], a.T().to_array(), "Array T 3" );
 
-a.transpose();
-assert_array_equals( [ [ 0,2,4,6,8,10 ],[ 1,3,5,7,9,11 ] ], a.to_array(), "Array transpose" );
+a.resize( [ 2, 2, 3 ] );
+
+assert_equals( [ 0,6,3,9,1,7,4,10,2,8,5,11 ] , a.T().data, "Array transpose 3d 1" );
+var b = a.T( [ 2, 0, 1 ] );
+assert_equals( [ 0,3,6,9,1,4,7,10,2,5,8,11 ], b.data, "Array transpose 3d 2" );
+b = a.T( [ 0, 2, 1 ] );
+assert_equals( [ 0,3,1,4,2,5,6,9,7,10,8,11 ], b.data, "Arary transpose 3d 3" );
 
 #endregion

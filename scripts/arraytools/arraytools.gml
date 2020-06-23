@@ -198,7 +198,7 @@ function Array( _object ) constructor {
 		data[ _n ] = _value;
 	}
 	
-	/// method size
+	/// @method size
 	/// @memberof Array
 	///
 	/// @desc returns number of elements in Array
@@ -208,6 +208,28 @@ function Array( _object ) constructor {
 	static size = function() {
 		return array_length( data );	
 	}
+	
+	/// @method swapaxes
+	/// @memberof Array
+	///
+	/// @desc Interchange two axes of an Array.
+	
+	static swapaxes = function( _axis1, _axis2 ) {
+		var _shape = array_clone( shape );
+		array_swap( _shape, _axis1, _axis2 );
+		
+		var _item = 0;
+		var n = array_length( data );
+		var _data = [ ];
+		array_resize( _data, n );
+		
+		for( var i = 0; i < n; i++ ) {
+			_data[ i ] = data[ _item ];
+			
+			
+		}
+	}
+
 	
 	/// @method T
 	/// @memberof Array
@@ -219,7 +241,11 @@ function Array( _object ) constructor {
 	static T = function() {
 		var _result = flatten();
 		_result.resize( shape );
-		_result.transpose();
+		if ( argument_count > 0 ) {
+			_result.transpose( argument[ 0 ] );
+		} else {
+			_result.transpose();
+		}
 		
 		return _result;
 	}
@@ -229,11 +255,52 @@ function Array( _object ) constructor {
 	///
 	/// @desc Transposes Array
 	///
+	/// @arg {Array} axes
+	///
 	/// @return {Array}
 	
 	static transpose = function() {
-		var _shape = array_clone( shape );
-		array_reverse( _shape );
+		if ( ndim < 2 ) {
+			exit;	
+		}
+		
+		var _axes = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		
+		var _permutation = [ ];
+		var _reverse = [ ];
+		if ( is_undefined( _axes ) ) {
+			for( var i = 0; i < ndim; i++ ) {
+				_permutation[ i ] = ndim - i - 1;
+				_reverse[ i ] = i;
+			}
+		} else {
+			if ( array_length( _axes ) != ndim ) {
+				throw "axes don't match Array";
+			}
+			
+			for ( var i = 0; i < ndim; i++ ) {
+				_reverse[ i ] = -1;
+			}
+			
+			for ( var i = 0; i < ndim; i++ ) {
+				var _axis = _axes[ i ];
+				
+				if ( ( _axis < -ndim ) || ( _axis >= ndim ) ) {
+					throw "axes don't match Array";
+				}
+				
+				if ( _axis < 0 ) {
+					_axis += ndim;
+				}
+				
+				if ( _reverse[ _axis ] != -1 ) {
+					throw "repeated axis in transpose";
+				}
+				
+				_permutation[ i ] = _axis;
+				_reverse[ _axis ] = i;
+			}
+		}
 		
 		var _coord = [ ];
 		var _item = 0;
@@ -243,21 +310,24 @@ function Array( _object ) constructor {
 		var n = array_length( data );
 		array_resize( _data, n );
 		
+		var _strides = [ ];
+		var _shape = [ ];
+		for( var i = 0; i < ndim; i++ ) {
+			_reverse[ i ] = _permutation[ ndim - i - 1 ];
+			_shape[ i ] = shape[ _permutation[ i ] ];
+			_strides[ i ] = strides[ _reverse[ i ] ] * shape[ _reverse[ i ] ];
+		}
+		
 		for ( var i = 0; i < n; i++ ) {
 			_data[ i ] = data[ _item ];
 			
-			_item += strides[ 0 ];
-			
-			if ( _item >= n ) {
-				_item -= n;
-				for( var j = 1; j < ndim; j++ ) {
-					if( ++_coord[ j ] >= shape[ j ] ) {
-						_coord[ j++ ] = 0;
-						_item -= strides[ j - 1 ];
-					} else {
-						_item += strides[ j ];
-						break;
-					}
+			for( var j = 0; j < ndim; j++ ) {
+				_item += strides[ _reverse[ j ] ];
+				if( ++_coord[ _reverse[ j ] ] >= shape[ _reverse[ j ] ] ) {
+					_coord[ _reverse[ j ] ] = 0;
+					_item -= _strides[ j ];
+				} else {
+					break;
 				}
 			}
 		}
@@ -282,7 +352,7 @@ function Array( _object ) constructor {
 		var _ndim = ndim - 2;
 		
 		if ( _ndim < 0 ) {
-			return array_clone( data );	
+			return array_clone( data );
 		}
 		
 		var _stride = strides[ _ndim ];
