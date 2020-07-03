@@ -739,6 +739,44 @@ function array_remove( _array, _value ) {
 	return _array;
 }
 
+/// @func array_reshape
+///
+/// @desc Fills elements from one-dimensional array into a new shape.
+///
+/// @arg {Array} array
+/// @arg {Array} shape
+///
+/// @return {Array}
+///
+/// @example
+/// array_reshape( [ 0, 1, 2, 3, 4, 5 ] , [ 2, 3 ] ) --> [ [ 0, 1, 2 ], [ 3, 4, 5 ] ]
+
+function array_reshape( _array, _shape ) {
+	var _ndim = array_length( _shape );
+	
+	var _size = _reduce( _shape, _mul );
+	if ( array_length( _array ) != _size ) {
+		throw ("Total size of new array must be unchanged.");
+	}
+	
+	if ( _ndim < 2 ) {
+		return array_clone( _array );
+	}
+	
+	var _result = [ ];
+	var l = _shape[ 0 ];
+	var _chunk = _size div l;
+	var _sub_shape = array_slice( _shape, 1, undefined );
+	var n = 0;
+	
+	for( var i = 0; i < l; i++ ) {
+		_result[ i ] = array_reshape( array_slice( _array, n, n + _chunk ), _sub_shape );
+		n += _chunk;
+	}
+	
+	return _result;
+}
+
 /// @func array_reverse
 ///
 /// @desc Reverse the elements of the array in place
