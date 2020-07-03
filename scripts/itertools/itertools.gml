@@ -408,18 +408,18 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @method unique
 	/// @memberof Iterator
 	///
-	/// @desc Returns a new sorted array from the unique items in iterable
+	/// @desc Returns a new Iterator that yields non-repeating items from sorted iterable
 	///
 	/// @arg {Method} [key=undefined]
 	///
-	/// @return {Array}
+	/// @return {Iterator}
 	///
 	/// @example
-	/// iter( "abcacbacbacbac" ).unique() --> [ "a", "b", "c" ]
+	/// iter( "abcacbacbacbac" ).unique().to_string() --> "abc"
 	
 	static unique = function() {
 		var _key = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
-		return iter( sorted( _key ) ).group_by( _key ).map( function( e ) { return e.group[ 0 ]; } ).to_array();
+		return sorted( _key ).group_by( _key ).map( function( e ) { return e.group[ 0 ]; } );
 	}
 }
 
@@ -1711,14 +1711,16 @@ function _sorted( _iterable ) {
 
 /// @func _unique
 ///
-/// @desc returns new sorted array from the non-repeating items in iterable
+/// @desc returns Iterator that yields the non-repeating items from iterable sorted by key
 ///
 /// @arg {Iterable} iterable
+/// @arg {Method} [key]
 ///
-/// @return {Array}
+/// @return {Iterator}
 
 function _unique( _iterable ) {
-	return iter( _iterable ).unique();
+	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	return iter( _iterable ).unique( _key );
 }
 
 #endregion

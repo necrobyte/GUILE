@@ -277,6 +277,7 @@ assert_equals( [ ], _zip_longest( [ ] ).to_array(), "zip_longest 6" );
 assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 5, 2, 3, 1, 4 ] ).sorted().to_array(), "sorted 1" );
 assert_equals( "abcde", _sorted( "ebcad" ).to_string(), "sorted 2" );
 assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 1, 2, 3, 4, 5 ] ).slice( 0, undefined ).to_array(), "slice 1" );
-assert_equals( [ 1, 2, 3 ], _unique( [ 1, 2, 3, 2, 3, 1, 2, 3, 2, 1, 3 ] ), "unique 1" );
+assert_equals( [ 1, 2, 3 ], _unique( [ 1, 2, 3, 2, 3, 1, 2, 3, 2, 1, 3 ] ).to_array(), "unique 1" );
+assert_equals( "abc", iter( "abcabcbacbacbbcabca" ).unique().to_string(), "unique 2" );
 
 #endregion
