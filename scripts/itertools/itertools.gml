@@ -1690,4 +1690,16 @@ function _sorted( _iterable ) {
 	return iter( _iterable ).sorted( _key, _reverse );
 }
 
+/// @func _unique
+///
+/// @desc returns new sorted array from the non-repeating items in iterable
+///
+/// @arg {Iterable} iterable
+///
+/// @return {Array}
+
+function _unique( _iterable ) {
+	return iter( _sorted( _iterable ) ).group_by().map( function( e ) { return e.key; } ).to_array();
+}
+
 #endregion
