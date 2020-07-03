@@ -478,7 +478,7 @@ function array_concat( ) {
 
 /// @func array_count
 ///
-/// @desc Return the number of times x appears in the list.
+/// @desc Return the number of times x appears in the array.
 ///
 /// @arg {Array} array
 /// @arg {Any} value
