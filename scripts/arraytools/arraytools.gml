@@ -345,45 +345,7 @@ function Array( _object ) constructor {
 	/// @return {Array}
 	
 	static to_array = function() {
-		var _result = [ ];
-		array_resize( _result, shape[ 0 ] );
-		
-		var _size = array_length( data );
-		var _ndim = ndim - 2;
-		
-		if ( _ndim < 0 ) {
-			return array_clone( data );
-		}
-		
-		var _stride = strides[ _ndim ];
-		var _thread = undefined;
-		
-		var i = 0;
-		while( i < _size ) {
-			if ( is_undefined( _thread ) ) {
-				var k = i;
-				for( var j = 0; j <= _ndim; j++ ) {
-					var _index = k div strides[ j ];
-					k = k % strides[ j ];
-					_thread = j ? _thread[ _index ] : _result[ _index ];
-					
-					if ( ! is_array( _thread ) ) {
-						if ( j ) {
-							_thread = [ ];
-						} else {
-							_result[ _index ] = [ ];
-							_thread = _result[ _index ];
-						}
-					}
-				}
-			}
-			
-			array_copy( _thread, 0, data, i, _stride );
-			i += _stride;
-			_thread = undefined;
-		}
-		
-		return _result;
+		return array_reshape( data, shape );
 	}
 	
 	/// @method to_string
