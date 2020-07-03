@@ -1624,6 +1624,71 @@ function _zip_longest() {
 
 #endregion
 
+#region combinatoric
+
+/// @func _product
+///
+/// @desc Cartesian product of input iterables
+///
+/// @arg {Iterable} ...
+///
+/// @return {Iterator} Yields array with elements of each iterable
+
+function _product( ) {
+	var _iter = new Iterator( [ ], function() {
+		var _result = [ ];
+		
+		for( var i = 0; i < size; i++ ) {
+			_result[ i ] = buffer[ i ][ index[ i ] ];
+		}
+		
+		++index[ size - 1 ];
+		
+		return _result;
+	}, function() {
+		for( var i = size - 1; i >= 0; i-- ) {
+			if ( index[ i ] >= array_length( buffer[ i ] ) ) {
+				if ( data[ i ].is_done() ) {
+					if ( i > 0 ) {
+						index[ i ] = 0;
+						++index[ i - 1 ];
+					} else {
+						size = 0;
+					}
+				} else {
+					buffer[ i ][ index[ i ] ] = data[ i ].next();
+				}
+			} else {
+				return false;
+			}
+		}
+		
+		return ( size == 0 );
+	});
+	
+	_iter.size = argument_count;
+	_iter.buffer = [ ];
+	_iter.index = [ ];
+	var _empty = 1;
+	
+	for( var i = 0; i < argument_count; i++ ) {
+		_iter.data[ i ] = iter( argument[ i ] );
+		if ( _iter.data[ i ].is_done() ) {
+			++_empty;	
+		}
+		_iter.buffer[ i ] = [ ];
+		_iter.index[ i ] = 0;
+	}
+	
+	if ( _empty >= _iter.size ) {
+		_iter.size = 0;
+	}
+	
+	return _iter;
+}
+
+#endregion
+
 #region misc
 
 /// @func _all
