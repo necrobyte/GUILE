@@ -27,19 +27,19 @@ _ds = _queue( 1, 2, 3, 4 );
 assert_equals( [ 1, 2, 3, 4 ], ds_queue_iter( _ds ).to_array(),				"ds_queue_iter" );
 ds_queue_destroy( _ds );
 
-assert_array_equals( [ [ "a", 10 ],[ "b", "Hello" ] ], _sorted( iter( { a: 10, b: "Hello" } ), function( _x ) { return _x[ 0 ]; } ), "iter struct" );
-assert_equals( [ "a", "b" ], _sorted( iter( { a: 10, b: "Hello" } ).names() ), "iter struct names" );
-assert_equals( [ 10, "Hello" ], _sorted( iter( { a: 10, b: "Hello" } ).values(), string ), "iter struct values" );
+assert_array_equals( [ [ "a", 10 ],[ "b", "Hello" ] ], iter( { a: 10, b: "Hello" } ).sorted( function( _x ) { return _x[ 0 ]; } ).to_array(), "iter struct" );
+assert_equals( [ "a", "b" ], _sorted( iter( { a: 10, b: "Hello" } ).names() ).to_array(), "iter struct names" );
+assert_equals( [ 10, "Hello" ], _sorted( iter( { a: 10, b: "Hello" } ).values(), string ).to_array(), "iter struct values" );
 
 _ds = _map( [ "A", 1 ],[ "B", 2 ],[ "C", 3 ],[ "D", 4 ] );
-assert_array_equals( [ [ "A", 1 ],[ "B", 2 ],[ "C", 3 ],[ "D", 4 ] ], _sorted( ds_map_iter( _ds ).to_array(), function( _x ) { return _x[ 0 ]; } ), "ds_map_iter" );
-assert_equals( [ "A", "B", "C", "D" ], _sorted( ds_map_iter( _ds ).names() ), "ds_map_iter names" );
-assert_equals( [ 1,2,3,4 ], _sorted( ds_map_iter( _ds ).values() ), "ds_map_iter values" );
-assert_array_equals( [ [ "A",1 ],[ "B",2 ],[ "C",3 ],[ "D",4 ] ], _sorted( iter( ds_map_iter( _ds ).to_struct() ), function( _x ) { return _x[ 0 ]; } ), "IteratorDict to_struct" );
+assert_array_equals( [ [ "A", 1 ],[ "B", 2 ],[ "C", 3 ],[ "D", 4 ] ], ds_map_iter( _ds ).sorted( function( _x ) { return _x[ 0 ]; } ).to_array(), "ds_map_iter" );
+assert_equals( [ "A", "B", "C", "D" ], _sorted( ds_map_iter( _ds ).names() ).to_array(), "ds_map_iter names" );
+assert_equals( [ 1,2,3,4 ], _sorted( ds_map_iter( _ds ).values() ).to_array(), "ds_map_iter values" );
+assert_array_equals( [ [ "A",1 ],[ "B",2 ],[ "C",3 ],[ "D",4 ] ], _sorted( ds_map_iter( _ds ).to_struct(), function( _x ) { return _x[ 0 ]; } ).to_array(), "IteratorDict to_struct" );
 
 ds_map_clear( _ds );
 
-assert_array_equals( [ [ "a", 10 ],[ "b", "Hello" ] ], _sorted( ds_map_iter( iter( { a: 10, b: "Hello" } ).to_map( _ds ) ), function( _x ) { return _x[ 0 ]; } ), "IteratorDict to_map" );
+assert_array_equals( [ [ "a", 10 ],[ "b", "Hello" ] ], _sorted( ds_map_iter( iter( { a: 10, b: "Hello" } ).to_map( _ds ) ), function( _x ) { return _x[ 0 ]; } ).to_array(), "IteratorDict to_map" );
 ds_map_destroy( _ds );
 
 _ds = _priority( [ 1, 1 ], [ 2, 2] , [ 3, 3 ], [ 4, 4 ] );
@@ -274,7 +274,7 @@ assert_equals( [ ], _zip_longest( [ ] ).to_array(), "zip_longest 6" );
 
 #region misc
 
-assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 5, 2, 3, 1, 4 ] ).sorted(), "sorted 1" );
+assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 5, 2, 3, 1, 4 ] ).sorted().to_array(), "sorted 1" );
 assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 1, 2, 3, 4, 5 ] ).slice( 0, undefined ).to_array(), "slice 1" );
 assert_equals( [ 1, 2, 3 ], _unique( [ 1, 2, 3, 2, 3, 1, 2, 3, 2, 1, 3 ] ), "unique 1" );
 
