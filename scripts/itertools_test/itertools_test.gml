@@ -279,5 +279,7 @@ assert_equals( "abcde", _sorted( "ebcad" ).to_string(), "sorted 2" );
 assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 1, 2, 3, 4, 5 ] ).slice( 0, undefined ).to_array(), "slice 1" );
 assert_equals( [ 1, 2, 3 ], _unique( [ 1, 2, 3, 2, 3, 1, 2, 3, 2, 1, 3 ] ).to_array(), "unique 1" );
 assert_equals( "abc", iter( "abcabcbacbacbbcabca" ).unique().to_string(), "unique 2" );
+assert( _any( [ 0, 0, 1 ] ), "any 1" );
+assert( _all( [ 1, 1, 1 ] ), "all 1" );
 
 #endregion
