@@ -244,7 +244,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 			return check;
 		} );
 	
-		_iter.key_func = ( argument_count > 0 ) ? argument[ 0 ] : _identity;
+		_iter.key_func = ( argument_count > 0 ) && ( !is_undefined( argument[ 0 ] ) ) ? argument[ 0 ] : _identity;
 		_iter.group = [];
 		_iter.cache = undefined;
 		_iter.key = undefined;
@@ -405,6 +405,22 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		return _str;
 	}
 	
+	/// @method unique
+	/// @memberof Iterator
+	///
+	/// @desc Returns a new sorted array from the unique items in iterable
+	///
+	/// @arg {Method} [key=undefined]
+	///
+	/// @return {Array}
+	///
+	/// @example
+	/// iter( "abcacbacbacbac" ).unique() --> [ "a", "b", "c" ]
+	
+	static unique = function() {
+		var _key = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		return iter( sorted( _key ) ).group_by( _key ).map( function( e ) { return e.group[ 0 ]; } ).to_array();
+	}
 }
 
 /// @func IteratorDict( data, next, [is_done] )
@@ -1699,7 +1715,7 @@ function _sorted( _iterable ) {
 /// @return {Array}
 
 function _unique( _iterable ) {
-	return iter( _sorted( _iterable ) ).group_by().map( function( e ) { return e.key; } ).to_array();
+	return iter( _iterable ).unique();
 }
 
 #endregion
