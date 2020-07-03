@@ -103,11 +103,11 @@ assert_equals( [ 5, 4, 3, 2, 1 ], array_reverse( [ 1, 2, 3, 4, 5 ] ), "reverse 1
 */
 
 assert_equals( [ 0, 1, 2, 3, 4, 5 ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 6 ] ), "reshape 1" );
-assert_array_equals( [ [ 0, 1, 2 ], [ 3, 4, 5 ] ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 2, 3 ] ), "reshape 1" );
-assert_array_equals( [ [ 0, 1 ], [ 2, 3 ], [ 4, 5 ] ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 3, 2 ] ), "reshape 2" );
-assert_array_equals( [ [ [ 0,1,2 ],[ 3,4,5 ] ],[ [ 6,7,8 ],[ 9,10,11 ] ] ], array_reshape( _arange( 12 ), [ 2, 2, 3 ] ), "reshape 3" );
-assert_array_equals( [ [ [ 0,1 ],[ 2,3 ],[ 4,5 ] ],[ [ 6,7 ],[ 8,9 ],[ 10,11 ] ] ], array_reshape( _arange( 12 ), [ 2, 3, 2 ] ), "reshape 4" );
-assert_array_equals( [ [ [ 0,1 ],[ 2,3 ] ],[ [ 4,5 ],[ 6,7 ] ],[ [ 8,9 ],[ 10,11 ] ] ], array_reshape( _arange( 12 ), [ 3, 2, 2 ] ), "reshape 5" );
+assert_array_equals( [ [ 0, 1, 2 ], [ 3, 4, 5 ] ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 2, 3 ] ), "reshape 2" );
+assert_array_equals( [ [ 0, 1 ], [ 2, 3 ], [ 4, 5 ] ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 3, 2 ] ), "reshape 3" );
+assert_array_equals( [ [ [ 0,1,2 ],[ 3,4,5 ] ],[ [ 6,7,8 ],[ 9,10,11 ] ] ], array_reshape( _arange( 12 ), [ 2, 2, 3 ] ), "reshape 4" );
+assert_array_equals( [ [ [ 0,1 ],[ 2,3 ],[ 4,5 ] ],[ [ 6,7 ],[ 8,9 ],[ 10,11 ] ] ], array_reshape( _arange( 12 ), [ 2, 3, 2 ] ), "reshape 5" );
+assert_array_equals( [ [ [ 0,1 ],[ 2,3 ] ],[ [ 4,5 ],[ 6,7 ] ],[ [ 8,9 ],[ 10,11 ] ] ], array_reshape( _arange( 12 ), [ 3, 2, 2 ] ), "reshape 6" );
 
 /*
 	shape

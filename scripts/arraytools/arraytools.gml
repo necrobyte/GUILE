@@ -853,14 +853,24 @@ function array_slice( _array ) {
 	var _step = ( argument_count > 3 ) ? argument[ 3 ] : undefined;
 	_step = is_undefined( _step ) ? 1 : _step;
 	
+	var _result = [ ];
+	var _size = 0;
+	
+	if ( abs( _step ) == 1 ) {
+		array_copy( _result, 0, _array, _start, _stop - _start );
+		
+		if ( _step < 0 ) {
+			array_reverse( _result );
+		}
+		
+		return _result;
+	}
+	
 	if ( _step < 0 ) {
 		var t = _stop + _mod( _start - _stop, _step );
 		_stop = _start - 1;
 		_start = t - 1;
 	}
-	
-	var _result = [ ];
-	var _size = 0;
 	
 	while( ( ( _start - _stop ) / _step ) < 0 ) {
 		_result[ _size++ ] = _array[ _start ];
