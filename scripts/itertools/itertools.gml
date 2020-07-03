@@ -1690,14 +1690,17 @@ function _reduce( _iterable, _function ) {
 
 /// @func _sorted
 ///
-/// @desc Returns a new sorted array from the items in iterable
+/// @desc Returns Iterator that yields items from iterable in sorted order
 ///
 /// @arg {Iterable} iterable
 /// @arg {Method} [key=undefined]
 /// @arg {Bool} [_reverse=false]
 ///
+/// @return {Iterator}
+///
 /// @example
-/// _sorted( [ 5, 2, 3, 1, 4 ] ) --> [ 1, 2, 3, 4, 5 ]
+/// _sorted( [ 5, 2, 3, 1, 4 ] ) --> 1, 2, 3, 4, 5
+/// _sorted( "ebcad" ).to_string() --> "abcde"
 
 function _sorted( _iterable ) {
 	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
