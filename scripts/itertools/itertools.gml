@@ -1631,10 +1631,55 @@ function _zip_longest() {
 /// @desc Cartesian product of input iterables
 ///
 /// @arg {Iterable} ...
+/// @arg {Number} [repeat] if supplied, computes product of single iterable with itself
 ///
 /// @return {Iterator} Yields array with elements of each iterable
+///
+/// @example
+/// _product( [ 0, 1 ], "ab" ) --> [ 0, "a" ], [ 0, "b" ], [ 1, "a" ], [ 1, "b" ]
+///_product( [ 0, 1 ], 2 ) --> [ 0, 0 ], [ 0, 1 ], [ 1, 0 ], [ 1, 1 ]
 
 function _product( ) {
+	if ( ( argument_count == 2 ) && ( is_real( argument[ 1 ] ) ) ) {
+		var _iter = new Iterator( iter( argument[ 0 ] ), function() {
+			var _result = [ ];
+			
+			for( var i = 0; i < size; i++ ) {
+				_result[ i ] = buffer[ index[ i ] ];
+			}
+			
+			++index[ size - 1 ];
+			
+			return _result;
+		}, function() {
+			for( var i = size - 1; i >= 0; i-- ) {
+				if ( index[ i ] >= array_length( buffer ) ) {
+					if ( data.is_done() ) {
+						if ( i > 0 ) {
+							index[ i ] = 0;
+							++index[ i - 1 ];
+						} else {
+							size = 0;
+						}
+					} else {
+						buffer[ index[ i ] ] = data.next();
+					}
+				} else {
+					return false;
+				}
+			}
+		
+			return ( size == 0 );
+		} );
+		
+		_iter.size = _iter.data.is_done() ? 0 : argument[ 1 ];
+		_iter.buffer = [ ];
+		_iter.index = [ ];
+		array_resize( _iter.index, _iter.size );
+		
+		return _iter;
+	}
+	
 	var _iter = new Iterator( [ ], function() {
 		var _result = [ ];
 		
