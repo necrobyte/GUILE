@@ -855,8 +855,8 @@ function array_slice( _array ) {
 	
 	if ( _step < 0 ) {
 		var t = _stop + _mod( _start - _stop, _step );
-		_stop = _start + sign( _step );
-		_start = t + sign( _step );
+		_stop = _start - 1;
+		_start = t - 1;
 	}
 	
 	var _result = [ ];
