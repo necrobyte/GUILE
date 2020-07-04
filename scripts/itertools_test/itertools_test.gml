@@ -277,6 +277,8 @@ assert_equals( [ ], _zip_longest( [ ] ).to_array(), "zip_longest 6" );
 assert_array_equals( [ [ 0,2 ],[ 0,3 ],[ 1,2 ],[ 1,3 ] ], _product( [ 0, 1 ], [ 2, 3 ] ).to_array(), "product 1" );
 assert_array_equals( [ [ 0,2,4 ],[ 0,2,5 ],[ 0,3,4 ],[ 0,3,5 ],[ 1,2,4 ],[ 1,2,5 ],[ 1,3,4 ],[ 1,3,5 ] ], _product( [ 0, 1 ], [ 2, 3 ], [ 4, 5 ] ).to_array(), "product 2" );
 assert_array_equals( [ [ 0,0 ], [ 0,1 ], [ 1,0 ], [ 1,1 ] ], _product( [ 0, 1 ], 2 ).to_array(), "product 3" );
+assert_array_equals( [ [ 0,1,2 ],[ 0,2,1 ],[ 1,0,2 ],[ 1,2,0 ],[ 2,0,1 ],[ 2,1,0 ] ], _irange( 3 ).permutations().to_array(), "permutations 1" );
+assert_array_equals( [ [ 0,1 ],[ 0,2 ],[ 1,0 ],[ 1,2 ],[ 2,0 ],[ 2,1 ] ], _permutations( [ 0, 1, 2 ], 2 ).to_array(), "pemutations 2" );
 
 #endregion
 

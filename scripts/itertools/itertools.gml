@@ -270,6 +270,68 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		return _imap( _function, __iter() );
 	}
 	
+	/// @method permutations
+	/// @memberof Iterator
+	///
+	/// @desc Return an iterator that yields r length permutations.
+	///
+	/// @arg {Number} [r] If r is not specified or is indefined, then r defaults to the length of the iterable and all possible full-length permutations are generated.
+	///
+	/// @return {Iterator}
+	///
+	/// @example
+	/// _irange( 3 ).permutations( 2 ) -->  [ 0,1 ], [ 0,2 ], [ 1,0 ], [ 1,2 ], [ 2,0 ], [ 2,1 ]
+	
+	static permutations = function( ) {
+		var _iter = new Iterator( to_array(), function() {
+			var _result = [ ];
+			
+			for( var i = 0; i < repeats; i++ ) {
+				_result[ i ] = data[ index[ i ] ];
+			}
+			
+			var i = repeats;
+			while( --i >= 0 ) {
+				if ( --cycles[ i ] == 0 ) {
+					var t = index[ i ];
+					for( var j = i; j < size - 1; j++ ) {
+						index[ j ] = index[ j + 1 ];
+					}
+					index[ size - 1 ] = t;
+					cycles[ i ] = size - i;
+				} else {
+					array_swap( index, i, size - cycles[ i ] );
+					break;
+				}
+			}
+			
+			if ( i < 0 ) {
+				size = 0;
+			}
+			
+			return _result;
+		}, function() {
+			return ( size == 0 );
+		} );
+		
+		_iter.size = array_length( _iter.data );
+		_iter.repeats = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		
+		if ( is_undefined( _iter.repeats ) ) {
+			_iter.repeats = _iter.size;
+		}
+		
+		if ( _iter.size < _iter.repeats ) {
+			_iter.size = 0;
+			return _iter;
+		}
+		
+		_iter.index = _arange( _iter.size );
+		_iter.cycles = _arange( _iter.size, _iter.size - _iter.repeats, -1 );
+		
+		return _iter;
+	}
+	
 	/// @method product
 	/// @memberof Iterator
 	///
@@ -278,6 +340,8 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @arg {Number} repeats
 	///
 	/// @return {Iterator}
+	///
+	/// @example
 	/// iter( [ 0, 1 ] ).product( 3 ) --> [ 0, 0, 0 ], [ 0, 0, 1 ], [ 0, 1, 0 ], [ 0, 1, 1 ], [ 1, 0, 0 ] ...
 	
 	static product = function( _repeats ) {
@@ -1675,6 +1739,24 @@ function _zip_longest() {
 #endregion
 
 #region combinatoric
+
+/// @func _permutations
+///
+/// @desc Iterator that yields subsequent r-length permutations of input iterable items.
+///
+/// @arg {Iterable} iterable
+/// @arg {Number} [r]
+///
+/// @return {Iterator}
+///
+/// @example
+/// _permutations( [ 0, 1, 2 ], 2 ) -->  [ 0,1 ],[ 0,2 ],[ 1,0 ],[ 1,2 ],[ 2,0 ],[ 2,1 ]
+
+function _permutations( _iterable ) {
+	var r = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	
+	return iter( _iterable ).permutations( r );
+}
 
 /// @func _product
 ///
