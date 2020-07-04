@@ -173,7 +173,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @example
 	/// _irange( 10 ).filter_false( function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
 
-	function filter_false( ) {
+	static filter_false = function( ) {
 		var _iter = new Iterator( __iter(), function() {
 			var _result = cache;
 			check = true;
@@ -213,7 +213,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @example
 	/// _take( 2, iter( "AAAABBBCCDAABBB" ).group_by() ) --> { key: "A", group: [ "A", "A", "A", "A" ] }, { key: "B", group: [ "B", "B", "B" ] }
 
-	function group_by() {
+	static group_by = function() {
 		var _iter = new Iterator( __iter(), function() {
 			check = true;
 			return cache;
@@ -266,8 +266,58 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// @example
 	/// iter( [ 2, 3, 10 ] ).map( function( x ) { return x * x; } ) --> 4, 9, 100
 
-	function map( _function ) {
+	static map = function( _function ) {
 		return _imap( _function, __iter() );
+	}
+	
+	/// @method product
+	/// @memberof Iterator
+	///
+	/// @desc Return an iterator that yields Cartesian product of items from this Iterator with itself repeats times.
+	///
+	/// @arg {Number} repeats
+	///
+	/// @return {Iterator}
+	/// iter( [ 0, 1 ] ).product( 3 ) --> [ 0, 0, 0 ], [ 0, 0, 1 ], [ 0, 1, 0 ], [ 0, 1, 1 ], [ 1, 0, 0 ] ...
+	
+	static product = function( _repeats ) {
+		var _iter = new Iterator( __iter(), function() {
+			var _result = [ ];
+			
+			for( var i = 0; i < size; i++ ) {
+				_result[ i ] = buffer[ index[ i ] ];
+			}
+			
+			++index[ size - 1 ];
+			
+			return _result;
+		}, function() {
+			for( var i = size - 1; i >= 0; i-- ) {
+				if ( index[ i ] >= array_length( buffer ) ) {
+					if ( data.is_done() ) {
+						if ( i > 0 ) {
+							index[ i ] = 0;
+							++index[ i - 1 ];
+						} else {
+							size = 0;
+						}
+					} else {
+						buffer[ index[ i ] ] = data.next();
+					}
+				} else {
+					return false;
+				}
+			}
+		
+			return ( size == 0 );
+		} );
+		
+		_iter.size = _iter.data.is_done() ? 0 : _repeats;
+		_iter.buffer = [ ];
+		_iter.index = [ ];
+		array_resize( _iter.index, _iter.size );
+		
+		return _iter;
 	}
 	
 	/// @method reduce
@@ -312,7 +362,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///iter( "ABCDEFG" ).slice( 2, undefined ) --> "C", "D", "E", "F", "G"
 	///iter( "ABCDEFG" ).slice( 0, undefined, 2 ) --> "A", "C", "E", "G"
 	
-	function slice( _stop ) {
+	static slice = function( _stop ) {
 		var _iter = new Iterator( __iter(), function() {
 			start += step;
 			index++;
@@ -1641,43 +1691,7 @@ function _zip_longest() {
 
 function _product( ) {
 	if ( ( argument_count == 2 ) && ( is_real( argument[ 1 ] ) ) ) {
-		var _iter = new Iterator( iter( argument[ 0 ] ), function() {
-			var _result = [ ];
-			
-			for( var i = 0; i < size; i++ ) {
-				_result[ i ] = buffer[ index[ i ] ];
-			}
-			
-			++index[ size - 1 ];
-			
-			return _result;
-		}, function() {
-			for( var i = size - 1; i >= 0; i-- ) {
-				if ( index[ i ] >= array_length( buffer ) ) {
-					if ( data.is_done() ) {
-						if ( i > 0 ) {
-							index[ i ] = 0;
-							++index[ i - 1 ];
-						} else {
-							size = 0;
-						}
-					} else {
-						buffer[ index[ i ] ] = data.next();
-					}
-				} else {
-					return false;
-				}
-			}
-		
-			return ( size == 0 );
-		} );
-		
-		_iter.size = _iter.data.is_done() ? 0 : argument[ 1 ];
-		_iter.buffer = [ ];
-		_iter.index = [ ];
-		array_resize( _iter.index, _iter.size );
-		
-		return _iter;
+		return iter( argument[ 0 ] ).product( argument[ 1 ] );
 	}
 	
 	var _iter = new Iterator( [ ], function() {
