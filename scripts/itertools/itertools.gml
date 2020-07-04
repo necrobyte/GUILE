@@ -84,6 +84,65 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	
 	is_done = method( self, _is_done );
 	
+	/// @method combinations
+	/// @memberof Iterator
+	///
+	/// @desc Make an iterator that yields r length subsequences of elements from the iterable.
+	///
+	/// @arg {Number} [r]
+	///
+	/// @return {Iterator}
+	///
+	/// @example
+	/// _irange( 4 ).combinations( 3 ) --> [ 0, 1, 2 ], [ 0, 1, 3 ], [ 0, 2, 3 ], [ 1, 2, 3 ]
+	
+	static combinations = function() {
+		var _iter = new Iterator( to_array(), function() {
+			var _result = [ ];
+			
+			for( var i = 0; i < repeats; i++ ) {
+				_result[ i ] = data[ index[ i ] ];
+			}
+			
+			var i = repeats;
+			while( --i >= 0 ) {
+				if ( index[ i ] != i + size - repeats ) {
+					break;
+				}
+			}
+				
+			if ( i < 0 ) {
+				size = 0;
+			} else {
+				++index[ i ];
+				
+				for( var j = i + 1; j < repeats; j++ ) {
+					index[ j ] = index[ j - 1 ] + 1;
+				}
+			}
+			
+			return _result;
+		}, function() {
+			return ( size == 0 );
+		} );
+		
+		_iter.size = array_length( _iter.data );
+		_iter.repeats = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		
+		if ( is_undefined( _iter.repeats ) ) {
+			_iter.repeats = _iter.size;
+		}
+		
+		if ( _iter.size < _iter.repeats ) {
+			_iter.size = 0;
+			return _iter;
+		}
+		
+		_iter.index = _arange( _iter.repeats );
+		
+		return _iter;
+	}
+	
 	/// @method compress
 	/// @memberof Iterator
 	/// 
@@ -1739,6 +1798,25 @@ function _zip_longest() {
 #endregion
 
 #region combinatoric
+
+/// @func _combinations
+///
+/// @desc Iterator that yields r length subsequences of elements from the input iterable.
+/// Elements are treated as unique based on their position, not on their value. So if the input elements are unique, there will be no repeat values in each combination.
+///
+/// @arg {Iterable} iterable
+/// @arg {Number} [r]
+///
+/// @return {Iterator}
+///
+/// @example
+/// _combinations( [ 0, 1, 2, 3 ], 3 ) --> [ 0, 1, 2 ], [ 0, 1, 3 ], [ 0, 2, 3 ], [ 1, 2, 3 ]
+
+function _combinations( _iterable ) {
+	var r = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	
+	return iter( _iterable ).combinations( r );
+}
 
 /// @func _permutations
 ///

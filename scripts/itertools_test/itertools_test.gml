@@ -279,6 +279,7 @@ assert_array_equals( [ [ 0,2,4 ],[ 0,2,5 ],[ 0,3,4 ],[ 0,3,5 ],[ 1,2,4 ],[ 1,2,5
 assert_array_equals( [ [ 0,0 ], [ 0,1 ], [ 1,0 ], [ 1,1 ] ], _product( [ 0, 1 ], 2 ).to_array(), "product 3" );
 assert_array_equals( [ [ 0,1,2 ],[ 0,2,1 ],[ 1,0,2 ],[ 1,2,0 ],[ 2,0,1 ],[ 2,1,0 ] ], _irange( 3 ).permutations().to_array(), "permutations 1" );
 assert_array_equals( [ [ 0,1 ],[ 0,2 ],[ 1,0 ],[ 1,2 ],[ 2,0 ],[ 2,1 ] ], _permutations( [ 0, 1, 2 ], 2 ).to_array(), "pemutations 2" );
+assert_array_equals( [ [ 0,1,2 ],[ 0,1,3 ],[ 0,2,3 ],[ 1,2,3 ] ], _combinations( _arange( 4 ), 3 ).to_array(), "combinations 1" );
 
 #endregion
 
