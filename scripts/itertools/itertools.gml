@@ -110,7 +110,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 					break;
 				}
 			}
-				
+			
 			if ( i < 0 ) {
 				size = 0;
 			} else {
@@ -139,6 +139,65 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 		}
 		
 		_iter.index = _arange( _iter.repeats );
+		
+		return _iter;
+	}
+	
+	/// @method combinations_with_replacements
+	/// @memberof Iterator
+	///
+	/// @desc Make an iterator that yields r length subsequences of the iterable allowing individual elements to be repeated more than once.
+	///
+	/// @arg {Number} [r]
+	///
+	/// @return {Iterator}
+	///
+	/// @example
+	/// _irange( 3 ).combinations_with_replacements( 2 ) --> [ 0, 0 ], [ 0, 1 ], [ 0, 2 ], [ 1, 1 ], [ 1, 2 ], [ 2, 2 ]
+	
+	static combinations_with_replacements = function() {
+		var _iter = new Iterator( to_array(), function() {
+			var _result = [ ];
+			
+			for( var i = 0; i < repeats; i++ ) {
+				_result[ i ] = data[ index[ i ] ];
+			}
+			
+			var i = repeats;
+			while( --i >= 0 ) {
+				if ( index[ i ] != size - 1 ) {
+					break;
+				}
+			}
+				
+			if ( i < 0 ) {
+				size = 0;
+			} else {
+				++index[ i ];
+				
+				for( var j = i + 1; j < repeats; j++ ) {
+					index[ j ] = index[ i ];
+				}
+			}
+			
+			return _result;
+		}, function() {
+			return ( size == 0 );
+		} );
+		
+		_iter.size = array_length( _iter.data );
+		_iter.repeats = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		
+		if ( is_undefined( _iter.repeats ) ) {
+			_iter.repeats = _iter.size;
+		}
+		
+		if ( _iter.repeats == 0 ) {
+			_iter.size = 0;	
+		}
+		
+		_iter.index = [ ];
+		array_resize( _iter.index, _iter.repeats );
 		
 		return _iter;
 	}
@@ -1818,6 +1877,24 @@ function _combinations( _iterable ) {
 	return iter( _iterable ).combinations( r );
 }
 
+/// @func _combinations_with_replacements
+///
+/// @desc Make an iterator that yields r length subsequences of the iterable allowing individual elements to be repeated more than once.
+///
+/// @arg {Iterable} iterable
+/// @arg {Number} [r]
+///
+/// @return {Iterator}
+///
+/// @example
+/// _irange( 3 ).combinations_with_replacements( 2 ) --> [ 0, 0 ], [ 0, 1 ], [ 0, 2 ], [ 1, 1 ], [ 1, 2 ], [ 2, 2 ]
+
+function _combinations_with_replacements( _iterable ) {
+	var r = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+	
+	return iter( _iterable ).combinations_with_replacements( r );
+}
+
 /// @func _permutations
 ///
 /// @desc Iterator that yields subsequent r-length permutations of input iterable items.
@@ -1893,7 +1970,7 @@ function _product( ) {
 	for( var i = 0; i < argument_count; i++ ) {
 		_iter.data[ i ] = iter( argument[ i ] );
 		if ( _iter.data[ i ].is_done() ) {
-			++_empty;	
+			++_empty;
 		}
 		_iter.buffer[ i ] = [ ];
 		_iter.index[ i ] = 0;
