@@ -124,9 +124,10 @@ log( b );
 b = [ ];
 array_resize( b, 10 );
 a.set_seed( c );
+var d = _arange( 0, 10, 3 );
 
 for( var i = 0; i < 100000; i++ ) {
-	++b[ a.range( 0, 10, 3 ) ];
+	++b[ a.choice( d ) ];
 }
 
 log( b );
@@ -134,7 +135,7 @@ log( b );
 b = [ ];
 array_resize( b, 10 );
 a.set_seed( c );
-var d = _range( 1, 10, 2 );
+d = _range( 1, 10, 2 );
 
 for( var i = 0; i < 100000; i++ ) {
 	++b[ a.range( d ) ];

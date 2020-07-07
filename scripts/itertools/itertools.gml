@@ -1240,6 +1240,25 @@ function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
 	}
 	
 	/*
+		Random things and iterables
+	*/
+	
+	/// @method choice
+	/// @memberof Random
+	///
+	/// @desc Fully consume iterable and return random element from it.
+	///
+	/// @arg {Iterable} iterable
+	///
+	/// @return {Any} random item from iterable
+	
+	static choice = function( _iterable ) {
+		_iterable = ( is_array( _iterable ) ) ? _iterable : iter( _iterable ).to_array();
+		
+		return _iterable[ next_int( array_length( _iterable ) ) ];
+	}
+	
+	/*
 		floating point random distributions
 	*/
 	
