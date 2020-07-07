@@ -9,7 +9,7 @@
 /// @arg {Any} data
 /// @arg {Method()} next
 ///
-/// @return {Iterator} - iterator struct
+/// @return {Generator}
 
 function Generator( _data, _next ) constructor {
 	/// @method is_done
@@ -20,7 +20,7 @@ function Generator( _data, _next ) constructor {
 	/// @return {Bool}
 	
 	is_done = function() {
-		return false;	
+		return false;
 	};
 	
 	__next = method( self, _next );
@@ -1008,6 +1008,191 @@ function _irange ( _stop ) {
 		var _stop = stop + _mod( data - stop, step );
 		return _irange( _stop - step, data - step, -step );
 	} );
+	
+	return _iter;
+}
+
+#endregion
+
+#region Random
+
+/// @func Random( _seed, _next, _get_seed, _set_seed )
+/// @name Random
+/// @class
+///
+/// @classdesc Iterator that yields random values
+///
+/// @arg {Number} seed
+/// @arg {Method()} next
+///
+/// @return {Random}
+
+function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
+	
+	/// @method next
+	/// @memberof Random
+	///
+	/// @desc Generates the next pseudorandom number. This function is passed into constructor and other functions are using it to generate specific random values, so it essentially makes a pseudo-random generation engine.
+	///
+	/// @arg {Number} [bits=32] That many low-order bits of the returned value will be (approximately) independently chosen bit values, each of which is (approximately) equally likely to be 0 or 1.
+	///
+	/// @return {Number}
+	
+	static next = function() {
+		var _bits = ( argument_count > 0 ) ? argument[ 0 ] : 32;
+		
+		return __next( _bits );
+	}
+	
+	/// @method get_seed
+	/// @memberof Random
+	///
+	/// @desc Returns current seed
+	///
+	/// @return {Number}
+	
+	static get_seed = function() {
+		return data;
+	}
+	
+	/// @method set_seed
+	/// @memberof Random
+	///
+	/// @desc Replaces current seed
+	///
+	/// @arg {Number} seed
+	
+	static set_seed = function( _seed ) {
+		data = _seed;
+		__have_next_gaussian = false;
+	}
+	
+	/// @method next_bool
+	/// @memberof Random
+	///
+	/// @desc Return true or false
+	///
+	/// @return {Bool} The next pseudorandom, uniformly distributed boolean value from this random number generator's sequence.
+	
+	static next_bool = function() {
+		return next( 1 );
+	}
+	
+	/// @method next_double
+	/// @memberof Random
+	///
+	/// @desc Return floating point value in range [ 0, n )
+	///
+	/// @arg {Number} [n=1]
+	///
+	/// @return {Number} The next pseudorandom, uniformly distributed double-precission floating point value between 0.0 ( inclusive ) and n ( exclusive ) from this random number generator's sequence.
+	
+	static next_double = function() {
+		var n = ( argument_count > 0 ) ? argument[ 0 ] : 1.0;
+		
+		return ( ( ( next( 26 ) << 27 ) + next( 27 ) ) / $20000000000000 ) * n;
+	}
+	
+	/// @method next_float
+	/// @memberof Random
+	///
+	/// @desc Return floating point value in range [ 0, n )
+	///
+	/// @arg {Number} [n=1]
+	///
+	/// @return {Number} The next pseudorandom, uniformly distributed float value between 0.0 ( inclusive ) and n ( exclusive ) from this random number generator's sequence.
+	
+	static next_float = function() {
+		var n = ( argument_count > 0 ) ? argument[ 0 ] : 1.0;
+		return ( next( 24 ) / $1000000 ) * n;
+	}
+	
+	/// @method next_int
+	/// @memberof Random
+	///
+	/// @desc Return integer value in range [ 0, n )
+	///
+	/// @arg {Number} [ n = 4294967296 ]
+	///
+	/// @return {Number} The next pseudorandom, uniformly distributed int value between 0 (inclusive) and n (exclusive) from this random number generator's sequence.
+	
+	static next_int = function( ) {
+		var n = ( argument_count > 0 ) ? argument[ 0 ] : $100000000;
+		var _negative = n < 0;
+		var _result;
+		
+		if ( ( n & -n ) == n ) {
+			_result = ( n * next( 31 ) ) >> 31;
+		} else {
+			var _bits;
+			do {
+				_bits = next( 31 );
+				_result = _bits % n;
+			} until ( _bits - _result + ( n - 1 ) >= 0 );
+		}
+			 
+		return _negative ? -_result : _result;
+	}
+	
+	/// @method next_int64
+	/// @memberof Random
+	///
+	/// @desc Return integer value in range
+	///
+	///
+	/// @return {Number} The next pseudorandom, uniformly distributed int64 value from this random number generator's sequence.
+	
+	static next_int64 = function( n ) {
+		return int64 ( ( next( 32 ) << 32 ) + next( 32 ) );
+	}
+	
+	__next_gaussian = 0;
+	__have_next_gaussian = false;
+	
+	/// @method next_gaussian
+	/// @memberof Random
+	///
+	/// @desc Returns the next pseudorandom, Gaussian ("normally") distributed double value with mean 0.0 and standard deviation 1.0 from this random number generator's sequence.
+	///
+	/// @return {Number}
+	
+	static next_gaussian = function() {
+		if ( __have_next_gaussian ) {
+			__have_next_gaussian = false;
+			return __next_gaussian;
+		} else {
+			var v1, v2, s;
+			do {
+				var v1 = next_double( 2 ) - 1;
+				var v2 = next_double( 2 ) - 1;
+				var s = v1 * v1 + v2 * v2;
+			} until ( ( s > 0 ) && ( s < 1 ) );
+			var m = sqrt( -2 * ln( s ) / s );
+			__next_gaussian = v2 * m;
+			__have_next_gaussian = true;
+			return v1 * m;
+		}
+	}
+}
+
+/// @func _random
+///
+/// @desc creates Random object that uses Park–Miller random number generator
+///
+/// @arg {Number} [seed]
+///
+/// @return {Random}
+
+function _random( ) {
+	var _seed = ( argument_count > 0 ) ? argument[ 0 ] : get_timer();
+	
+	var _iter =  new Random( _seed, function() {
+		var _bits = clamp( ( argument_count > 0 ) ? argument[ 0 ] : 32, 0, 32 );
+				
+		data = ( data * $5deece66d + 11 ) & $ffffffffffff;
+		
+		return ( data >> ( 48 - _bits ) );
+	});
 	
 	return _iter;
 }

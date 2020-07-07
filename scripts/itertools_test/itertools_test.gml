@@ -90,6 +90,30 @@ assert_equals( [ 2,5,8 ], _irange( 8, 0, -3 ).reversed().to_array(), "irange 10"
 
 #endregion
 
+#region random
+
+var a = _random();
+
+var b = [ ];
+array_resize( b, 10 );
+
+for( var i = 0; i < 100000; i++ ) {
+	++b[ clamp( floor( a.next_gaussian() * 10 ), 0, 9 ) ];
+}
+
+log( b, a.next_int() );
+
+b = [ ];
+array_resize( b, 10 );
+
+for( var i = 0; i < 100000; i++ ) {
+	++b[ floor( random( 10 ) ) ];
+}
+
+log( b, a.next_int64() );
+
+#endregion
+
 #region iterators
 
 /*
