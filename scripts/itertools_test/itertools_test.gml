@@ -103,21 +103,44 @@ var b = [ ];
 
 var c = a.get_seed();
 
-array_resize( b, 2 );
+array_resize( b, 10 );
 
 for( var i = 0; i < 100000; i++ ) {
-	if ( a.next_bool() ) {
-		++b[ 0 ];	
-	}
+	++b[ a.range( 10 ) ];
 }
 
+log( b );
+
+b = [ ];
+array_resize( b, 10 );
 a.set_seed( c );
 
 for( var i = 0; i < 100000; i++ ) {
-	if ( a.next_float() > 0.5 ) {
-		++b[ 1 ];	
-	}
+	++b[ a.range( 5, 10 ) ];
 }
+
+log( b );
+
+b = [ ];
+array_resize( b, 10 );
+a.set_seed( c );
+
+for( var i = 0; i < 100000; i++ ) {
+	++b[ a.range( 0, 10, 3 ) ];
+}
+
+log( b );
+
+b = [ ];
+array_resize( b, 10 );
+a.set_seed( c );
+var d = _range( 1, 10, 2 );
+
+for( var i = 0; i < 100000; i++ ) {
+	++b[ a.range( d ) ];
+}
+
+log( b );
 
 #endregion
 

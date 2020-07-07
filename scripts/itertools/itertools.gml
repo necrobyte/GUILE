@@ -1211,7 +1211,36 @@ function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
 	}
 	
 	/*
-		floating point random distribbutions
+		integer random
+	*/
+	
+	/// @method range
+	/// @memberof Random
+	///
+	/// @arg {Number} [start=0]
+	/// @arg {Number} stop
+	/// @arg {Number} [step=1]
+	///
+	/// @return {Number}
+		
+	static range = function( _stop ) {
+		var _start = argument_count > 1 ? _stop : 0;
+		var _step = argument_count > 2 ? argument[ 2 ] : 1;
+		_stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
+		
+		if ( ( argument_count == 1 ) && instanceof( _stop ) == "Range" ) {
+			_start = _stop.start;
+			_step = _stop.step;
+			_stop = _stop.stop;
+		}
+		
+		var n = ceil( ( _stop - _start ) / _step );
+		
+		return _start + next_int( n ) * _step;
+	}
+	
+	/*
+		floating point random distributions
 	*/
 	
 	/// @method exp_variate
