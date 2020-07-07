@@ -935,6 +935,21 @@ function Range( _start, _stop, _step ) constructor {
 		return _irange( start, stop, step );
 	}
 	
+	/// @method prod
+	/// @memberof Range
+	///
+	/// @desc Returns product of all numbers in range
+	///
+	/// @arg {Number} [start]
+	/// @arg {Number} [stop]
+	/// @arg {Number} [step]
+	///
+	/// @return {Number}
+	
+	static prod = function() {
+		return range_prod( start, stop, step );
+	}
+	
 	/// @method reversed
 	/// @memberof Range
 	///
@@ -1012,6 +1027,52 @@ function _irange ( _stop ) {
 	return _iter;
 }
 
+/// @function range_prod
+///
+/// @desc Returns product of all numbers in range
+///
+/// @arg {Number} [start = 1]
+/// @arg {Number} stop
+/// @arg {Number} [step = 1]
+///
+/// @return {Number}
+	
+function range_prod( _stop ) {
+	var _start = argument_count > 1 ? _stop : 1;
+	var _step = argument_count > 2 ? argument[ 2 ] : 1;
+	_stop = ( argument_count > 1 ? argument[ 1 ] : _stop );
+		
+	if ( ( _step == 2 ) && ( ( _start % 2 ) == 0 ) ) {
+		_stop += _stop & 1;
+		
+		var _numfactors = ( _stop - _start ) >> 1;
+		
+		if ( _numfactors == 2 ) {
+			return _start * ( _start + 2 );
+		}
+		
+		if ( _numfactors > 1 ) {
+			var _mid = ( _start + _numfactors ) | 1;
+			return range_prod( _start, _mid, 2 ) * range_prod( _mid + 1, _stop, 2 );
+		}
+		
+		if ( _numfactors == 1 ) {
+			return _start;
+		}
+		
+		return 1;
+	}
+	
+	var _result = 1;
+	
+	while( floor( ( _start - _stop ) / _step ) < 0 ) {
+		_result *= _start;	
+		_start += _step;
+	}
+	
+	return _result;
+}
+
 #endregion
 
 #region Random
@@ -1066,6 +1127,10 @@ function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
 		data = _seed;
 		__have_next_gaussian = false;
 	}
+	
+	/*
+		basic random functions
+	*/
 	
 	/// @method next_bool
 	/// @memberof Random
@@ -1139,39 +1204,212 @@ function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
 	///
 	/// @desc Return integer value in range
 	///
-	///
 	/// @return {Number} The next pseudorandom, uniformly distributed int64 value from this random number generator's sequence.
 	
 	static next_int64 = function( n ) {
 		return int64 ( ( next( 32 ) << 32 ) + next( 32 ) );
 	}
 	
-	__next_gaussian = 0;
-	__have_next_gaussian = false;
+	/*
+		floating point random distribbutions
+	*/
 	
-	/// @method next_gaussian
+	/// @method exp_variate
 	/// @memberof Random
 	///
-	/// @desc Returns the next pseudorandom, Gaussian ("normally") distributed double value with mean 0.0 and standard deviation 1.0 from this random number generator's sequence.
+	/// @desc Exponential distribution.
+	///
+	/// @arg {Number} labmda lambda is 1.0 divided by the desired mean. It should be nonzero.
 	///
 	/// @return {Number}
 	
-	static next_gaussian = function() {
+	static exp_variate = function( _lambda ) {
+		return -ln( 1.0 - next_float() ) / _lambda;
+	}
+	
+	__next_gaussian = 0;
+	__have_next_gaussian = false;
+	
+	/// @method gaussian
+	/// @memberof Random
+	///
+	/// @desc Gaussian distribution.
+	///
+	/// @arg {Number} [mu=0] mean
+	/// @arg {Number} [sigma=1] standard deviation
+	///
+	/// @return {Number}
+	
+	static gaussian = function( ) {
 		if ( __have_next_gaussian ) {
 			__have_next_gaussian = false;
 			return __next_gaussian;
 		} else {
-			var v1, v2, s;
-			do {
-				var v1 = next_double( 2 ) - 1;
-				var v2 = next_double( 2 ) - 1;
-				var s = v1 * v1 + v2 * v2;
-			} until ( ( s > 0 ) && ( s < 1 ) );
-			var m = sqrt( -2 * ln( s ) / s );
-			__next_gaussian = v2 * m;
+			var _mu = ( argument_count > 0 ) ? argument[ 0 ] : 0.0;
+			var _sigma = ( argument_count > 1 ) ? argument[ 1 ] : 1.0;
+		
+			var x2pi = next_float() * TWOPI;
+			var g2rad = sqrt( -2.0 * ln( 1.0 - next_float() ) )
+			var z = cos( x2pi ) * g2rad;
+			
+			__next_gaussian = sin( x2pi ) * g2rad;
 			__have_next_gaussian = true;
-			return v1 * m;
+			
+			return _mu + z * _sigma;
 		}
+	}
+	
+	/// @method log_norm_variate
+	/// @memberof Random
+	///
+	/// @desc If you take the natural logarithm of this distribution, you'll get a normal distribution with mean mu and standard deviation sigma.
+	///
+	/// @arg {Number} [mu=0] mean
+	/// @arg {Number} [sigma=1] standard deviation. Sigma must be greater than zero.
+	///
+	/// @return {Number}
+	
+	static log_norm_variate = function() {
+		var _mu = ( argument_count > 0 ) ? argument[ 0 ] : 0.0;
+		var _sigma = ( argument_count > 1 ) ? argument[ 1 ] : 1.0;
+		
+		return exp( normal_variate( _mu, _sigma ) );
+	}
+	
+	/// @method normal_variate
+	/// @memberof Random
+	///
+	/// @desc Normal distribution.
+	///
+	/// @arg {Number} [mu=0] mean
+	/// @arg {Number} [sigma=1] standard deviation
+	///
+	/// @return {Number}
+	
+	static normal_variate = function() {
+		var v1, v2, z, zz;
+		
+		do {
+			v1 = next_float();
+			v2 = 1.0 - next_float();
+			z = NV_MAGICCONST * ( v1 - 0.5 ) / v2;
+			zz = z * z / 4.0
+		} until ( zz <= -ln( v2 ) );
+		
+		var _mu = ( argument_count > 0 ) ? argument[ 0 ] : 0.0;
+		var _sigma = ( argument_count > 1 ) ? argument[ 1 ] : 1.0;
+		
+        return _mu + z * _sigma;
+	}
+	
+	/// @method pareto_variate
+	/// @memberof Random
+	///
+	/// @desc Pareto distribution.
+	///
+	/// @arg {Number} alpha Shape parameter.
+	///
+	/// @return {Number}
+	
+	static pareto_distribution = function( _alpha ) {
+		return( 1 / power( 1 - next_float( ), ( 1 / _alpha ) ) );	
+	}
+	
+	/// @method triangular
+	/// @memberof Random
+	///
+	/// @desc Return a random floating point number N such that a <= N <= b and with the specified mode between those bounds.
+	///
+	/// @arg {Number} [a=0]
+	/// @arg {Number} [b=1]
+	/// @arg {Number} [mode=(a+b)/2]
+	///
+	/// @return {Number}
+	
+	static triangular = function() {
+		var a = ( argument_count > 0 ) ? argument[ 0 ] : 0;
+		var b = ( argument_count > 1 ) ? argument[ 1 ] : 1;
+		
+		if ( a == b ) {
+			return a;	
+		}
+		
+		var c = ( argument_count > 2 ) ? ( argument[ 2 ] - a ) / ( b - a ): 0.5;
+		
+		var u = next_float();
+		
+		if ( u > c ) {
+			u = 1.0 - u;
+			c = 1.0 - c;
+			var t = a;
+			a = b;
+			b = t;
+		}
+		
+		return a + ( b - a ) * sqrt( u * c );
+	}
+	
+	/// @method uniform
+	/// @memberof Random
+	///
+	/// @desc Return floating point value in range [ a, b ). Value b may or may not be included in this range depending on floating-point rounding.
+	///
+	/// @arg {Number} a
+	/// @arg {Number} b
+	///
+	/// @return {Number}
+	
+	static uniform = function( a, b ) {
+		return a + next_float( b - a );
+	}
+	
+	/// @method von_mises_variate
+	/// @memberof Random
+	///
+	/// @desc Circular distribution
+	///
+	/// @arg {Number} mu Mean angle, expressed in radians between 0 and 2*pi
+	/// @arg {Number} kappa Concentration parameter, which must be greater than or equal to zero. If kappa is equal to zero, this distribution reduces to a uniform random angle over the range 0 to 2*pi.
+	///
+	/// @return {Number}
+	
+	static von_mises_variate = function( _mu, _kappa ) {
+		if ( _kappa <= 0.000001 ) {
+			return next_float( TWOPI );	
+		}
+		
+		var s = 0.5 / _kappa;
+		var r = s + sqrt( 1.0 + s * s );
+		
+		var v1, v2, d, z;
+		
+		do {
+			v1 = next_float();
+			z = cos( pi * v1 );
+			
+			d = z / ( r + z );
+			v2 = next_float();
+			
+		} until ( ( v2 < ( 1.0 - d * d ) ) or ( v2 <= ( ( 1.0 - d ) * exp( d ) ) ) );
+		
+		var q = 1.0 / r;
+		var f = ( q + z ) / ( 1.0 + q * z );
+		
+		return ( _mu + ( ( next_bool() ) ? arccos( f ) : -arccos( f ) ) ) % TWOPI;
+	}
+	
+	/// @method weibull_variate
+	/// @memberof Random
+	///
+	/// @desc Weibull distribution.
+	///
+	/// @arg {Number} _alpha Scale parameter
+	/// @arg {Number} _beta Shape parameter
+	///
+	/// @return {Number}
+	
+	static weibull_variate = function( _alpha, _beta ) {
+		return _alpha * power( -ln( 1 - next_float( ) ), ( 1 / _beta ) );	
 	}
 }
 

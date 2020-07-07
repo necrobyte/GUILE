@@ -88,6 +88,11 @@ assert_equals( [ ], _irange( 0 ).reversed().to_array(), "irange 8" );
 assert_equals( [ 7,4,1 ], _irange( 1, 9, 3 ).reversed().to_array(), "irange 9" );
 assert_equals( [ 2,5,8 ], _irange( 8, 0, -3 ).reversed().to_array(), "irange 10" );
 
+assert_equals( _irange( 1, 5 ).reduce( _mul ), _range( 1, 5 ).prod(), "prod 1" );
+assert_equals( _irange( 1, 4, 2 ).reduce( _mul ), _range( 1, 4, 2 ).prod(), "prod 2" );
+assert_equals( _irange( 1, 10, 2 ).reduce( _mul ), _range( 1, 10, 2 ).prod(), "prod 3" );
+assert_equals( _irange( 4, 20, 2 ).reduce( _mul ), _range( 4, 20, 2 ).prod(), "prod 4" );
+
 #endregion
 
 #region random
@@ -95,22 +100,24 @@ assert_equals( [ 2,5,8 ], _irange( 8, 0, -3 ).reversed().to_array(), "irange 10"
 var a = _random();
 
 var b = [ ];
-array_resize( b, 10 );
+
+var c = a.get_seed();
+
+array_resize( b, 2 );
 
 for( var i = 0; i < 100000; i++ ) {
-	++b[ clamp( floor( a.next_gaussian() * 10 ), 0, 9 ) ];
+	if ( a.next_bool() ) {
+		++b[ 0 ];	
+	}
 }
 
-log( b, a.next_int() );
-
-b = [ ];
-array_resize( b, 10 );
+a.set_seed( c );
 
 for( var i = 0; i < 100000; i++ ) {
-	++b[ floor( random( 10 ) ) ];
+	if ( a.next_float() > 0.5 ) {
+		++b[ 1 ];	
+	}
 }
-
-log( b, a.next_int64() );
 
 #endregion
 
@@ -317,5 +324,8 @@ assert_equals( [ 1, 2, 3 ], _unique( [ 1, 2, 3, 2, 3, 1, 2, 3, 2, 1, 3 ] ).to_ar
 assert_equals( "abc", iter( "abcabcbacbacbbcabca" ).unique().to_string(), "unique 2" );
 assert( _any( [ 0, 0, 1 ] ), "any 1" );
 assert( _all( [ 1, 1, 1 ] ), "all 1" );
+
+assert_equals( factorial( 22 ), factorial( 20 ) * 21 * 22, "factorial 1" );
+assert_equals( 2, isqrt( 6 ), "isqrt 1" );
 
 #endregion
