@@ -95,63 +95,6 @@ assert_equals( _irange( 4, 20, 2 ).reduce( _mul ), _range( 4, 20, 2 ).prod(), "p
 
 #endregion
 
-#region random
-
-var a = _random();
-
-var b = [ ];
-
-var c = a.get_seed();
-
-array_resize( b, 10 );
-
-for( var i = 0; i < 100000; i++ ) {
-	++b[ a.range( 10 ) ];
-}
-
-log( b );
-
-b = [ ];
-array_resize( b, 10 );
-a.set_seed( c );
-
-for( var i = 0; i < 100000; i++ ) {
-	++b[ a.range( 5, 10 ) ];
-}
-
-log( b );
-
-b = [ ];
-array_resize( b, 10 );
-a.set_seed( c );
-var d = _arange( 10 );
-var e = _arange( 1, 11 );
-
-for( var i = 0; i < 100000; i++ ) {
-	++b[ a.choices_weighted_cumulative( d, _accumulate( e ) )[ 0 ] ];
-}
-
-log( b );
-
-b = [ ];
-array_resize( b, 10 );
-a.set_seed( c );
-d = _range( 1, 10, 2 );
-
-for( var i = 0; i < 100000; i++ ) {
-	++b[ a.range( d ) ];
-}
-
-log( b );
-
-a.shuffle( b );
-
-log( a.sample( "abcdefgh", 6 ) );
-
-log( a.sample_weighted( "abcdefgh", _irange( 1, 9 ), 6 ) );
-
-#endregion
-
 #region iterators
 
 /*
