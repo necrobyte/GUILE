@@ -146,7 +146,9 @@ log( b );
 
 a.shuffle( b );
 
-log( a.shuffle( "abcdefgh" ), b );
+log( a.sample( "abcdefgh", 6 ) );
+
+log( a.sample_weighted( "abcdefgh", _irange( 1, 9 ), 6 ) );
 
 #endregion
 

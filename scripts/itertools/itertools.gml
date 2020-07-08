@@ -1335,6 +1335,86 @@ function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
 		return _result;
 	}
 	
+	/// @method sample
+	/// @memberof Random
+	///
+	/// @desc Returns k non-repeating items from input iterable.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Number} [k=1]
+	///
+	/// @return {Array}
+	
+	static sample = function( _iterable ) {
+		_iterable = ( is_array( _iterable ) ) ? array_clone( _iterable ) : iter( _iterable ).to_array();
+		var n = array_length( _iterable );
+		var k = ( argument_count > 1 ) ? argument[ 1 ] : 1;
+		
+		if ( !is_between( k, 0, n ) ) {
+			throw "Sample is too large or is negative";	
+		}
+		
+		if ( k == n ) {
+			return shuffle( _iterable );	
+		}
+		
+		var _result = [ ];
+		
+		for( var i = 0; i < k; i++ ) {
+			var j = next_int( n-- );
+			_result[ i ] = _iterable[ j ];
+			_iterable[ j ] = _iterable[ n ];
+		}
+		
+		return _result;
+	}
+	
+	/// @method sample_weighted
+	/// @memberof Random
+	///
+	/// @desc Returns k non-repeating items from input iterable.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Iterable} weights
+	/// @arg {Number} [k=1]
+	///
+	/// @return {Array}
+	
+	static sample_weighted = function( _iterable, _weights ) {
+		_iterable = ( is_array( _iterable ) ) ? array_clone( _iterable ) : iter( _iterable ).to_array();
+		var n = array_length( _iterable );
+		
+		_weights = ( is_array( _weights ) ) ? _weights : _accumulate( _weights ).to_array();
+		
+		if ( array_length( _weights ) != n ) {
+			throw "The number of weights does not match the population";
+		}
+		
+		var k = ( argument_count > 2 ) ? argument[ 2 ] : 1;
+		
+		var _total = _weights[ n - 1 ];
+		
+		if ( !is_between( k, 0, n ) ) {
+			throw "Sample is too large or is negative";	
+		}
+		
+		if ( _total != floor( _total ) ) {
+			throw "Weights must be integers";
+		}
+		
+		if ( _total <= 0 ) {
+			throw "Total of weights must be greater than zero.";
+		}
+		
+		var _result = sample( _irange( _total ), k );
+		
+		for( var i = 0; i < k; i++ ) {
+			_result[ i ] = _iterable[ array_bisect_right( _weights, _result[ i ] ) ];
+		}
+		
+		return _result;
+	}
+	
 	/// @method shuffle
 	/// @memberof Random
 	///
