@@ -16,13 +16,92 @@ assert_equals( [ 6,6,5,4,4,3,2,1 ], array_sort( [1,4,6,3,5,6,4,2], undefined, tr
 assert_equals( [ 1, 2, 3, 4, 5 ], array_append( [ 1, 2, 3 ], 4, 5 ), "append 1" );
 
 /*
-	bisect
+	bisect_left
 */
 
-assert_equals( 3, array_bisect_left( _arange( 5 ), 2.5 ), "bisect 1" );
-assert_equals( 0, array_bisect_left( _arange( 5 ), -1 ), "bisect 2" );
-assert_equals( 5, array_bisect_left( _arange( 5 ), 12 ), "bisect 3" );
-assert_equals( 2, array_bisect_left( _arange( 5 ), 2 ), "bisect 4" );
+assert_equals( 0, array_bisect_left( [ ], 1 ), "bisect_left 1" );
+assert_equals( 0, array_bisect_left( [ 1 ], 0 ), "bisect_left 2" );
+assert_equals( 0, array_bisect_left( [ 1 ], 1 ), "bisect_left 3" );
+assert_equals( 1, array_bisect_left( [ 1 ], 2 ), "bisect_left 4" );
+assert_equals( 0, array_bisect_left( [ 1, 1 ], 0 ), "bisect_left 5" );
+assert_equals( 0, array_bisect_left( [ 1, 1 ], 1 ), "bisect_left 6" );
+assert_equals( 2, array_bisect_left( [ 1, 1 ], 2 ), "bisect_left 7" );
+assert_equals( 0, array_bisect_left( [ 1, 1, 1 ], 0 ), "bisect_left 8" );
+assert_equals( 0, array_bisect_left( [ 1, 1, 1 ], 1 ), "bisect_left 9" );
+assert_equals( 3, array_bisect_left( [ 1, 1, 1 ], 2 ), "bisect_left 10" );
+assert_equals( 0, array_bisect_left( [ 1, 1, 1, 1 ], 0 ), "bisect_left 11" );
+assert_equals( 0, array_bisect_left( [ 1, 1, 1, 1 ], 1 ), "bisect_left 12" );
+assert_equals( 4, array_bisect_left( [ 1, 1, 1, 1 ], 2 ), "bisect_left 13" );
+assert_equals( 0, array_bisect_left( [ 1, 2 ], 0 ), "bisect_left 14" );
+assert_equals( 0, array_bisect_left( [ 1, 2 ], 1 ), "bisect_left 15" );
+assert_equals( 1, array_bisect_left( [ 1, 2 ], 1.5 ), "bisect_left 16" );
+assert_equals( 1, array_bisect_left( [ 1, 2 ], 2 ), "bisect_left 17" );
+assert_equals( 2, array_bisect_left( [ 1, 2 ], 3 ), "bisect_left 18" );
+assert_equals( 0, array_bisect_left( [ 1, 1, 2, 2 ], 0 ), "bisect_left 19" );
+assert_equals( 0, array_bisect_left( [ 1, 1, 2, 2 ], 1 ), "bisect_left 20" );
+assert_equals( 2, array_bisect_left( [ 1, 1, 2, 2 ], 1.5 ), "bisect_left 21" );
+assert_equals( 2, array_bisect_left( [ 1, 1, 2, 2 ], 2 ), "bisect_left 22" );
+assert_equals( 4, array_bisect_left( [ 1, 1, 2, 2 ], 3 ), "bisect_left 23" );
+assert_equals( 0, array_bisect_left( [ 1, 2, 3 ], 0 ), "bisect_left 24" );
+assert_equals( 0, array_bisect_left( [ 1, 2, 3 ], 1 ), "bisect_left 25" );
+assert_equals( 1, array_bisect_left( [ 1, 2, 3 ], 1.5 ), "bisect_left 26" );
+assert_equals( 1, array_bisect_left( [ 1, 2, 3 ], 2 ), "bisect_left 27" );
+assert_equals( 2, array_bisect_left( [ 1, 2, 3 ], 2.5 ), "bisect_left 28" );
+assert_equals( 2, array_bisect_left( [ 1, 2, 3 ], 3 ), "bisect_left 29" );
+assert_equals( 3, array_bisect_left( [ 1, 2, 3 ], 4 ), "bisect_left 30" );
+assert_equals( 0, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 0 ), "bisect_left 31" );
+assert_equals( 0, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 1 ), "bisect_left 32" );
+assert_equals( 1, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 1.5 ), "bisect_left 33" );
+assert_equals( 1, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 2 ), "bisect_left 34" );
+assert_equals( 3, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 2.5 ), "bisect_left 35" );
+assert_equals( 3, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 3 ), "bisect_left 36" );
+assert_equals( 6, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 3.5 ), "bisect_left 37" );
+assert_equals( 6, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 4 ), "bisect_left 38" );
+assert_equals( 10, array_bisect_left( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 5 ), "bisect_left 39" );
+
+/*
+	bisect_right
+*/
+
+assert_equals( 0, array_bisect_right( [ ], 1 ), "bisect_right 1" );
+assert_equals( 0, array_bisect_right( [ 1 ], 0 ), "bisect_right 2" );
+assert_equals( 1, array_bisect_right( [ 1 ], 1 ), "bisect_right 3" );
+assert_equals( 1, array_bisect_right( [ 1 ], 2 ), "bisect_right 4" );
+assert_equals( 0, array_bisect_right( [ 1, 1 ], 0 ), "bisect_right 5" );
+assert_equals( 2, array_bisect_right( [ 1, 1 ], 1 ), "bisect_right 6" );
+assert_equals( 2, array_bisect_right( [ 1, 1 ], 2 ), "bisect_right 7" );
+assert_equals( 0, array_bisect_right( [ 1, 1, 1 ], 0 ), "bisect_right 8" );
+assert_equals( 3, array_bisect_right( [ 1, 1, 1 ], 1 ), "bisect_right 9" );
+assert_equals( 3, array_bisect_right( [ 1, 1, 1 ], 2 ), "bisect_right 10" );
+assert_equals( 0, array_bisect_right( [ 1, 1, 1, 1 ], 0 ), "bisect_right 11" );
+assert_equals( 4, array_bisect_right( [ 1, 1, 1, 1 ], 1 ), "bisect_right 12" );
+assert_equals( 4, array_bisect_right( [ 1, 1, 1, 1 ], 2 ), "bisect_right 13" );
+assert_equals( 0, array_bisect_right( [ 1, 2 ], 0 ), "bisect_right 14" );
+assert_equals( 1, array_bisect_right( [ 1, 2 ], 1 ), "bisect_right 15" );
+assert_equals( 1, array_bisect_right( [ 1, 2 ], 1.5 ), "bisect_right 16" );
+assert_equals( 2, array_bisect_right( [ 1, 2 ], 2 ), "bisect_right 17" );
+assert_equals( 2, array_bisect_right( [ 1, 2 ], 3 ), "bisect_right 18" );
+assert_equals( 0, array_bisect_right( [ 1, 1, 2, 2 ], 0 ), "bisect_right 19" );
+assert_equals( 2, array_bisect_right( [ 1, 1, 2, 2 ], 1 ), "bisect_right 20" );
+assert_equals( 2, array_bisect_right( [ 1, 1, 2, 2 ], 1.5 ), "bisect_right 21" );
+assert_equals( 4, array_bisect_right( [ 1, 1, 2, 2 ], 2 ), "bisect_right 22" );
+assert_equals( 4, array_bisect_right( [ 1, 1, 2, 2 ], 3 ), "bisect_right 23" );
+assert_equals( 0, array_bisect_right( [ 1, 2, 3 ], 0 ), "bisect_right 24" );
+assert_equals( 1, array_bisect_right( [ 1, 2, 3 ], 1 ), "bisect_right 25" );
+assert_equals( 1, array_bisect_right( [ 1, 2, 3 ], 1.5 ), "bisect_right 26" );
+assert_equals( 2, array_bisect_right( [ 1, 2, 3 ], 2 ), "bisect_right 27" );
+assert_equals( 2, array_bisect_right( [ 1, 2, 3 ], 2.5 ), "bisect_right 28" );
+assert_equals( 3, array_bisect_right( [ 1, 2, 3 ], 3 ), "bisect_right 29" );
+assert_equals( 3, array_bisect_right( [ 1, 2, 3 ], 4 ), "bisect_right 30" );
+assert_equals( 0, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 0 ), "bisect_right 31" );
+assert_equals( 1, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 1 ), "bisect_right 32" );
+assert_equals( 1, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 1.5 ), "bisect_right 33" );
+assert_equals( 3, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 2 ), "bisect_right 34" );
+assert_equals( 3, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 2.5 ), "bisect_right 35" );
+assert_equals( 6, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 3 ), "bisect_right 36" );
+assert_equals( 6, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 3.5 ), "bisect_right 37" );
+assert_equals( 10, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 4 ), "bisect_right 38" );
+assert_equals( 10, array_bisect_right( [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 ], 5 ), "bisect_right 39" );
 
 /*
 	clear
