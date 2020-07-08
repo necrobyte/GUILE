@@ -124,10 +124,11 @@ log( b );
 b = [ ];
 array_resize( b, 10 );
 a.set_seed( c );
-var d = _arange( 0, 10, 3 );
+var d = _arange( 10 );
+var e = _arange( 1, 11 );
 
 for( var i = 0; i < 100000; i++ ) {
-	++b[ a.choice( d ) ];
+	++b[ a.choices_weighted_cumulative( d, _accumulate( e ) )[ 0 ] ];
 }
 
 log( b );

@@ -1258,6 +1258,83 @@ function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
 		return _iterable[ next_int( array_length( _iterable ) ) ];
 	}
 	
+	/// @method choices
+	/// @memberof Random
+	///
+	/// @desc Fully consume iterable and return k random elements with replacement.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Number} [k=1]
+	///
+	/// @return {Any} random item from iterable
+	
+	static choices = function( _iterable ) {
+		_iterable = ( is_array( _iterable ) ) ? _iterable : iter( _iterable ).to_array();
+		var k = ( argument_count > 1 ) ? argument[ 1 ] : 1;
+		
+		var _result = [ ];
+		
+		var n = array_length( _iterable );
+		for ( var i = 0; i < k; i++ ) {
+			_result[ i ] = _iterable[ next_int( n ) ];
+		}
+		
+		return _result;
+	}
+	
+	/// @method choices_weighted
+	/// @memberof Random
+	///
+	/// @desc Fully consume iterable and return k random elements with replacement.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Iterable} weights
+	/// @arg {Number} [k=1]
+	///
+	/// @return {Array} random items from iterable
+	
+	static choices_weighted = function( _iterable, _weights ) {
+		var k = ( argument_count > 2 ) ? argument[ 2 ] : 1;
+		
+		return choices_weighted_cumulative( _iterable, _accumulate( _weights ), k );
+	}
+	
+	/// @method choices_weighted_cumulative
+	/// @memberof Random
+	///
+	/// @desc Fully consume iterable and return k random elements with replacement.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Iterable} weights cumulative weights
+	/// @arg {Number} [k=1]
+	///
+	/// @return {Array} random items from iterable
+	
+	static choices_weighted_cumulative = function( _iterable, _weights ) {
+		_iterable = ( is_array( _iterable ) ) ? _iterable : iter( _iterable ).to_array();
+		var n = array_length( _iterable );
+		_weights = ( is_array( _weights ) ) ? _weights : iter( _weights ).to_array();
+		
+		if ( array_length( _weights ) != n ) {
+			throw "The number of weights does not match the population";
+		}
+		
+		var _total = _weights[ --n ];
+		
+		if ( _total <= 0 ) {
+			throw "Total of weights must be greater than zero.";
+		}
+		
+		var k = ( argument_count > 2 ) ? argument[ 2 ] : 1;
+		var _result = [ ];
+				
+		for ( var i = 0; i < k; i++ ) {
+			_result[ i ] = _iterable[ array_bisect_right( _weights, next_float( _total ), 0, n ) ];
+		}
+		
+		return _result;
+	}
+	
 	/*
 		floating point random distributions
 	*/
