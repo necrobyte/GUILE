@@ -10,5 +10,5 @@
 
 function Graph( _directed ) constructor {
 	/// @member {Bool} directed
-		directed = _directed;
+	directed = _directed;
 }
