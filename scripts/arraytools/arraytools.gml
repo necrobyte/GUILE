@@ -13,9 +13,9 @@
 /// @return {Array} - Array struct
 
 function Array( _object ) constructor {
-	/// Size of Array in every dimension
-	/// @prop {Array} shape
+	/// @member {Array} shape
 	/// @memberof Array
+	/// Size of Array in every dimension
 		
 	shape = array_shape( _object );
 	
@@ -38,6 +38,7 @@ function Array( _object ) constructor {
 	}
 	
 	/// @member {Array} strides Size of array dimensions cached.
+	/// @memberof Array
 	strides = [ ];
 	var _stride = 1;
 	strides[ ndim - 1 ] = 1;
@@ -48,9 +49,11 @@ function Array( _object ) constructor {
 	}
 	
 	/// @member {Array} data 1d array as buffer
+	/// @memberof Array
 	data = array_flat( _object, ndim - 1 );
 	
 	/// @member {Bool} c_order Dimensions order. True means row-first, false is row-last.
+	/// @memberof Array
 	c_order = ( argument_count > 2 ) ? argument[ 2 ] : true;
 	
 	if (! c_order ) {

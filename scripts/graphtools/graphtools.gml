@@ -10,5 +10,6 @@
 
 function Graph( _directed ) constructor {
 	/// @member {Bool} directed
+	/// @memberof Graph
 	directed = _directed;
 }
