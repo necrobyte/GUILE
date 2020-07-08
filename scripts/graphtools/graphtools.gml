@@ -9,7 +9,7 @@
 /// @return {Graph} - Graph struct
 
 function Graph( _directed ) constructor {
-	/// @prop {Bool} directed
+	/// @member {Bool} directed
 	/// @memberof Graph
 	directed = _directed;
 }
