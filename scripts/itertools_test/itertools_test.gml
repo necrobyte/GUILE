@@ -144,6 +144,10 @@ for( var i = 0; i < 100000; i++ ) {
 
 log( b );
 
+a.shuffle( b );
+
+log( a.shuffle( "abcdefgh" ), b );
+
 #endregion
 
 #region iterators

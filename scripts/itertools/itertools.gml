@@ -1335,6 +1335,26 @@ function Random( _seed, _next ) : Generator( _seed, _next ) constructor {
 		return _result;
 	}
 	
+	/// @method shuffle
+	/// @memberof Random
+	///
+	/// @desc Returns shuffled array with items from input iterable. If iterable is array, shuffles the array itself.
+	///
+	/// @arg {Iterable} iterable
+	///
+	/// @return {Array}
+	
+	static shuffle = function( _iterable ) {
+		_iterable = ( is_array( _iterable ) ) ? _iterable : iter( _iterable ).to_array();
+		
+		for( var i = array_length( _iterable ) - 1; i > 0; i-- ) {
+			var j = next_int( i + 1 );
+			array_swap( _iterable, i, j );
+		}
+		
+		return _iterable;
+	}
+	
 	/*
 		floating point random distributions
 	*/
