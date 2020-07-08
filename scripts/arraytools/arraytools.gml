@@ -15,11 +15,11 @@
 function Array( _object ) constructor {
 	/// @member {Array} shape
 	/// @memberof Array
-	/// Size of Array in every dimension
-		
+	/// @desc Size of Array in every dimension
 	shape = array_shape( _object );
 	
-		/// @prop {Number} ndim Number of array dimensions.
+	/// @member {Number} ndim Number of array dimensions.
+	/// @memberof Array
 	if ( argument_count > 1 ) {
 		ndim = argument[ 1 ];
 		var n = ndim - array_length( shape );
