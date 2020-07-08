@@ -416,6 +416,43 @@ function array_append( _array ) {
 	return _array;
 }
 
+/// @func array_bisect
+///
+/// @desc Locate the leftmost insertion point for value in array to maintain sorted order. The parameters lo and hi may be used to specify a subset of the list which should be considered; by default the entire list is used.
+///
+/// @arg {Array} array Must be sorted
+/// @arg {Any} value
+/// @arg {Number} [start=0]
+/// @arg {Number} [stop=array_length(array)]
+///
+/// @return {Number}
+///
+/// @example
+/// array_bisect( _arange( 5 ), 2.5 ) --> 3
+
+function array_bisect_left( _array, _value ) {
+	var _start = ( argument_count > 2 ) ? argument[ 2 ] : 0;
+		
+	if ( _start < 0 ) {
+		throw "start parameter must be non-negative";
+	}
+	
+	var _size = array_length( _array );
+	var _stop = ( argument_count > 3 ) ? argument[ 3 ] : _size;
+			
+	while( _stop > _start ) {
+		var n = ( _start + _stop ) div 2;
+		if ( _value > _array[ n ] ) {
+			_start = n + 1;
+		} else {
+			_stop = n;
+		}
+	}
+	
+	return _start;
+}
+
+
 /// @func array_clear
 ///
 /// @desc Remove all elements from the array.

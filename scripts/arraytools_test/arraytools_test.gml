@@ -16,6 +16,15 @@ assert_equals( [ 6,6,5,4,4,3,2,1 ], array_sort( [1,4,6,3,5,6,4,2], undefined, tr
 assert_equals( [ 1, 2, 3, 4, 5 ], array_append( [ 1, 2, 3 ], 4, 5 ), "append 1" );
 
 /*
+	bisect
+*/
+
+assert_equals( 3, array_bisect_left( _arange( 5 ), 2.5 ), "bisect 1" );
+assert_equals( 0, array_bisect_left( _arange( 5 ), -1 ), "bisect 2" );
+assert_equals( 5, array_bisect_left( _arange( 5 ), 12 ), "bisect 3" );
+assert_equals( 2, array_bisect_left( _arange( 5 ), 2 ), "bisect 4" );
+
+/*
 	clear
 */
 
