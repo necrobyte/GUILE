@@ -290,7 +290,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///
 	/// @example
 	/// _irange( 10 ).filter_false( function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
-
+	
 	static filter_false = function( ) {
 		var _iter = new Iterator( __iter(), function() {
 			var _result = cache;
@@ -330,7 +330,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///
 	/// @example
 	/// _take( 2, iter( "AAAABBBCCDAABBB" ).group_by() ) --> { key: "A", group: [ "A", "A", "A", "A" ] }, { key: "B", group: [ "B", "B", "B" ] }
-
+	
 	static group_by = function() {
 		var _iter = new Iterator( __iter(), function() {
 			check = true;
