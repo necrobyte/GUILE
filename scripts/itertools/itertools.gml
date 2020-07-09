@@ -623,7 +623,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	static to_string = function( _separator ) {
 		_separator = is_undefined( _separator ) ? "" : _separator;
 		var _str = "";
-		var _b = !is_done(); 
+		var _b = !is_done();
 		
 		while( _b ) {
 			_str += string( next() );
@@ -632,7 +632,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 				_str += _separator;
 			}
 		}
-
+		
 		return _str;
 	}
 	
@@ -864,7 +864,7 @@ function __iter_collection( _object, _get, _len ) {
 ///_zip( _t[0], _drop( 1, _t[ 1 ] ) ) --> [ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 5, 6 ]
 
 function _tee( _iterable ) {
-	var _iter = new Iterator( iter( _iterable), function() {
+	var _iter = new Iterator( iter( _iterable ), function() {
 		var _result = data.next();
 		for( var i = 0; i < size; i++ ) {
 			var _child = children[ i ];

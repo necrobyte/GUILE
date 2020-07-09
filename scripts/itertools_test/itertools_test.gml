@@ -302,4 +302,16 @@ assert( _all( [ 1, 1, 1 ] ), "all 1" );
 assert_equals( factorial( 22 ), factorial( 20 ) * 21 * 22, "factorial 1" );
 assert_equals( 2, isqrt( 6 ), "isqrt 1" );
 
+var m = new Map();
+
+assert_equals( 0, m.size, "Map 1" );
+m.add( 1, 1 );
+m.set( 2, 2 );
+assert_equals( 2, m.size, "Map 2" );
+m.remove( 1 );
+m.set( 2, 3 );
+assert_equals( 1, m.size, "Map 3" );
+m.set( 2, undefined );
+assert_equals( 0, m.size, "Map 4" );
+
 #endregion
