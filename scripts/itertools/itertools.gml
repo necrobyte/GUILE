@@ -244,7 +244,6 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///
 	/// @desc Construct an iterator from those elements of iterable for which function returns true.
 	///
-	/// @arg {Iterable} iterable
 	/// @arg {Method(e)} [function]
 	///
 	/// @return {Iterator} Yields elements from iterable for which function returns true.
@@ -286,7 +285,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///
 	/// @arg {Method} [function]
 	///
-	/// @@return {Iterator} Yields elements from iterable for which function returns false.
+	/// @return {Iterator} Yields elements from iterable for which function returns false.
 	///
 	/// @example
 	/// _irange( 10 ).filter_false( function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
