@@ -15,11 +15,14 @@
 function Array( _object ) constructor {
 	/// @member {Array} shape
 	/// @memberof Array
+	///
 	/// @desc Size of Array in every dimension
 	shape = array_shape( _object );
 	
-	/// @member {Number} ndim Number of array dimensions.
+	/// @member {Number} ndim
 	/// @memberof Array
+	///
+	/// @desc Number of array dimensions.
 	if ( argument_count > 1 ) {
 		ndim = argument[ 1 ];
 		var n = ndim - array_length( shape );
@@ -37,8 +40,10 @@ function Array( _object ) constructor {
 		ndim = array_length( shape );
 	}
 	
-	/// @member {Array} strides Size of array dimensions cached.
+	/// @member {Array} strides
 	/// @memberof Array
+	///
+	/// @desc Size of array dimensions cached.
 	strides = [ ];
 	var _stride = 1;
 	strides[ ndim - 1 ] = 1;
@@ -48,12 +53,16 @@ function Array( _object ) constructor {
 		strides[ i ] = _stride;
 	}
 	
-	/// @member {Array} data 1d array as buffer
+	/// @member {Array}
 	/// @memberof Array
+	///
+	/// @desc data 1d array as buffer
 	data = array_flat( _object, ndim - 1 );
 	
-	/// @member {Bool} c_order Dimensions order. True means row-first, false is row-last.
+	/// @member {Bool} c_order
 	/// @memberof Array
+	///
+	/// @desc Dimensions order. True means row-first, false is row-last.
 	c_order = ( argument_count > 2 ) ? argument[ 2 ] : true;
 	
 	if (! c_order ) {
@@ -967,7 +976,7 @@ function array_qsort( a ) {
 			if ( ( _right - _left ) == 1 ) {
 				if ( _reverse ? _keys[ _left ] < _keys[ _right ] : _keys[ _left ] > _keys[ _right ] ) {
 					array_swap( a, _left, _right );
-					if ( _key ) {
+					if ( is_array( _key ) ) {
 						array_swap( _keys, _left, _right );
 					}
 				}
