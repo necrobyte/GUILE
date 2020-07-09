@@ -332,6 +332,9 @@ assert( !g.has_node( "b" ), "has node 3" );
 assert_equals( 3, g.size(), "size" );
 assert_equals( [ 1, 2, 3 ], g.nodes().sorted().to_array(), "nodes" );
 
+assert( g.has_edge( 1, 2 ), "has edge 1" );
+assert( !g.has_edge( 0, 1 ), "has edge 2" );
+
 log( g );
 
 #endregion
