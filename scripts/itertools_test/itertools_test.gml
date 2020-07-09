@@ -308,10 +308,30 @@ assert_equals( 0, m.size, "Map 1" );
 m.add( 1, 1 );
 m.set( 2, 2 );
 assert_equals( 2, m.size, "Map 2" );
+assert_equals( [ 1, 2 ], m.keys().sorted().to_array(), "Map keys" );
 m.remove( 1 );
 m.set( 2, 3 );
 assert_equals( 1, m.size, "Map 3" );
 m.set( 2, undefined );
 assert_equals( 0, m.size, "Map 4" );
+
+#endregion
+
+#region Graph
+
+var g = new Graph();
+
+g.add_edge( 1, 2 );
+g.add_edge( 2, 3 );
+g.add_edge( 3, 1 );
+
+assert( g.has_node( 1 ), "has node 1" );
+assert( !g.has_node( 4 ), "has node 2" );
+assert( !g.has_node( "b" ), "has node 3" );
+
+assert_equals( 3, g.size(), "size" );
+assert_equals( [ 1, 2, 3 ], g.nodes().sorted().to_array(), "nodes" );
+
+log( g );
 
 #endregion

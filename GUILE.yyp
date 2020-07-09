@@ -1,7 +1,6 @@
 {
   "resources": [
     {"id":{"name":"graphtools","path":"scripts/graphtools/graphtools.yy",},"order":5,},
-    {"id":{"name":"graph_test","path":"scripts/graph_test/graph_test.yy",},"order":6,},
     {"id":{"name":"arraytools","path":"scripts/arraytools/arraytools.yy",},"order":3,},
     {"id":{"name":"itertools","path":"scripts/itertools/itertools.yy",},"order":0,},
     {"id":{"name":"arraytools_test","path":"scripts/arraytools_test/arraytools_test.yy",},"order":4,},

@@ -17,22 +17,22 @@ function Graph( ) constructor {
 	/// @desc If true, Graph is directed
 	directed = ( argument_count > 0 ) ? argument[ 0 ] : false;
 	
-	/// @member {Struct} nodes
+	/// @member {Map} node
 	/// @memberof Graph
 	///
-	/// @desc Struct holding all nodes
-	nodes = new Map();
+	/// @desc Map holding all nodes
+	node = new Map();
 	
-	/// @member {Struct} adj
+	/// @member {Map} adj
 	/// @memberof Graph
 	///
-	/// @desc Struct holding all outgoing node-connection information
+	/// @desc Map holding all outgoing node-connection information
 	adj = new Map();
 	
-	/// @member {Struct} pred
+	/// @member {Map} pred
 	/// @memberof Graph
 	///
-	/// @desc Struct holding all incoming node-connection information. Only for directed graphs.
+	/// @desc Map holding all incoming node-connection information. Only for directed graphs.
 	pred = new Map();
 	
 	/*
@@ -59,11 +59,11 @@ function Graph( ) constructor {
 			_attr = argument[ 3 ];
 		}
 		
-		if ( is_undefined( nodes.get( a ) ) ) {
+		if ( is_undefined( node.get( a ) ) ) {
 			add_node( a );
 		}
 		
-		if ( is_undefined( nodes.get( b ) ) ) {
+		if ( is_undefined( node.get( b ) ) ) {
 			add_node( b );
 		}
 		
@@ -99,12 +99,12 @@ function Graph( ) constructor {
 	static add_node = function( _node ) {
 		var _attr = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
 		
-		var _new_node = nodes.get( _node );
+		var _new_node = node.get( _node );
 		
 		if ( is_undefined( _new_node ) ) {
 			_new_node = { };
 			
-			nodes.add( _node, _new_node );
+			node.add( _node, _new_node );
 			adj.add( _node, new Map() );
 			
 			if ( directed ) {
@@ -124,13 +124,22 @@ function Graph( ) constructor {
 	/// @desc Remove all nodes and edges
 		
 	static clear = function() {
-		delete( nodes );
-		delete( adj );
-		delete( pred );
-		
-		nodes = { };
-		adj = { };
-		pred = { };
+		node.clear();
+		adj.clear();
+		pred.clear();
+	}
+	
+	/// @method get
+	/// @memberof Graph
+	///
+	/// @desc Return node from Graph. If node is absent, return undefined.
+	///
+	/// @arg {Any} node
+	///
+	/// @return {Struct}
+	
+	static get = function( _node ) {
+		return node.get( _node );
 	}
 	
 	/// @method has_edge
@@ -144,7 +153,7 @@ function Graph( ) constructor {
 	/// @return {Bool}
 	
 	static has_edge = function( a, b ) {
-		if ( is_undefined( nodes.get( a ) ) ) {
+		if ( is_undefined( node.get( a ) ) ) {
 			return false;
 		}
 		
@@ -161,7 +170,21 @@ function Graph( ) constructor {
 	/// @return {Bool}
 	
 	static has_node = function( _node ) {
-		return nodes.exists( _node );
+		return node.exists( _node );
+	}
+	
+	/// @method nodes
+	/// @memberof Graph
+	///
+	/// @desc Returns Iterator of nodes
+	///
+	/// @arg {Bool} [data=false] If false only keys would be returned.
+	///
+	/// @return Iterator
+	
+	static nodes = function( ) {
+		var _data = ( argument_count > 0 ) ? argument[ 0 ] : false;
+		return _data ? node.items() : node.keys();
 	}
 	
 	/// @method number_of_nodes
@@ -172,7 +195,7 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static number_of_nodes = function() {
-		return data.size();
+		return node.size;
 	}
 	
 	/// @method remove_edge
@@ -184,7 +207,7 @@ function Graph( ) constructor {
 	/// @arg {Any} b
 	
 	static remove_edge = function( a, b ) {
-		if ( is_undefined( nodes.get( a ) ) || is_undefined( nodes.get( b ) ) ) {
+		if ( is_undefined( node.get( a ) ) || is_undefined( nodes.get( b ) ) ) {
 			exit;	
 		}
 		
@@ -211,26 +234,47 @@ function Graph( ) constructor {
 	/// @arg {Any} node
 	
 	static remove_node = function( _node ) {
-		if ( is_undefined( nodes.get( _node ) ) ) {
+		if ( is_undefined( node.get( _node ) ) ) {
 			exit;	
 		}
 		
 		var _adj = adj.get( _node );
-		var _adj_edges = variable_struct_get_names( _adj );
-		var n = array_length( _adj_edges );
-		
+		var _adj_edges = iter( _adj );
+				
 		if ( directed ) {
-			var _pred = variable_struct_get( directed ? pred : adj, _node );	
+			while( !_adj_edges.is_done() ){
+				var _edge = _adj_edges.next();
+				delete _edge[ 1 ];
+				_adj.remove( _edge[ 0 ] );
+			}
+			
+			var _adj = pred.get( _node );
+			
+			while( !_adj_edges.is_done() ){
+				var _edge = _adj_edges.next();
+				delete _edge[ 1 ];
+				_adj.remove( _edge[ 0 ] );
+			}
 		} else {
-			for( var i = 0; i < n; i++ ) {
-				var _edge = variable_struct_get( _adj, _adj_edges[ i ] );
-				if ( !is_undefined( _adj ) ) {
-					
-				}
+			while( !_adj_edges.is_done() ){
+				var _edge = _adj_edges.next();
+				delete _edge[ 1 ];
+				_adj.remove( _edge[ 0 ] );
+				adj.get( _edge[ 0 ] ).remove( _node );
 			}
 		}
+		
+		node.remove( _node );
 	}
 	
+	/// @method size
+	/// @memberof Graph
+	///
+	/// @desc Returns the number of nodes in the graph.
+	///
+	/// @return {Number}
+	
+	static size = number_of_nodes
 }
 
 #endregion
