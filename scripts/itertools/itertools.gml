@@ -678,19 +678,7 @@ function IteratorDict( _data, _next, _is_done ) : Iterator( _data, _next, _is_do
 	/// @return {Iterator}
 	
 	static names = function() {
-		var _iter = new Iterator( data, function() {
-			++index;
-			return next_key();
-		}, function() {
-			return index >= size;
-		} );
-	
-		_iter.next_key = next_key;
-		_iter.get = get;
-		_iter.index = 0;
-		_iter.size = size;
-
-		return _iter;
+		return __iter().map( function( e ) { return e[ 0 ]; } );
 	}
 	
 	/// @method values
@@ -701,19 +689,7 @@ function IteratorDict( _data, _next, _is_done ) : Iterator( _data, _next, _is_do
 	/// @return {Iterator}
 	
 	static values = function() {
-		var _iter = new Iterator( data, function() {
-			++index;
-			return get( next_key() );
-		}, function() {
-			return index >= size;
-		} );
-	
-		_iter.next_key = next_key;
-		_iter.get = get;
-		_iter.index = 0;
-		_iter.size = size;
-
-		return _iter;
+		return __iter().map( function( e ) { return e[ 1 ]; } );
 	}
 	
 	/// @method to_map
