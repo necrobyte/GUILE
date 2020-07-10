@@ -321,25 +321,26 @@ assert_equals( 0, m.size, "Map 4" );
 
 var g = new Graph();
 
-g.add_edge( 1, 2 );
-g.add_edge( 2, 3 );
-g.add_edge( 3, 1 );
+g.add_edges_from( _irange( 3 ).combinations( 2 ) );
 
 assert( g.has_node( 1 ), "has node 1" );
 assert( !g.has_node( 4 ), "has node 2" );
 assert( !g.has_node( "b" ), "has node 3" );
 
 assert_equals( 3, g.size(), "size" );
-assert_equals( [ 1, 2, 3 ], g.nodes().sorted().to_array(), "nodes" );
+assert_equals( [ 0, 1, 2 ], g.nodes().sorted().to_array(), "nodes" );
 
 assert( g.has_edge( 1, 2 ), "has edge 1" );
-assert( !g.has_edge( 0, 1 ), "has edge 2" );
+assert( !g.has_edge( 0, 3 ), "has edge 2" );
 
-assert_equals( [ 2, 3 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
+assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
 //log( g.adjacency().to_struct() );
 //log( g );
 
 assert_equals( 2, g.degree( 1 ), "degree" );
+
+g.add_nodes_from( "hello" );
+assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
 
 #endregion

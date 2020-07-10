@@ -54,6 +54,7 @@ function Graph( ) constructor {
 	///
 	/// @arg {Any} a
 	/// @arg {Any} b
+	/// @arg {Number} [weight=1]
 	/// @arg {Array} [attr]
 	
 	static add_edge = function( a, b ) {
@@ -96,6 +97,36 @@ function Graph( ) constructor {
 		_pred.set( a, _edge );
 	}
 	
+	/// @method add_edges_from
+	/// @memberof Graph
+	///
+	/// @desc Add an edges from iterable. If nodes are not in graph, nodes are added.
+	///
+	/// @arg {Any} a
+	/// @arg {Any} b
+	/// @arg {Number} [weight=1]
+	/// @arg {Array} [attr]
+	
+	static add_edges_from = function( _iterable ) {
+		var _weight = ( argument_count > 2 ) ? argument[ 2 ] : undefined;
+		var _attr = undefined;
+		
+		if ( is_array( _weight ) || is_struct( _weight ) ) {
+			_attr = _weight;
+			_weight = undefined;
+		} else if ( argument_count > 3 ){
+			_attr = argument[ 3 ];
+		}
+		
+		var _iter = iter( _iterable );
+				
+		while ( !_iter.is_done() ) {
+			var _edge = _iter.next();
+			var n = array_length( _edge );
+			add_edge( _edge[ 0 ], _edge[ 1 ], ( n > 2 ) ? _edge[ 2 ] : _weight, ( n > 3 ) ? _edge[ 3 ] : _attr );
+		}
+	}
+	
 	/// @method add_node
 	/// @memberof Graph
 	///
@@ -127,6 +158,23 @@ function Graph( ) constructor {
 		var n = is_array( _attr ) ? array_length( _attr ) : 0;
 		for( var i = 0; i < n; i++ ) {
 			variable_struct_set( _new_node, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
+		}
+	}
+	
+	/// @method add_nodes_from
+	/// @memberof Graph
+	///
+	/// @desc Add nodes. If node exists, update attributes.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Array} [attr] [key, value] pairs
+		
+	static add_nodes_from = function ( _iterable ) {
+		var _iter = iter( _iterable );
+		var _attr = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+		
+		while ( !_iter.is_done() ) {
+			add_node( _iter.next(), _attr );	
 		}
 	}
 	
