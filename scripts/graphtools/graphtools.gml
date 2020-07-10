@@ -1,6 +1,6 @@
 #region Graph
 
-/// @func Graph( _object )
+/// @func Graph( )
 /// @name Graph
 /// @class
 ///
@@ -15,7 +15,7 @@ function Graph( ) constructor {
 	/// @memberof Graph
 	///
 	/// @desc If true, Graph is directed
-	directed = ( argument_count > 0 ) ? argument[ 0 ] : false;
+	directed =  false;
 	
 	/// @member {Map} node
 	/// @memberof Graph
@@ -32,8 +32,8 @@ function Graph( ) constructor {
 	/// @member {Map} pred
 	/// @memberof Graph
 	///
-	/// @desc Map holding all incoming node-connection information. Only for directed graphs.
-	pred = new Map();
+	/// @desc Map holding all incoming node-connection information.
+	pred = adj;
 	
 	/*
 		methods
@@ -60,7 +60,7 @@ function Graph( ) constructor {
 		var _weight = ( argument_count > 2 ) ? argument[ 2 ] : undefined;
 		var _attr = undefined;
 		
-		if ( is_array( _weight ) ) {
+		if ( is_array( _weight ) || is_struct( _weight ) ) {
 			_attr = _weight;
 			_weight = undefined;
 		} else if ( argument_count > 3 ){
@@ -81,13 +81,13 @@ function Graph( ) constructor {
 		var _edge = _adj.get( b );
 		
 		if ( is_undefined( _edge ) ) {
-			_edge = { };
+			_edge = is_struct( _attr ) ? _attr : { };
 			_edge.weight = is_undefined( _weight ) ? 1 : _weight;
 		} else if ( !is_undefined( _weight ) ) {
 			_edge.weight = _weight;
 		}
 		
-		var n = is_undefined( _attr ) ? 0 : array_length( _attr );
+		var n = is_array( _attr ) ? array_length( _attr ) : 0;
 		for( var i = 0; i < n; i++ ) {
 			variable_struct_set( _edge, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
 		}
@@ -103,6 +103,10 @@ function Graph( ) constructor {
 	///
 	/// @arg {Any} node
 	/// @arg {Array} [attr] [key, value] pairs
+	///
+	/// @example
+	/// g.add_node( 1, { text : "hello" } );
+	///g.add_node( 2, [[ "text", "world" ]] );
 	
 	static add_node = function( _node ) {
 		var _attr = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
@@ -110,7 +114,7 @@ function Graph( ) constructor {
 		var _new_node = node.get( _node );
 		
 		if ( is_undefined( _new_node ) ) {
-			_new_node = { };
+			_new_node = is_struct( _attr ) ? _attr : { };
 			
 			node.add( _node, _new_node );
 			adj.add( _node, new Map() );
@@ -120,7 +124,7 @@ function Graph( ) constructor {
 			}
 		}
 		
-		var n = is_undefined( _attr ) ? 0 : array_length( _attr );
+		var n = is_array( _attr ) ? array_length( _attr ) : 0;
 		for( var i = 0; i < n; i++ ) {
 			variable_struct_set( _new_node, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
 		}
@@ -155,7 +159,6 @@ function Graph( ) constructor {
 	static clear = function() {
 		node.clear();
 		adj.clear();
-		pred.clear();
 	}
 	
 	/// @method degree
@@ -371,6 +374,25 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static size = number_of_nodes
+}
+
+/// @func GraphDirected( )
+/// @name GraphDirected
+/// @class
+///
+/// @classdesc Directed graph
+///
+/// @return {GraphDirected} - Graph struct
+
+function GraphDirected( ) constructor {
+	directed =  true;
+	pred = new Map( );
+	
+	static clear = function() {
+		node.clear();
+		adj.clear();
+		pred.clear();
+	}
 }
 
 #endregion
