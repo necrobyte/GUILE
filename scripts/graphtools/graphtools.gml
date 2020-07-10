@@ -427,6 +427,7 @@ function Graph( ) constructor {
 /// @func GraphDirected( )
 /// @name GraphDirected
 /// @class
+/// @extends Graph
 ///
 /// @classdesc Directed graph
 ///
