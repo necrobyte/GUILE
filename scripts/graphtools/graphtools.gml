@@ -150,6 +150,24 @@ function Graph( ) constructor {
 		pred.clear();
 	}
 	
+	/// @method degree
+	/// @memberof Graph
+	///
+	/// @desc Returns node degree in Graph.
+	///
+	/// @arg {Any} node
+	///
+	/// @return {Number}
+	
+	static degree = function( _node ) {
+		var _adj = adj.get( _node );
+		if ( is_undefined( _adj ) ) {
+			throw "The node " + string( _node ) + " is not in the graph.";
+		}
+		
+		return _adj.items().reduce( function( a, e ) { return a + ( e[ 1 ] ).weight; }, 0 );
+	}
+	
 	/// @method get
 	/// @memberof Graph
 	///

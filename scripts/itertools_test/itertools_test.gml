@@ -339,6 +339,6 @@ assert_equals( [ 2, 3 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
 log( g.adjacency().to_struct() );
 
-log( g );
+assert_equals( 2, g.degree( 1 ), "degree" );
 
 #endregion
