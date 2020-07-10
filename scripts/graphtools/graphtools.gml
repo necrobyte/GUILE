@@ -118,6 +118,27 @@ function Graph( ) constructor {
 		}
 	}
 	
+	/// @method adjacency
+	/// @memberof Graph
+	///
+	/// @desc Returns an iterator over [ node, adjacency struct ] for all nodes
+	///
+	/// @return {IteratorDict}
+	
+	static adjacency = function() {
+		var _iter = __iter_dict( adj, function() {
+			return key_iter.next();
+		}, function( _key ) {
+			return data.get( _key ).items().to_struct();
+		}, function() {
+			return key_iter.is_done();
+		} );
+		
+		_iter.key_iter = adj.keys();
+		
+		return _iter;
+	}
+	
 	/// @method clear
 	/// @memberof Graph
 	///
@@ -140,6 +161,21 @@ function Graph( ) constructor {
 	
 	static get = function( _node ) {
 		return node.get( _node );
+	}
+	
+	/// @method get_edge
+	/// @memberof Graph
+	///
+	/// @desc Returns edge atribute Struct associated with edge between a and b. If edge does not exist, return undefined.
+	///
+	/// @arg {Any} a
+	/// @arg {Any} a
+	///
+	/// @return {Bool}
+	
+	static get_edge = function( a, b ) {
+		var _adj = adj.get( a );
+		return is_undefined( _adj ) ? undefined : _adj.get( b );
 	}
 	
 	/// @method has_edge
@@ -189,7 +225,22 @@ function Graph( ) constructor {
 			throw "The node " + string( _node ) + " is not in the graph.";
 		}
 		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
-		return _data ? _adj.items() : _adj.keys();
+		
+		if ( _data ) {
+			var _iter = __iter_dict( _adj.keys(), function() {
+				return data.next();
+			}, function( _key ) {
+				return node.get( _key );
+			}, function() {
+				return data.is_done();
+			} );
+	
+			_iter.node = node;
+		
+			return _iter;
+		}
+		
+		return _adj.keys();
 	}
 	
 	/// @method nodes

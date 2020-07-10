@@ -337,6 +337,8 @@ assert( !g.has_edge( 0, 1 ), "has edge 2" );
 
 assert_equals( [ 2, 3 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
+log( g.adjacency().to_struct() );
+
 log( g );
 
 #endregion
