@@ -173,6 +173,25 @@ function Graph( ) constructor {
 		return node.exists( _node );
 	}
 	
+	/// @method neighbors
+	/// @memberof Graph
+	///
+	/// @desc Returns an iterator over all neighbors of node.
+	///
+	/// @arg {Any} node
+	/// @arg {Bool} [data=false] If false only keys would be returned.
+	///
+	/// @return {Iterator}
+	
+	static neighbors = function( _node ) {
+		var _adj = adj.get( _node );
+		if ( is_undefined( _adj ) ) {
+			throw "The node " + string( _node ) + " is not in the graph.";
+		}
+		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		return _data ? _adj.items() : _adj.keys();
+	}
+	
 	/// @method nodes
 	/// @memberof Graph
 	///
