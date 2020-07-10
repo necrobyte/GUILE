@@ -346,4 +346,9 @@ log( g.edges( true ).to_array() );
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
 
+g.clear();
+g.add_edges_from( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ] ] );
+
+log( g.degree( _irange( 4 ) ).to_array() );
+
 #endregion

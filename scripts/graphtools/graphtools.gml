@@ -221,19 +221,32 @@ function Graph( ) constructor {
 	/// @method degree
 	/// @memberof Graph
 	///
-	/// @desc Returns node degree in Graph.
+	/// @desc Returns node degree in Graph. If node is iterable, return Iterator of pairs [ node, degree ];
 	///
-	/// @arg {Any} node
+	/// @arg {Any} [node]
 	///
 	/// @return {Number}
 	
-	static degree = function( _node ) {
-		var _adj = adj.get( _node );
-		if ( is_undefined( _adj ) ) {
-			throw "The node " + string( _node ) + " is not in the graph.";
+	static degree = function( ) {
+		if ( argument_count > 0 ) {
+			var _node = argument[ 0 ];
+			
+			if ( is_iterable( _node ) ) {
+				return _imap( function( _node, _adj ) {
+					return [ _node, _adj.get( _node ).size ];
+				}, _node, _repeat( adj ) );
+			}
+			
+			var _adj = adj.get( _node );
+			
+			if ( is_undefined( _adj ) ) {
+				throw "The node " + string( _node ) + " is not in the graph.";
+			}
+			
+			return _adj.items().reduce( function( a, e ) { return a + ( e[ 1 ] ).weight; }, 0 );
+		} else {
+			return number_of_nodes();	
 		}
-		
-		return _adj.items().reduce( function( a, e ) { return a + ( e[ 1 ] ).weight; }, 0 );
 	}
 	
 	/// @method edges
