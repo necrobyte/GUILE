@@ -1752,6 +1752,25 @@ function ds_priority_min_iter( _priority ) {
 	return _iter;
 }
 
+/// @func is_iterable
+///
+/// @desc Returns if object is iterable.
+///
+/// @arg {Iterable} object
+///
+/// @return {Bool}
+
+function is_iterable( _object ) {
+	switch ( typeof( _object ) ) {
+		case "string":
+		case "array":
+		case "struct":
+			return true;			
+		default:
+			return false;
+	end;
+}
+
 /// @func iter
 ///
 /// @desc Creates Iterator from provided Iterable.
