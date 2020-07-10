@@ -293,7 +293,7 @@ assert_array_equals( [ [ 0,0 ], [ 0,1 ], [ 0,2 ], [ 1,1 ], [ 1,2 ], [ 2,2 ] ], _
 
 assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 5, 2, 3, 1, 4 ] ).sorted().to_array(), "sorted 1" );
 assert_equals( "abcde", _sorted( "ebcad" ).to_string(), "sorted 2" );
-assert_equals( [ 1, 2, 3, 4, 5 ], iter( [ 1, 2, 3, 4, 5 ] ).slice( 0, undefined ).to_array(), "slice 1" );
+assert_equals( _arange( 5 ), _irange( 5 ).slice( 0, undefined ).to_array(), "slice 1" );
 assert_equals( [ 1, 2, 3 ], _unique( [ 1, 2, 3, 2, 3, 1, 2, 3, 2, 1, 3 ] ).to_array(), "unique 1" );
 assert_equals( "abc", iter( "abcabcbacbacbbcabca" ).unique().to_string(), "unique 2" );
 assert( _any( [ 0, 0, 1 ] ), "any 1" );
@@ -340,7 +340,7 @@ assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
 assert_equals( 2, g.degree( 1 ), "degree" );
 
-log( g.edges().sorted( string ).to_array() );
+assert_array_equals( _permutations( "012", 2 ).to_array(), g.edges().sorted( string ).to_array(), "edges" );
 log( g.edges( true ).to_array() );
 
 g.add_nodes_from( "hello" );
