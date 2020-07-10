@@ -232,9 +232,27 @@ function Graph( ) constructor {
 			var _node = argument[ 0 ];
 			
 			if ( is_iterable( _node ) ) {
-				return _imap( function( _node, _adj ) {
-					return [ _node, _adj.get( _node ).size ];
-				}, _node, _repeat( adj ) );
+				var _iter = __iter_dict( _node, function( ) {
+					var _result = cache;
+					cache = undefined;
+					return _result;
+				}, function( _key ) {
+					return adj.get( _key ).size;
+				}, function() {
+					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+						cache = data.next();
+						if ( is_undefined( adj.get( cache ) ) ) {
+							cache = undefined;
+						}
+					}
+					
+					return is_undefined( cache );
+				} );
+						
+				_iter.adj = adj;
+				_iter.cache = undefined;
+				
+				return _iter;
 			}
 			
 			var _adj = adj.get( _node );
