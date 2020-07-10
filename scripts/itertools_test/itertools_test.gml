@@ -340,6 +340,9 @@ assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
 assert_equals( 2, g.degree( 1 ), "degree" );
 
+log( g.edges().sorted( string ).to_array() );
+log( g.edges( true ).to_array() );
+
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
 

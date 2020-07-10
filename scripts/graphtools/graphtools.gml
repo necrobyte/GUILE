@@ -227,6 +227,30 @@ function Graph( ) constructor {
 		return _adj.items().reduce( function( a, e ) { return a + ( e[ 1 ] ).weight; }, 0 );
 	}
 	
+	/// @method edges
+	/// @memberof Graph
+	///
+	/// @desc Returns iterator for all edges in graph
+	///
+	/// @arg {Bool} data If true, adds edge attribute struct to yield.
+	///
+	/// @return {Iterator} Yields array [ a, b, [edge] ]
+	
+	static edges = function( ) {
+		var _data = ( argument_count > 0 ) ? argument[ 0 ] : false;
+		var _iter = _imap( function( _adj, _data ) {
+			if ( _data ) {
+				return _imap( function( _node, _edge ) {
+					return [ _node, _edge[ 0 ], _edge[ 1 ] ];
+				}, _repeat( _adj[ 0 ] ), _adj[ 1 ].items() );
+			}
+			
+			return _zip( _repeat( _adj[ 0 ] ), _adj[ 1 ].keys() );
+		}, adj.items(), _repeat( _data ) );
+		
+		return _chain_from_iterable( _iter );
+	}
+		
 	/// @method get
 	/// @memberof Graph
 	///
