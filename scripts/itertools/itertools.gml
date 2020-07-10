@@ -1825,7 +1825,7 @@ function iter( _object ) {
 		
 			
 		default:
-			return undefined;
+			return iter( [ _object ] );
 	end;
 }
 
