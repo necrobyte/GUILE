@@ -206,6 +206,15 @@ function Graph( ) constructor {
 		
 	static clear = function() {
 		node.clear();
+		clear_edges();
+	}
+	
+	/// @method clear_edges
+	/// @memberof Graph
+	///
+	/// @desc Remove all edges leaving nodes untouched
+	
+	static clear_edges = function() {
 		adj.clear();
 	}
 	
@@ -461,8 +470,7 @@ function GraphDirected( ) constructor {
 	directed =  true;
 	pred = new Map( );
 	
-	static clear = function() {
-		node.clear();
+	static clear_edges = function() {
 		adj.clear();
 		pred.clear();
 	}
