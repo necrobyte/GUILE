@@ -39,6 +39,14 @@ function Graph( ) constructor {
 		methods
 	*/
 	
+	static __iter = function() {
+		return node.items();
+	}
+	
+	static to_string = function() {
+		return "{ " + node.keys().to_string( ", " ) + " }";
+	}
+	
 	/// @method add_edge
 	/// @memberof Graph
 	///
