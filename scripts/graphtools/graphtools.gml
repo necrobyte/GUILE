@@ -64,7 +64,7 @@ function Graph( ) constructor {
 		if ( is_array( _weight ) || is_struct( _weight ) ) {
 			_attr = _weight;
 			_weight = undefined;
-		} else if ( argument_count > 3 ){
+		} else if ( argument_count > 3 ) {
 			_attr = argument[ 3 ];
 		}
 		
@@ -83,7 +83,9 @@ function Graph( ) constructor {
 		
 		if ( is_undefined( _edge ) ) {
 			_edge = is_struct( _attr ) ? _attr : { };
-			_edge.weight = is_undefined( _weight ) ? 1 : _weight;
+			if ( !variable_struct_exists( _edge, "weight" ) ) {
+				_edge.weight = is_undefined( _weight ) ? 1 : _weight;
+			}
 		} else if ( !is_undefined( _weight ) ) {
 			_edge.weight = _weight;
 		}
@@ -184,8 +186,9 @@ function Graph( ) constructor {
 			var _node = _iter.next();
 			if ( is_array( _node ) ) {
 				add_node( _node[ 0 ], _node[ 1 ] );
+			} else {
+				add_node( _node, _attr );
 			}
-			add_node( _node, _attr );
 		}
 	}
 	
@@ -227,6 +230,42 @@ function Graph( ) constructor {
 	
 	static clear_edges = function() {
 		adj.clear();
+	}
+	
+	/// @method copy
+	/// @memberof Graph
+	///
+	/// @desc makes copy of the graph
+	///
+	/// @arg {Bool} [deep=false] If false, node and edge data is referenced, not copied.
+	///
+	/// @return Graph
+	
+	static copy = function() {
+		var _result = directed ? new GraphDirected() : new Graph();
+		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
+		
+		var _nodes = nodes( true );
+		
+		if ( _deep ) {
+			_result.add_nodes_from( _nodes.map( function( _node ) {
+				return [ _node[ 0 ], iter( _node[ 1 ] ).to_struct() ];
+			} ) );
+		} else {
+			_result.add_nodes_from( _nodes );	
+		}
+		
+		var _edges = edges( true );
+		
+		if ( _deep ) {
+			_result.add_edges_from( _edges.map( function( _edge ) {
+				return [ _edge[ 0 ], _edge[ 1 ], iter( _edge[ 2 ] ).to_struct() ];
+			} ) );
+		} else {
+			_result.add_edges_from( _edges );
+		}
+		
+		return _result;
 	}
 	
 	/// @method degree
@@ -564,8 +603,6 @@ function Graph( ) constructor {
 		
 		_adj.remove( b );
 		_pred.remove( a );
-		
-		delete _edge;
 	}
 	
 	/// @method remove_edges_from
@@ -610,7 +647,6 @@ function Graph( ) constructor {
 				
 		while( !_adj_edges.is_done() ){
 			var _edge = _adj_edges.next();
-			delete _edge[ 1 ];
 			_adj.remove( _edge[ 0 ] );
 		}
 			
@@ -619,7 +655,6 @@ function Graph( ) constructor {
 			
 		while( !_adj_edges.is_done() ){
 			var _edge = _adj_edges.next();
-			delete _edge[ 1 ];
 			_adj.remove( _edge[ 0 ] );
 		}
 				

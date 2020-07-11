@@ -354,6 +354,19 @@ assert_equals( [ 1, 2 ], g.get_edges_from( 1, 2 ), "get edges from 2" );
 assert( is_undefined( g.get_edges_from( 1, 3 ) ), "get edges from 3" );
 assert_array_equals( _combinations( "012", 2 ).to_array(), g.get_edges_from( _combinations( "0123", 2 ) ).to_array(), "get edges from 4" );
 
+var g1 = g.copy();
+g.get( 0 ).text = "hello";
+assert_equals( "hello", g1.get( 0 ).text, "shallow copy 1" );
+g1.get_edge( 0, 1 ).weight = 2;
+assert_equals( 2, g.get_edge( 0, 1 ).weight, "shallow copy 2" );
+
+g1 = g.copy( true );
+g.get( 0 ).text = "world";
+assert_equals( "hello", g1.get( 0 ).text, "deep copy 1" );
+g.get_edge( 0, 1 ).weight = 1;
+assert_equals( 2, g1.get_edge( 0, 1 ).weight, "deep copy 2" );
+
+
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
 g.remove_nodes_from( "hello" );
