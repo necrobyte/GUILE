@@ -50,7 +50,6 @@ _ds = _priority( [ 1, 1 ], [ 2, 2] , [ 3, 3 ], [ 4, 4 ] );
 assert_equals( [ 4, 3, 2, 1 ], ds_priority_max_iter( _ds ).to_array(),		"ds_priority_max_iter" );
 ds_priority_destroy( _ds );
 
-
 /*
 	tee
 */
@@ -341,6 +340,11 @@ assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 assert_equals( 2, g.degree( 1 ), "degree" );
 
 assert_array_equals( _permutations( "012", 2 ).to_array(), g.edges().sorted( string ).to_array(), "edges" );
+
+assert_equals( [ 0, 1, 2 ], g.get_from().sorted().to_array(), "get from 1" );
+assert_equals( 1, g.get_from( 1 ), "get from 2" );
+assert( is_undefined( g.get_from( 3 ) ), "get from 3" );
+assert_equals( [ 2 ], g.get_from( _irange( 2, 4 ) ).to_array(), "get from 4" );
 
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );

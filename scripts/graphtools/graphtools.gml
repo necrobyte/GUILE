@@ -304,6 +304,52 @@ function Graph( ) constructor {
 		return node.get( _node );
 	}
 	
+	/// @method get_from
+	/// @memberof Graph
+	///
+	/// @desc Returns nodes in Graph. If node is iterable, return Iterator of nodes;
+	///
+	/// @arg {Any} [node]
+	/// @arg {bool} [data=false] If true, adds node attribute struct .
+	///
+	/// @return {Number}
+	
+	static get_from = function( ) {
+		if ( argument_count > 0 ) {
+			var _node = argument[ 0 ];
+			var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
+			
+			if ( is_iterable( _node ) ) {
+				var _iter = __iter_dict( _node, function( ) {
+					var _result = cache;
+					cache = undefined;
+					return _result;
+				}, function( _key ) {
+					return  node.get( _key );
+				}, function() {
+					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+						cache = data.next();
+						if ( is_undefined( node.get( cache ) ) ) {
+							cache = undefined;
+						}
+					}
+					
+					return is_undefined( cache );
+				} );
+						
+				_iter.node = node;
+				_iter.cache = undefined;
+				
+				return _data ? _iter : _iter.names();
+			}
+			
+			var _result = node.get( _node )
+			return _data ? _result : ( is_undefined( _result ) ? undefined : _node );
+		} else {
+			return node.keys();
+		}
+	}
+	
 	/// @method get_edge
 	/// @memberof Graph
 	///
