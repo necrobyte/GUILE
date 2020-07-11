@@ -116,6 +116,9 @@ function Graph( ) constructor {
 			_weight = undefined;
 		} else if ( argument_count > 3 ){
 			_attr = argument[ 3 ];
+			if ( is_struct( _attr ) ) {
+				_attr = iter( _attr ).to_array();	
+			}
 		}
 		
 		var _iter = iter( _iterable );
@@ -172,6 +175,10 @@ function Graph( ) constructor {
 	static add_nodes_from = function ( _iterable ) {
 		var _iter = iter( _iterable );
 		var _attr = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+		
+		if ( is_struct( _attr ) ) {
+			_attr = iter( _attr ).to_array();	
+		}
 		
 		while ( !_iter.is_done() ) {
 			add_node( _iter.next(), _attr );	
