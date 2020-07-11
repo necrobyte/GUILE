@@ -356,12 +356,69 @@ function Graph( ) constructor {
 	/// @desc Returns edge atribute Struct associated with edge between a and b. If edge does not exist, return undefined.
 	///
 	/// @arg {Any} a
-	/// @arg {Any} a
+	/// @arg {Any} b
 	///
 	/// @return {Bool}
 	
 	static get_edge = function( a, b ) {
 		return adj.get( a, b );
+	}
+	
+	/// @method get_edges_from
+	/// @memberof Graph
+	///
+	/// @desc Returns edges 
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Bool} data
+	///
+	/// @return {Bool}
+	
+	static get_edges_from = function( ) {
+		if ( argument_count > 0 ) {
+			var _edge = argument[ 0 ];
+			var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
+			
+			if ( is_iterable( _edge ) ) {
+				var _iter = new Iterator( iter( _edge ), function( ) {
+					var _result = [ cache, cacheb ];
+					if ( edge ) {
+						_result[ 2 ] = adj.get( cache, cacheb );	
+					}
+					cache = undefined;
+					return _result;
+				}, function() {
+					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+						cache = data.next();
+						
+						if ( is_array( cache ) ) {
+							cacheb = cache[ 1 ];
+							cache = cache[ 0 ];
+						} else {
+							cacheb = data.is_done() ? undefined : data.next();
+						}
+						
+						if ( is_undefined( adj.get( cache, cacheb ) ) ) {
+							cache = undefined;
+						}
+					}
+					
+					return is_undefined( cache );
+				} );
+				
+				_iter.adj = adj;
+				_iter.cache = undefined;
+				_iter.cacheb = undefined;
+				_iter.edge = _data;
+				
+				return _iter;
+			}
+			
+			var _result = adj.get( _edge, _data );
+			return ( ( argument_count > 2 ) ? argument[ 2 ] : false ) ? [ _edge, _data, _result ] : ( is_undefined( _result ) ? undefined : [ _edge, _data ] );
+		} else {
+			return edges();
+		}
 	}
 	
 	/// @method has_edge

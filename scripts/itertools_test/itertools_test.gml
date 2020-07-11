@@ -333,7 +333,7 @@ assert( g.has_edge( 1, 2 ), "has edge 1" );
 assert( !g.has_edge( 0, 3 ), "has edge 2" );
 
 assert( is_undefined( g.get_edge( 0, 3 ) ), "get edge 1" );
-assert_equals( 1, g.get_edge( 1, 2 ).weight, "get edge 2" ); 
+assert_equals( 1, g.get_edge( 1, 2 ).weight, "get edge 2" );
 
 assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
@@ -348,6 +348,11 @@ assert_equals( [ 0, 1, 2 ], g.get_from().sorted().to_array(), "get from 1" );
 assert_equals( 1, g.get_from( 1 ), "get from 2" );
 assert( is_undefined( g.get_from( 3 ) ), "get from 3" );
 assert_equals( [ 2 ], g.get_from( _irange( 2, 4 ) ).to_array(), "get from 4" );
+
+assert_array_equals( _permutations( "012", 2 ).to_array(), g.get_edges_from().sorted( string ).to_array(), "get edges from 1" );
+assert_equals( [ 1, 2 ], g.get_edges_from( 1, 2 ), "get edges from 2" );
+assert( is_undefined( g.get_edges_from( 1, 3 ) ), "get edges from 3" );
+assert_array_equals( _combinations( "012", 2 ).to_array(), g.get_edges_from( _combinations( "0123", 2 ) ).to_array(), "get edges from 4" );
 
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
