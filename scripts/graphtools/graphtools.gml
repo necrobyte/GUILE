@@ -361,8 +361,7 @@ function Graph( ) constructor {
 	/// @return {Bool}
 	
 	static get_edge = function( a, b ) {
-		var _adj = adj.get( a );
-		return is_undefined( _adj ) ? undefined : _adj.get( b );
+		return adj.get( a, b );
 	}
 	
 	/// @method has_edge

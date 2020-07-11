@@ -332,6 +332,9 @@ assert_equals( [ 0, 1, 2 ], g.nodes().sorted().to_array(), "nodes" );
 assert( g.has_edge( 1, 2 ), "has edge 1" );
 assert( !g.has_edge( 0, 3 ), "has edge 2" );
 
+assert( is_undefined( g.get_edge( 0, 3 ) ), "get edge 1" );
+assert_equals( 1, g.get_edge( 1, 2 ).weight, "get edge 2" ); 
+
 assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
 //log( g.adjacency().to_struct() );
