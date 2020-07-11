@@ -171,7 +171,7 @@ function Graph( ) constructor {
 	///
 	/// @arg {Iterable} iterable
 	/// @arg {Array} [attr] [key, value] pairs
-		
+	
 	static add_nodes_from = function ( _iterable ) {
 		var _iter = iter( _iterable );
 		var _attr = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
@@ -181,7 +181,11 @@ function Graph( ) constructor {
 		}
 		
 		while ( !_iter.is_done() ) {
-			add_node( _iter.next(), _attr );	
+			var _node = _iter.next();
+			if ( is_array( _node ) ) {
+				add_node( _node[ 0 ], _node[ 1 ] );
+			}
+			add_node( _node, _attr );
 		}
 	}
 	
