@@ -355,7 +355,7 @@ function Graph( ) constructor {
 			var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
 			
 			if ( is_iterable( _node ) ) {
-				var _iter = __iter_dict( _node, function( ) {
+				var _iter = __iter_dict( iter( _node ), function( ) {
 					var _result = cache;
 					cache = undefined;
 					return _result;
@@ -673,6 +673,26 @@ function Graph( ) constructor {
 	
 	static size = number_of_nodes
 	
+	/// @method subgraph
+	/// @memberof Graph
+	///
+	/// @desc Returns subgraph induced on nodes. The induced subgraph of the graph contains the nodes in interable and the edges between those nodes.
+	///
+	/// @arg {Iterable} nodes
+	/// @arg {Bool} [copy=false]
+	///
+	/// @return Graph
+	
+	static subgraph = function( _nodes ) {
+		var _result = directed ? new GraphDirected() : new Graph();
+		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		_result.update_nodes( get_from( _nodes, true ), _deep );
+		_result.update_edges( get_edges_from( directed ? _result.nodes().combinations( 2 ) : _result.nodes().permutations( 2 ), true ), _deep );
+		
+		return _result;
+	}
+	
 	/// @method to_directed
 	/// @memberof Graph
 	///
@@ -764,7 +784,7 @@ function Graph( ) constructor {
 				return [ _node[ 0 ], iter( _node[ 1 ] ).to_struct() ];
 			} ) );
 		} else {
-			add_nodes_from( _nodes );	
+			add_nodes_from( _nodes );
 		}
 	}
 }

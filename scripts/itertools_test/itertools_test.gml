@@ -375,8 +375,24 @@ assert_equals( 3, g.get_edge( 0, 1 ).weight, "shallow update 2" );
 g.update( g1, true );
 g.get( 0 ).text = "bar";
 assert_equals( "foo", g1.get( 0 ).text, "deep update 1" );
-g1.get_edge( 1, 2 ).weight = 2;
+g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 3, g.get_edge( 0, 1 ).weight, "deep update 2" );
+
+g1 = g.subgraph( [ 0, 1 ] );
+assert_equals( [ 0, 1 ], g1.nodes().sorted().to_array(), "subgraph shallow 1" );
+assert_equals( 3, g1.get_edge( 0, 1 ).weight, "subgraph shallow 2" );
+g.get( 0 ).text = "herp";
+assert_equals( "herp", g1.get( 0 ).text, "subgraph shallow 3" );
+g1.get_edge( 0, 1 ).weight = 2;
+assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph shallow 4" );
+
+g1 = g.subgraph( [ 0, 2 ], true );
+assert_equals( [ 0, 2 ], g1.nodes().sorted().to_array(), "subgraph deep 1" );
+assert_equals( 1, g1.get_edge( 0, 2 ).weight, "subgraph deep 2" );
+g.get( 0 ).text = "derp";
+assert_equals( "herp", g1.get( 0 ).text, "subgraph deep 3" );
+g1.get_edge( 0, 2 ).weight = 2;
+assert_equals( 1, g.get_edge( 0, 2 ).weight, "subgraph deep 4" );
 
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
