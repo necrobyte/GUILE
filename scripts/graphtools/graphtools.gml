@@ -55,7 +55,7 @@ function Graph( ) constructor {
 	/// @arg {Any} a
 	/// @arg {Any} b
 	/// @arg {Number} [weight=1]
-	/// @arg {Array} [attr]
+	/// @arg {Array} [attr] If attr is Struct, replaces current edge data with attr.
 	
 	static add_edge = function( a, b ) {
 		var _weight = ( argument_count > 2 ) ? argument[ 2 ] : undefined;
@@ -79,17 +79,16 @@ function Graph( ) constructor {
 		var _adj = adj.get( a );
 		var _pred = directed ? pred.get( b ) : adj.get( b );
 		
-		var _edge = _adj.get( b );
+		var _edge = is_struct( _attr ) ? _attr : _adj.get( b );
 		
 		if ( is_undefined( _edge ) ) {
-			_edge = is_struct( _attr ) ? _attr : { };
-			if ( !variable_struct_exists( _edge, "weight" ) ) {
-				_edge.weight = is_undefined( _weight ) ? 1 : _weight;
-			}
-		} else if ( !is_undefined( _weight ) ) {
-			_edge.weight = _weight;
+			_edge = { };
 		}
 		
+		if ( !variable_struct_exists( _edge, "weight" ) ) {
+			_edge.weight = is_undefined( _weight ) ? 1 : _weight;
+		}
+				
 		var n = is_array( _attr ) ? array_length( _attr ) : 0;
 		for( var i = 0; i < n; i++ ) {
 			variable_struct_set( _edge, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
@@ -138,7 +137,7 @@ function Graph( ) constructor {
 	/// @desc add node. If node exists, update attributes.
 	///
 	/// @arg {Any} node
-	/// @arg {Array} [attr] [key, value] pairs
+	/// @arg {Array} [attr] [key, value] pairs. If attr is Struct, replaces current node data with attr.
 	///
 	/// @example
 	/// g.add_node( 1, { text : "hello" } );
@@ -147,16 +146,23 @@ function Graph( ) constructor {
 	static add_node = function( _node ) {
 		var _attr = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
 		
-		var _new_node = node.get( _node );
-		
-		if ( is_undefined( _new_node ) ) {
-			_new_node = is_struct( _attr ) ? _attr : { };
+		var _old_node = node.get( _node );
+		var _new_node = is_struct( _attr ) ? _attr : undefined;
+				
+		if ( is_undefined( _old_node ) ) {
+			_new_node = is_undefined( _new_node ) ? { } : _new_node;
 			
 			node.add( _node, _new_node );
 			adj.add( _node, new Map() );
 			
 			if ( directed ) {
 				pred.add( _node, new Map() );
+			}
+		} else {
+			if ( is_undefined( _new_node ) ) {
+				_new_node = _old_node;
+			} else {
+				node.set( _node, _new_node );	
 			}
 		}
 		
@@ -245,25 +251,8 @@ function Graph( ) constructor {
 		var _result = directed ? new GraphDirected() : new Graph();
 		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
 		
-		var _nodes = nodes( true );
-		
-		if ( _deep ) {
-			_result.add_nodes_from( _nodes.map( function( _node ) {
-				return [ _node[ 0 ], iter( _node[ 1 ] ).to_struct() ];
-			} ) );
-		} else {
-			_result.add_nodes_from( _nodes );	
-		}
-		
-		var _edges = edges( true );
-		
-		if ( _deep ) {
-			_result.add_edges_from( _edges.map( function( _edge ) {
-				return [ _edge[ 0 ], _edge[ 1 ], iter( _edge[ 2 ] ).to_struct() ];
-			} ) );
-		} else {
-			_result.add_edges_from( _edges );
-		}
+		_result.update_nodes( nodes( true ), _deep );
+		_result.update_edges( edges( true ), _deep );
 		
 		return _result;
 	}
@@ -687,6 +676,63 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static size = number_of_nodes
+	
+	/// @method update
+	/// @memberof Graph
+	///
+	/// @desc Update graph nodes and edges from another graph
+	///
+	/// @arg {Graph} nodes
+	/// @arg {Bool} [copy=false]
+	
+	static update = function( _graph ) {
+		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		update_nodes( _graph.nodes( true ), _deep );		
+		update_edges( _graph.edges( true ), _deep );
+	}
+	
+	/// @method update_edges
+	/// @memberof Graph
+	///
+	/// @desc Update the graph edges from iterable.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Bool} copy=false
+	
+	static update_edges = function( _iterable ) {
+		var _edges = iter( _iterable );
+		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		if ( _deep ) {
+			add_edges_from( _edges.map( function( _edge ) {
+				return [ _edge[ 0 ], _edge[ 1 ], iter( _edge[ 2 ] ).to_struct() ];
+			} ) );
+		} else {
+			add_edges_from( _edges );
+		}
+	}
+	
+	/// @method update_nodes
+	/// @memberof Graph
+	///
+	/// @desc Update the graph nodes from iterable.
+	///
+	/// @arg {Iterable} iterable
+	/// @arg {Bool} copy=false
+	
+	static update_nodes = function( _iterable ) {
+		var _nodes = iter( _iterable );
+		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		if ( _deep ) {
+			add_nodes_from( _nodes.map( function( _node ) {
+				return [ _node[ 0 ], iter( _node[ 1 ] ).to_struct() ];
+			} ) );
+		} else {
+			add_nodes_from( _nodes );	
+		}
+	}
 }
 
 /// @func GraphDirected( )

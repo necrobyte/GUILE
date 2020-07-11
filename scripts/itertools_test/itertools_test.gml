@@ -366,6 +366,17 @@ assert_equals( "hello", g1.get( 0 ).text, "deep copy 1" );
 g.get_edge( 0, 1 ).weight = 1;
 assert_equals( 2, g1.get_edge( 0, 1 ).weight, "deep copy 2" );
 
+g.update( g1 );
+g.get( 0 ).text = "foo";
+assert_equals( "foo", g1.get( 0 ).text, "shallow update 1" );
+g1.get_edge( 0, 1 ).weight = 3;
+assert_equals( 3, g.get_edge( 0, 1 ).weight, "shallow update 2" );
+
+g.update( g1, true );
+g.get( 0 ).text = "bar";
+assert_equals( "foo", g1.get( 0 ).text, "deep update 1" );
+g1.get_edge( 1, 2 ).weight = 2;
+assert_equals( 3, g.get_edge( 0, 1 ).weight, "deep update 2" );
 
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
