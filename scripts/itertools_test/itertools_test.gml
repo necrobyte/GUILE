@@ -356,8 +356,13 @@ assert_array_equals( _combinations( "012", 2 ).to_array(), g.get_edges_from( _co
 
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
+g.remove_nodes_from( "hello" );
+assert_equals( [ 0, 1, 2 ], g.nodes().sorted().to_array(), "remove nodes from 1" );
+g.remove_edges_from( [ 1, 2 ] );
+assert_array_equals( [ [ 0, 1 ], [ 0, 2 ], [ 1, 0 ], [ 2, 0 ] ], g.edges().sorted( string ).to_array(), "remove edges from 1" );
+g.remove_edges_from( _combinations( "012", 2 ) );
+assert_equals( [ ], g.edges().to_array(),  "remove edges from 2" );
 
-g.clear();
 g.add_edges_from( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ] ] );
 
 assert_equals( 4, g.degree( ), "degree 1" );

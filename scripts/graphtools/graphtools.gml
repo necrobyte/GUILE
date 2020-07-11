@@ -519,13 +519,20 @@ function Graph( ) constructor {
 	/// @arg {Any} a
 	/// @arg {Any} b
 	
-	static remove_edge = function( a, b ) {
-		if ( is_undefined( node.get( a ) ) || is_undefined( nodes.get( b ) ) ) {
-			exit;	
+	static remove_edge = function( a ) {
+		var b = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
+		
+		if ( is_array( a ) ) {
+			b = a[ 1 ];
+			a = a[ 0 ];
+		}
+		
+		if ( is_undefined( adj.get( a, b ) ) ) {
+			exit;
 		}
 		
 		var _adj = adj.get( a );
-		var _pred = directed ? pred.get( b ) : adj.get( b );
+		var _pred = pred.get( b );
 			
 		var _edge = _adj.get( b );
 		
@@ -537,6 +544,31 @@ function Graph( ) constructor {
 		_pred.remove( a );
 		
 		delete _edge;
+	}
+	
+	/// @method remove_edges_from
+	/// @memberof Graph
+	///
+	/// @desc Remove nodes a from graph.
+	///
+	/// @arg {Iterable} edges
+	
+	static remove_edges_from = function( ) {
+		if ( argument_count > 0 ) {
+			var _edges = iter( argument[ 0 ] );
+			while( !_edges.is_done() ) {
+				var _edge = _edges.next();
+				if is_array( _edge ) {
+					remove_edge( _edge );	
+				} else {
+					if ( !_edges.is_done() ) {
+						remove_edge( _edge, _edges.next() );	
+					}
+				}
+			}
+		} else {
+			clear_edges();
+		}
 	}
 	
 	/// @method remove_node
@@ -554,30 +586,40 @@ function Graph( ) constructor {
 		var _adj = adj.get( _node );
 		var _adj_edges = iter( _adj );
 				
-		if ( directed ) {
-			while( !_adj_edges.is_done() ){
-				var _edge = _adj_edges.next();
-				delete _edge[ 1 ];
-				_adj.remove( _edge[ 0 ] );
-			}
+		while( !_adj_edges.is_done() ){
+			var _edge = _adj_edges.next();
+			delete _edge[ 1 ];
+			_adj.remove( _edge[ 0 ] );
+		}
 			
-			var _adj = pred.get( _node );
+		var _adj = pred.get( _node );
+		_adj_edges = iter( _adj );
 			
-			while( !_adj_edges.is_done() ){
-				var _edge = _adj_edges.next();
-				delete _edge[ 1 ];
-				_adj.remove( _edge[ 0 ] );
+		while( !_adj_edges.is_done() ){
+			var _edge = _adj_edges.next();
+			delete _edge[ 1 ];
+			_adj.remove( _edge[ 0 ] );
+		}
+				
+		node.remove( _node );
+	}
+	
+	/// @method remove_nodes_from
+	/// @memberof Graph
+	///
+	/// @desc Remove nodes a from graph.
+	///
+	/// @arg {Iterable} nodes
+	
+	static remove_nodes_from = function( ) {
+		if ( argument_count > 0 ) {
+			var _nodes = iter( argument[ 0 ] );
+			while( !_nodes.is_done() ) {
+				remove_node( _nodes.next() );
 			}
 		} else {
-			while( !_adj_edges.is_done() ){
-				var _edge = _adj_edges.next();
-				delete _edge[ 1 ];
-				_adj.remove( _edge[ 0 ] );
-				adj.get( _edge[ 0 ] ).remove( _node );
-			}
+			clear();
 		}
-		
-		node.remove( _node );
 	}
 	
 	/// @method size
