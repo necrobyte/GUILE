@@ -500,6 +500,17 @@ function Graph( ) constructor {
 		return _data ? node.items() : node.keys();
 	}
 	
+	/// @method number_of_edges
+	/// @memberof Graph
+	///
+	/// @desc Returns the number of edges in the graph.
+	///
+	/// @return {Number}
+	
+	static number_of_edges = function() {
+		return adj.size;
+	}
+	
 	/// @method number_of_nodes
 	/// @memberof Graph
 	///
