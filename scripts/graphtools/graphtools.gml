@@ -241,20 +241,16 @@ function Graph( ) constructor {
 	/// @method copy
 	/// @memberof Graph
 	///
-	/// @desc makes copy of the graph
+	/// @desc Returns copy of the graph
 	///
 	/// @arg {Bool} [deep=false] If false, node and edge data is referenced, not copied.
 	///
 	/// @return Graph
 	
 	static copy = function() {
-		var _result = directed ? new GraphDirected() : new Graph();
 		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
 		
-		_result.update_nodes( nodes( true ), _deep );
-		_result.update_edges( edges( true ), _deep );
-		
-		return _result;
+		return directed ? to_directed( _deep ) : to_undirected( _deep );
 	}
 	
 	/// @method degree
@@ -676,6 +672,44 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static size = number_of_nodes
+	
+	/// @method to_directed
+	/// @memberof Graph
+	///
+	/// @desc Returns directed copy of the graph
+	///
+	/// @arg {Bool} [deep=false] If false, node and edge data is referenced, not copied.
+	///
+	/// @return Graph
+	
+	static to_directed = function() {
+		var _result = new GraphDirected();
+		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
+		
+		_result.update_nodes( nodes( true ), _deep );
+		_result.update_edges( edges( true ), _deep );
+		
+		return _result;
+	}
+	
+	/// @method to_undirected
+	/// @memberof Graph
+	///
+	/// @desc Returns undirected copy of the graph
+	///
+	/// @arg {Bool} [deep=false] If false, node and edge data is referenced, not copied.
+	///
+	/// @return Graph
+	
+	static to_undirected = function() {
+		var _result = new Graph();
+		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
+		
+		_result.update_nodes( nodes( true ), _deep );
+		_result.update_edges( edges( true ), _deep );
+		
+		return _result;
+	}
 	
 	/// @method update
 	/// @memberof Graph
