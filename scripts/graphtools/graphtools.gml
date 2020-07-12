@@ -15,7 +15,7 @@ function Graph( ) constructor {
 	/// @memberof Graph
 	///
 	/// @desc If true, Graph is directed
-	directed =  false;
+	directed = ( argument_count > 0 ) ? argument[ 0 ] : false;
 	
 	/// @member {Map} node
 	/// @memberof Graph
@@ -77,7 +77,7 @@ function Graph( ) constructor {
 		}
 		
 		var _adj = adj.get( a );
-		var _pred = directed ? pred.get( b ) : adj.get( b );
+		var _pred = pred.get( b );
 		
 		var _edge = is_struct( _attr ) ? _attr : _adj.get( b );
 		
@@ -236,6 +236,9 @@ function Graph( ) constructor {
 	
 	static clear_edges = function() {
 		adj.clear();
+		if ( directed ) {
+			pred.clear();	
+		}
 	}
 	
 	/// @method copy
@@ -727,7 +730,7 @@ function Graph( ) constructor {
 	/// @return Graph
 	
 	static subgraph = function( _nodes ) {
-		var _result = directed ? new GraphDirected() : new Graph();
+		var _result = new Graph( directed );
 		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
 		_result.update_nodes( get_from( _nodes, true ), _deep );
@@ -747,7 +750,7 @@ function Graph( ) constructor {
 	/// @return Graph
 	
 	static subgraph_edges = function( _edges ) {
-		var _result = directed ? new GraphDirected() : new Graph();
+		var _result = new Graph( directed );
 		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
 		_result.update_edges( get_edges_from( _edges, true ), _deep );
@@ -766,7 +769,7 @@ function Graph( ) constructor {
 	/// @return Graph
 	
 	static to_directed = function() {
-		var _result = new GraphDirected();
+		var _result = new Graph( true );
 		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
 		
 		_result.update_nodes( nodes( true ), _deep );
@@ -849,25 +852,6 @@ function Graph( ) constructor {
 		} else {
 			add_nodes_from( _nodes );
 		}
-	}
-}
-
-/// @func GraphDirected( )
-/// @name GraphDirected
-/// @class
-/// @extends Graph
-///
-/// @classdesc Directed graph
-///
-/// @return {GraphDirected} - Graph struct
-
-function GraphDirected( ) constructor {
-	directed =  true;
-	pred = new Map( );
-	
-	static clear_edges = function() {
-		adj.clear();
-		pred.clear();
 	}
 }
 
