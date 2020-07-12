@@ -840,6 +840,26 @@ function Graph( ) constructor {
 		}
 	}
 	
+	/// @method reverse
+	/// @memberof Graph
+	///
+	/// @desc Returns reversed copy of the graph
+	///
+	/// @arg {Bool} [deep=false] If false, node and edge data is referenced, not copied.
+	///
+	/// @return Graph
+	
+	static reverse = function() {
+		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
+		var _result = copy( _deep );
+		
+		var t =	_result.adj;
+		_result.adj = _result.pred;
+		_result.pred = t;
+		
+		return _result;
+	}
+	
 	/// @method size
 	/// @memberof Graph
 	///
