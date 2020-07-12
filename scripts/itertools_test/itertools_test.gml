@@ -326,7 +326,7 @@ assert( g.has_node( 1 ), "has node 1" );
 assert( !g.has_node( 4 ), "has node 2" );
 assert( !g.has_node( "b" ), "has node 3" );
 
-assert_equals( 3, g.size(), "size" );
+assert_equals( 3, g.order(), "order" );
 assert_equals( [ 0, 1, 2 ], g.nodes().sorted().to_array(), "nodes" );
 
 assert( g.has_edge( 1, 2 ), "has edge 1" );
@@ -336,9 +336,6 @@ assert( is_undefined( g.get_edge( 0, 3 ) ), "get edge 1" );
 assert_equals( 1, g.get_edge( 1, 2 ).weight, "get edge 2" );
 
 assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
-
-//log( g.adjacency().to_struct() );
-//log( g );
 
 assert_equals( 2, g.degree( 1 ), "degree" );
 
@@ -358,6 +355,7 @@ var g1 = g.copy();
 g.get( 0 ).text = "hello";
 assert_equals( "hello", g1.get( 0 ).text, "shallow copy 1" );
 g1.get_edge( 0, 1 ).weight = 2;
+assert_equals( 4, g.size(), "size 1" );
 assert_equals( 2, g.get_edge( 0, 1 ).weight, "shallow copy 2" );
 
 g1 = g.copy( true );
@@ -370,6 +368,7 @@ g.update( g1 );
 g.get( 0 ).text = "foo";
 assert_equals( "foo", g1.get( 0 ).text, "shallow update 1" );
 g1.get_edge( 0, 1 ).weight = 3;
+assert_equals( 5, g.size(), "size 2" );
 assert_equals( 3, g.get_edge( 0, 1 ).weight, "shallow update 2" );
 
 g.update( g1, true );
@@ -379,6 +378,7 @@ g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 3, g.get_edge( 0, 1 ).weight, "deep update 2" );
 
 g1 = g.subgraph( [ 0, 1 ] );
+assert_equals( 3, g1.size(), "size 3" );
 assert( g1.is_subgraph( g ), "is subgraph 1" );
 assert( !g.is_subgraph( g1 ), "is subgraph 2" );
 assert_equals( [ 0, 1 ], g1.nodes().sorted().to_array(), "subgraph shallow 1" );

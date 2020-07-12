@@ -588,6 +588,15 @@ function Graph( ) constructor {
 		return node.size;
 	}
 	
+	/// @method order
+	/// @memberof Graph
+	///
+	/// @desc Returns the number of nodes in the graph.
+	///
+	/// @return {Number}
+	
+	static order = number_of_nodes
+	
 	/// @method remove_edge
 	/// @memberof Graph
 	///
@@ -698,11 +707,14 @@ function Graph( ) constructor {
 	/// @method size
 	/// @memberof Graph
 	///
-	/// @desc Returns the number of nodes in the graph.
+	/// @desc Returns total of all edge weight.
 	///
 	/// @return {Number}
 	
-	static size = number_of_nodes
+	static size = function() {
+		var _result =  edges( true ).reduce( function( a, e ) { return a + e[ 2 ].weight; }, 0 );
+		return directed ? _result : _result / 2;
+	}
 	
 	/// @method subgraph
 	/// @memberof Graph
