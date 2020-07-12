@@ -976,7 +976,7 @@ function array_qsort( a ) {
 			if ( ( _right - _left ) == 1 ) {
 				if ( _reverse ? _keys[ _left ] < _keys[ _right ] : _keys[ _left ] > _keys[ _right ] ) {
 					array_swap( a, _left, _right );
-					if ( is_array( _key ) ) {
+					if ( _keys != a ) {
 						array_swap( _keys, _left, _right );
 					}
 				}
@@ -1007,7 +1007,7 @@ function array_qsort( a ) {
 				if ( i <= j ) {
 					if( i != j ) {
 						array_swap( a, i, j );
-						if ( _key ) {
+						if ( _keys != a ) {
 							array_swap( _keys, i, j );
 						}
 					}
