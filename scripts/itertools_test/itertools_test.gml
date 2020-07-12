@@ -337,7 +337,9 @@ assert_equals( 1, g.get_edge( 1, 2 ).weight, "get edge 2" );
 
 assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
-assert_equals( 2, g.degree( 1 ), "degree" );
+assert_equals( g.in_degree( ), g.out_degree( ), "degree 1" );
+assert_equals( g.in_degree( 1 ), g.out_degree( 1 ), "degree 2" );
+assert_equals( g.in_degree( [ 1, 2 ] ).sorted( string ).to_array(), g.out_degree( [ 1, 2 ] ).sorted( string ).to_array(), "degree 3" );
 
 assert_array_equals( _permutations( "012", 2 ).to_array(), g.edges().sorted( string ).to_array(), "edges" );
 

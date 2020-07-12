@@ -268,9 +268,8 @@ function Graph( ) constructor {
 	static degree = function( ) {
 		if ( argument_count > 0 ) {
 			var _node = argument[ 0 ];
-			
 			if ( is_iterable( _node ) ) {
-				var _iter = __iter_dict( _node, function( ) {
+				var _iter = __iter_dict( iter( _node ), function( ) {
 					var _result = cache;
 					cache = undefined;
 					return _result;
@@ -490,6 +489,55 @@ function Graph( ) constructor {
 		return node.exists( _node );
 	}
 	
+	/// @method in_degree
+	/// @memberof Graph
+	///
+	/// @desc Returns node incoming degree in Graph. If node is iterable, return Iterator of pairs [ node, degree ];
+	///
+	/// @arg {Any} [node]
+	///
+	/// @return {Number}
+	
+	static in_degree = function( ) {
+		if ( argument_count > 0 ) {
+			var _node = argument[ 0 ];
+			
+			if ( is_iterable( _node ) ) {
+				var _iter = __iter_dict( iter( _node ), function( ) {
+					var _result = cache;
+					cache = undefined;
+					return _result;
+				}, function( _key ) {
+					return pred.get( _key ).size;
+				}, function() {
+					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+						cache = data.next();
+						if ( is_undefined( pred.get( cache ) ) ) {
+							cache = undefined;
+						}
+					}
+					
+					return is_undefined( cache );
+				} );
+						
+				_iter.pred = pred;
+				_iter.cache = undefined;
+				
+				return _iter;
+			}
+			
+			var _adj = pred.get( _node );
+			
+			if ( is_undefined( _adj ) ) {
+				throw "The node " + string( _node ) + " is not in the graph.";
+			}
+			
+			return _adj.items().reduce( function( a, e ) { return a + ( e[ 1 ] ).weight; }, 0 );
+		} else {
+			return number_of_nodes();	
+		}
+	}
+	
 	/// @method in_edges
 	/// @memberof Graph
 	///
@@ -619,6 +667,17 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static order = number_of_nodes
+	
+	/// @method out_degree
+	/// @memberof Graph
+	///
+	/// @desc Returns node outgoing degree in Graph. If node is iterable, return Iterator of pairs [ node, degree ];
+	///
+	/// @arg {Any} [node]
+	///
+	/// @return {Number}
+	
+	static out_degree = degree;
 	
 	/// @method out_edges
 	/// @memberof Graph
