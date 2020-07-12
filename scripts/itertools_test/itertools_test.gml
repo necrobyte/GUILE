@@ -432,7 +432,23 @@ assert_equals( g.successors( 1 ).sorted().to_array, g.predecessors( 1 ).sorted()
 
 #region Graph constructors
 
-var g = graph_empty( );
+/*
+	complete
+*/
+
+var g = graph_complete( 9 );
+assert_equals( 9, g.number_of_nodes(), "graph complete 1" );
+assert_equals( 36, g.size(), "graph complete 2" );
+
+g = graph_complete( _irange( 11, 14 ) );
+assert_equals( 3, g.number_of_nodes(), "graph complete 3" );
+assert_equals( [ 11, 12, 13 ], g.nodes().sorted().to_array(), "graph complete 4" );
+
+/*
+	empty
+*/
+
+g = graph_empty( );
 
 assert_equals( 0, g.number_of_nodes(), "graph empty 1" );
 

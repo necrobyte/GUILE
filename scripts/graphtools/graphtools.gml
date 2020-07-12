@@ -1024,6 +1024,35 @@ function Graph( ) constructor {
 
 #region constructors
 
+/// @func graph_complete
+///
+/// @desc returns graph complete graph
+///
+/// @arg {Iterable} [nodes=0] If integer supplied, nodes are taken from Range( n )
+/// @arg {Bool} [directed=false]
+///
+/// @return {Graph}
+///
+/// @example
+/// g = graph_complete( 9 );
+///g.number_of_nodes() --> 9
+///g.size() --> 36
+/// @example
+/// g = graph_complete( _irange( 11, 14 ) );
+///g.number_of_nodes() --> 3
+///g.nodes().sorted() --> 11, 12, 13
+
+function graph_complete( ) {
+	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
+	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
+	
+	var _result = new Graph( _directed );
+	_result.add_edges_from( _directed ? _nodes.combinations( 2 ) : _nodes.permutations( 2 ) );
+	
+	return _result;
+}
+
 /// @func graph_empty
 ///
 /// @desc returns graph with no edges
