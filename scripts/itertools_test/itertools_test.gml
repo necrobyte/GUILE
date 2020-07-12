@@ -429,3 +429,20 @@ assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph edges shallow 3" );
 assert_equals( g.successors( 1 ).sorted().to_array, g.predecessors( 1 ).sorted().to_array, "neighbors 1" );
 
 #endregion
+
+#region Graph constructors
+
+var g = graph_empty( );
+
+assert_equals( 0, g.number_of_nodes(), "graph empty 1" );
+
+g = graph_empty( 10 );
+
+assert_equals( _arange( 10 ), g.nodes().sorted().to_array(), "graph empty 2" );
+assert_equals( 0, g.number_of_edges(), "graph empty 3" );
+
+g = graph_empty( "abc" );
+assert_equals( 3, g.number_of_nodes(), "graph empty 4" );
+assert_equals( "abc", g.nodes().sorted().to_string(), "graph empty 5" );
+
+#endregion

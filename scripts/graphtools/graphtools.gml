@@ -645,7 +645,7 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static number_of_edges = function() {
-		return adj.size;
+		return adj.items().reduce( function( a, e ) { return a + e[ 1 ].size; }, 0 );
 	}
 	
 	/// @method number_of_nodes
@@ -1018,6 +1018,39 @@ function Graph( ) constructor {
 			add_nodes_from( _nodes );
 		}
 	}
+}
+
+#endregion
+
+#region constructors
+
+/// @func graph_empty
+///
+/// @desc returns graph with no edges
+///
+/// @arg {Iterable} [nodes=0] If integer supplied, nodes are taken from Range( n )
+/// @arg {Bool} [directed=false]
+///
+/// @return {Graph}
+///
+/// @example
+/// g = graph_empty( 10 );
+///g.number_of_nodes() --> 10
+///g.number_of_edges() --> 0
+/// @example
+/// g = graph_empty( "abc" );
+///g.number_of_nodes() --> 3
+///g.nodes().sorted() --> "a", "b", "c"
+
+function graph_empty( ) {
+	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
+	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
+	
+	var _result = new Graph( _directed );
+	_result.add_nodes_from( _nodes );
+	
+	return _result;
 }
 
 #endregion
