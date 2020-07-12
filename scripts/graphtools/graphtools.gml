@@ -487,6 +487,37 @@ function Graph( ) constructor {
 		return node.exists( _node );
 	}
 	
+	/// @method is_subgraph
+	/// @memberof Graph
+	///
+	/// @desc Returns true if graph is shallow subgraph of supplied Graph
+	///
+	/// @return {Bool}
+	
+	function is_subgraph( _graph ) {
+		var _nodes = nodes( true );
+		
+		while( !_nodes.is_done( ) ) {
+			var _node = _nodes.next();
+			
+			if ( _node[ 1 ] != _graph.get( _node[ 0 ] ) ) {
+				return false;	
+			}
+		}
+		
+		var _edges = edges( true );
+		
+		while( !_edges.is_done( ) ) {
+			var _edge = _edges.next();
+			
+			if ( _edge[ 2 ] != _graph.get_edge( _edge[ 0 ], _edge[ 1 ] ) ) {
+				return false;	
+			}
+		}
+		
+		return true;
+	}
+		
 	/// @method neighbors
 	/// @memberof Graph
 	///

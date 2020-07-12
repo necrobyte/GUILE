@@ -379,6 +379,8 @@ g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 3, g.get_edge( 0, 1 ).weight, "deep update 2" );
 
 g1 = g.subgraph( [ 0, 1 ] );
+assert( g1.is_subgraph( g ), "is subgraph1 " );
+assert( !g.is_subgraph( g1 ), "is subgraph2 " );
 assert_equals( [ 0, 1 ], g1.nodes().sorted().to_array(), "subgraph shallow 1" );
 assert_equals( 3, g1.get_edge( 0, 1 ).weight, "subgraph shallow 2" );
 g.get( 0 ).text = "herp";
@@ -387,6 +389,7 @@ g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph shallow 4" );
 
 g1 = g.subgraph( [ 0, 2 ], true );
+assert( !g1.is_subgraph( g ), "is subgraph3 " );
 assert_equals( [ 0, 2 ], g1.nodes().sorted().to_array(), "subgraph deep 1" );
 assert_equals( 1, g1.get_edge( 0, 2 ).weight, "subgraph deep 2" );
 g.get( 0 ).text = "derp";
