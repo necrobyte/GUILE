@@ -301,18 +301,18 @@ assert( _all( [ 1, 1, 1 ] ), "all 1" );
 assert_equals( factorial( 22 ), factorial( 20 ) * 21 * 22, "factorial 1" );
 assert_equals( 2, isqrt( 6 ), "isqrt 1" );
 
-var m = new Map();
+var m = new StructMap();
 
-assert_equals( 0, m.size, "Map 1" );
+assert_equals( 0, m.size, "StructMap 1" );
 m.add( 1, 1 );
 m.set( 2, 2 );
-assert_equals( 2, m.size, "Map 2" );
-assert_equals( [ 1, 2 ], m.keys().sorted().to_array(), "Map keys" );
+assert_equals( 2, m.size, "StructMap 2" );
+assert_equals( [ 1, 2 ], m.keys().sorted().to_array(), "StructMap keys" );
 m.remove( 1 );
 m.set( 2, 3 );
-assert_equals( 1, m.size, "Map 3" );
+assert_equals( 1, m.size, "StructMap 3" );
 m.set( 2, undefined );
-assert_equals( 0, m.size, "Map 4" );
+assert_equals( 0, m.size, "StructMap 4" );
 
 #endregion
 

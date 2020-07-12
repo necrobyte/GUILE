@@ -17,22 +17,22 @@ function Graph( ) constructor {
 	/// @desc If true, Graph is directed
 	directed = ( argument_count > 0 ) ? argument[ 0 ] : false;
 	
-	/// @member {Map} node
+	/// @member {StructMap} node
 	/// @memberof Graph
 	///
-	/// @desc Map holding all nodes
-	node = new Map();
+	/// @desc StructMap holding all nodes
+	node = new StructMap();
 	
-	/// @member {Map} adj
+	/// @member {StructMap} adj
 	/// @memberof Graph
 	///
-	/// @desc Map holding all outgoing node-connection information
-	adj = new Map();
+	/// @desc StructMap holding all outgoing node-connection information
+	adj = new StructMap();
 	
-	/// @member {Map} pred
+	/// @member {StructMap} pred
 	/// @memberof Graph
 	///
-	/// @desc Map holding all incoming node-connection information.
+	/// @desc StructMap holding all incoming node-connection information.
 	pred = adj;
 	
 	/*
@@ -153,10 +153,10 @@ function Graph( ) constructor {
 			_new_node = is_undefined( _new_node ) ? { } : _new_node;
 			
 			node.add( _node, _new_node );
-			adj.add( _node, new Map() );
+			adj.add( _node, new StructMap() );
 			
 			if ( directed ) {
-				pred.add( _node, new Map() );
+				pred.add( _node, new StructMap() );
 			}
 		} else {
 			if ( is_undefined( _new_node ) ) {
