@@ -724,6 +724,26 @@ function Graph( ) constructor {
 		return _result;
 	}
 	
+	/// @method subgraph_edges
+	/// @memberof Graph
+	///
+	/// @desc Returns subgraph induced on edges. The induced subgraph of the graph contains the edges in interable and the edges between those nodes.
+	///
+	/// @arg {Iterable} edges
+	/// @arg {Bool} [copy=false]
+	///
+	/// @return Graph
+	
+	static subgraph_edges = function( _edges ) {
+		var _result = directed ? new GraphDirected() : new Graph();
+		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		_result.update_edges( get_edges_from( _edges, true ), _deep );
+		_result.update_nodes( get_from( _result.nodes(), true ), _deep )
+		
+		return _result;
+	}
+	
 	/// @method to_directed
 	/// @memberof Graph
 	///

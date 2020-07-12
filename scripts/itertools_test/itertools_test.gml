@@ -379,8 +379,8 @@ g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 3, g.get_edge( 0, 1 ).weight, "deep update 2" );
 
 g1 = g.subgraph( [ 0, 1 ] );
-assert( g1.is_subgraph( g ), "is subgraph1 " );
-assert( !g.is_subgraph( g1 ), "is subgraph2 " );
+assert( g1.is_subgraph( g ), "is subgraph 1" );
+assert( !g.is_subgraph( g1 ), "is subgraph 2" );
 assert_equals( [ 0, 1 ], g1.nodes().sorted().to_array(), "subgraph shallow 1" );
 assert_equals( 3, g1.get_edge( 0, 1 ).weight, "subgraph shallow 2" );
 g.get( 0 ).text = "herp";
@@ -389,7 +389,7 @@ g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph shallow 4" );
 
 g1 = g.subgraph( [ 0, 2 ], true );
-assert( !g1.is_subgraph( g ), "is subgraph3 " );
+assert( !g1.is_subgraph( g ), "is subgraph 3 " );
 assert_equals( [ 0, 2 ], g1.nodes().sorted().to_array(), "subgraph deep 1" );
 assert_equals( 1, g1.get_edge( 0, 2 ).weight, "subgraph deep 2" );
 g.get( 0 ).text = "derp";
@@ -411,5 +411,13 @@ g.add_edges_from( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ] ] );
 assert_equals( 4, g.degree( ), "degree 1" );
 assert_equals( 3, g.degree( 1 ), "degree 2" );
 assert_equals( [ [ 0, 1 ],[ 1, 3 ],[ 2, 1 ],[ 3, 1 ] ], g.degree( _irange( 5 ) ).sorted( string ).to_array(), "degree 3" );
+
+g1 = g.subgraph_edges( [ [ 0, 1 ],[ 1, 3 ] ] );
+assert( g1.is_subgraph( g ), "is subgraph 4" );
+assert_equals( [ 0, 1, 3 ], g1.nodes().sorted().to_array(), "subgraph edges shallow 1" );
+g.get( 0 ).text = "cat";
+assert_equals( "cat", g1.get( 0 ).text, "subgraph edges shallow 2" );
+g1.get_edge( 0, 1 ).weight = 2;
+assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph edges shallow 3" );
 
 #endregion
