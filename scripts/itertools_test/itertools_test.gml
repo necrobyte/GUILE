@@ -424,4 +424,6 @@ assert_equals( "cat", g1.get( 0 ).text, "subgraph edges shallow 2" );
 g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph edges shallow 3" );
 
+assert_equals( g.successors( 1 ).sorted().to_array, g.predecessors( 1 ).sorted().to_array, "neighbors 1" );
+
 #endregion

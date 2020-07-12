@@ -551,9 +551,11 @@ function Graph( ) constructor {
 	
 	static neighbors = function( _node ) {
 		var _adj = adj.get( _node );
+		
 		if ( is_undefined( _adj ) ) {
 			throw "The node " + string( _node ) + " is not in the graph.";
 		}
+		
 		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
 		if ( _data ) {
@@ -564,9 +566,9 @@ function Graph( ) constructor {
 			}, function() {
 				return data.is_done();
 			} );
-	
+			
 			_iter.node = node;
-		
+			
 			return _iter;
 		}
 		
@@ -634,6 +636,42 @@ function Graph( ) constructor {
 		return get_edges_from( _chain_from_iterable( iter( get_from( _nodes ) ).map( function( _node ) {
 			return _zip( _repeat( _node ), adj.get( _node ).keys() );
 		} ) ), _data );
+	}
+	
+	/// @method predecessors
+	/// @memberof Graph
+	///
+	/// @desc Returns an iterator over all predecessors of node.
+	///
+	/// @arg {Any} node
+	/// @arg {Bool} [data=false] If false only keys would be returned.
+	///
+	/// @return {Iterator}
+	
+	static predecessors = function( _node ) {
+		var _adj = pred.get( _node );
+		
+		if ( is_undefined( _adj ) ) {
+			throw "The node " + string( _node ) + " is not in the graph.";
+		}
+		
+		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		if ( _data ) {
+			var _iter = __iter_dict( _adj.keys(), function() {
+				return data.next();
+			}, function( _key ) {
+				return node.get( _key );
+			}, function() {
+				return data.is_done();
+			} );
+			
+			_iter.node = node;
+			
+			return _iter;
+		}
+		
+		return _adj.keys();
 	}
 	
 	/// @method remove_edge
@@ -794,6 +832,18 @@ function Graph( ) constructor {
 		
 		return _result;
 	}
+	
+	/// @method successors
+	/// @memberof Graph
+	///
+	/// @desc Returns an iterator over all successors of node.
+	///
+	/// @arg {Any} node
+	/// @arg {Bool} [data=false] If false only keys would be returned.
+	///
+	/// @return {Iterator}
+	
+	static successors = neighbors;
 	
 	/// @method to_directed
 	/// @memberof Graph
