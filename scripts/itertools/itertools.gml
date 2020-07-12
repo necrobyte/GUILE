@@ -2436,7 +2436,7 @@ function _zip() {
 	}, function() {
 		for ( var i = 0; i < size; i++ ) {
 			if ( data[ i ].is_done() ) {
-				return true;	
+				return true;
 			}
 		}
 		return ( size == 0 );

@@ -407,6 +407,10 @@ g.remove_edges_from( _combinations( "012", 2 ) );
 assert_equals( [ ], g.edges().to_array(),  "remove edges from 2" );
 
 g.add_edges_from( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ] ] );
+assert_array_equals( [ [ 1, 0 ], [ 1, 2 ],[ 1, 3 ] ], g.out_edges( 1 ).sorted( string ).to_array(), "out edges 1" );
+assert_array_equals( [ [ 0, 1 ], [ 3, 1 ] ], g.out_edges( [ 0, 3 ] ).sorted( string ).to_array(), "out edges 2" );
+assert_array_equals( [ [ 0, 1 ], [ 2, 1 ],[ 3, 1 ] ], g.in_edges( 1 ).sorted( string ).to_array(), "in edges 1" );
+assert_array_equals( [ [ 1, 0 ], [ 1, 3 ] ], g.in_edges( [ 0, 3 ] ).sorted( string ).to_array(), "in edges 2" );
 
 assert_equals( 4, g.degree( ), "degree 1" );
 assert_equals( 3, g.degree( 1 ), "degree 2" );

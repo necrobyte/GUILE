@@ -328,7 +328,7 @@ function Graph( ) constructor {
 		
 		return _chain_from_iterable( _iter );
 	}
-		
+	
 	/// @method get
 	/// @memberof Graph
 	///
@@ -407,8 +407,8 @@ function Graph( ) constructor {
 	///
 	/// @desc Returns edges 
 	///
-	/// @arg {Iterable} iterable
-	/// @arg {Bool} data
+	/// @arg {Iterable} iterable If specified, return only edges from iterable
+	/// @arg {Bool} data If true, include edge data Struct in the output
 	///
 	/// @return {Bool}
 	
@@ -488,6 +488,24 @@ function Graph( ) constructor {
 	
 	static has_node = function( _node ) {
 		return node.exists( _node );
+	}
+	
+	/// @method in_edges
+	/// @memberof Graph
+	///
+	/// @desc Returns edges 
+	///
+	/// @arg {Iterable} nodes return only edges to specified nodes
+	/// @arg {Bool} data If true, include edge data Struct in the output
+	///
+	/// @return {Bool}
+	
+	static in_edges = function( _nodes ) {
+		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		return get_edges_from( _chain_from_iterable( iter( get_from( _nodes ) ).map( function( _node ) {
+			return _zip( pred.get( _node ).keys(), _repeat( _node ) );
+		} ) ), _data );
 	}
 	
 	/// @method is_subgraph
@@ -599,6 +617,24 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static order = number_of_nodes
+	
+	/// @method out_edges
+	/// @memberof Graph
+	///
+	/// @desc Returns edges 
+	///
+	/// @arg {Iterable} nodes return only edges from specified nodes
+	/// @arg {Bool} data If true, include edge data Struct in the output
+	///
+	/// @return {Bool}
+	
+	static out_edges = function( _nodes ) {
+		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		return get_edges_from( _chain_from_iterable( iter( get_from( _nodes ) ).map( function( _node ) {
+			return _zip( _repeat( _node ), adj.get( _node ).keys() );
+		} ) ), _data );
+	}
 	
 	/// @method remove_edge
 	/// @memberof Graph
@@ -734,7 +770,7 @@ function Graph( ) constructor {
 		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
 		_result.update_nodes( get_from( _nodes, true ), _deep );
-		_result.update_edges( get_edges_from( directed ? _result.nodes().combinations( 2 ) : _result.nodes().permutations( 2 ), true ), _deep );
+		_result.update_edges( get_edges_from( directed ? _result.nodes().permutations( 2 ) : _result.nodes().combinations( 2 ), true ), _deep );
 		
 		return _result;
 	}
