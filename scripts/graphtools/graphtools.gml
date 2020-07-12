@@ -1048,7 +1048,7 @@ function graph_complete( ) {
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
 	var _result = new Graph( _directed );
-	_result.add_edges_from( _directed ? _nodes.combinations( 2 ) : _nodes.permutations( 2 ) );
+	_result.add_edges_from( _directed ? _nodes.permutations( 2 ) : _nodes.combinations( 2 ) );
 	
 	return _result;
 }
