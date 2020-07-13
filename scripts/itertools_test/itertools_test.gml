@@ -469,10 +469,17 @@ assert_equals( 3, g.number_of_nodes(), "graph empty 4" );
 assert_equals( "abc", g.nodes().sorted().to_string(), "graph empty 5" );
 
 /*
-	cycle
+	path
 */
 
 g = graph_path( 4, true );
 assert_array_equals( [ [ 0, 1 ], [ 1, 2 ], [ 2, 3 ] ], g.edges().sorted( string ).to_array(), "graph path 1" );
+
+/*
+	star
+*/
+
+g = graph_star( 3, true );
+assert_array_equals( [ [ 0, 1 ], [ 0, 2 ], [ 0, 3 ] ], g.edges().sorted( string ).to_array(), "graph star 1" );
 
 #endregion

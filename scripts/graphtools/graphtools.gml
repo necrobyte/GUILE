@@ -1135,4 +1135,29 @@ function graph_path( ) {
 	return _result;
 }
 
+/// @func graph_star
+///
+/// @desc returns graph where all nodes are connected to the center node
+///
+/// @arg {Iterable} [nodes=0] If integer supplied, nodes are taken from Range( nodes + 1 )
+/// @arg {Bool} [directed=false]
+///
+/// @return {Graph}
+
+function graph_star( ) {
+	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : -1;
+	_nodes = is_numeric( _nodes ) ? _irange( _nodes + 1 ) : iter( _nodes );
+	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
+	
+	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	
+	if ( !_nodes.is_done() ) {
+		var _head = _nodes.next();
+		_result.add_nodes_from( _head );
+		_result.add_edges_from( _zip( _repeat( _head ), _nodes ) );
+	}
+	
+	return _result;
+}
+
 #endregion
