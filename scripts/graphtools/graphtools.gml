@@ -1024,6 +1024,35 @@ function Graph( ) constructor {
 
 #region constructors
 
+/// @func graph_complete
+///
+/// @desc returns graph complete graph
+///
+/// @arg {Iterable} [nodes=0] If integer supplied, nodes are taken from Range( n )
+/// @arg {Bool} [directed=false]
+///
+/// @return {Graph}
+///
+/// @example
+/// g = graph_complete( 9 );
+///g.number_of_nodes() --> 9
+///g.size() --> 36
+/// @example
+/// g = graph_complete( _irange( 11, 14 ) );
+///g.number_of_nodes() --> 3
+///g.nodes().sorted() --> 11, 12, 13
+
+function graph_complete( ) {
+	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
+	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
+	
+	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	_result.add_edges_from( _directed ? _nodes.permutations( 2 ) : _nodes.combinations( 2 ) );
+	
+	return _result;
+}
+
 /// @func graph_cycle
 ///
 /// @desc returns cyclically connected graph
@@ -1056,35 +1085,6 @@ function graph_cycle( ) {
 	return _result;
 }
 
-/// @func graph_complete
-///
-/// @desc returns graph complete graph
-///
-/// @arg {Iterable} [nodes=0] If integer supplied, nodes are taken from Range( n )
-/// @arg {Bool} [directed=false]
-///
-/// @return {Graph}
-///
-/// @example
-/// g = graph_complete( 9 );
-///g.number_of_nodes() --> 9
-///g.size() --> 36
-/// @example
-/// g = graph_complete( _irange( 11, 14 ) );
-///g.number_of_nodes() --> 3
-///g.nodes().sorted() --> 11, 12, 13
-
-function graph_complete( ) {
-	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
-	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
-	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
-	
-	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
-	_result.add_edges_from( _directed ? _nodes.permutations( 2 ) : _nodes.combinations( 2 ) );
-	
-	return _result;
-}
-
 /// @func graph_empty
 ///
 /// @desc returns graph with no edges
@@ -1110,6 +1110,34 @@ function graph_empty( ) {
 	
 	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
 	_result.add_nodes_from( _nodes );
+	
+	return _result;
+}
+
+/// @func graph_path
+///
+/// @desc returns linearly connected graph
+///
+/// @arg {Iterable} [nodes=0] If integer supplied, nodes are taken from Range( n )
+/// @arg {Bool} [directed=false]
+///
+/// @return {Graph}
+
+function graph_path( ) {
+	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
+	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
+	
+	var _head = _take( 2, _nodes ).to_array();
+	var _tail = _head;
+	
+	var _iter = _accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _tail );
+	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	
+	while( !_iter.is_done() ) {
+		_tail = _iter.next();
+		_result.add_edge( _tail[ 0 ], _tail[ 1 ] );
+	}
 	
 	return _result;
 }
