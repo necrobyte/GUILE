@@ -1128,16 +1128,9 @@ function graph_path( ) {
 	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
-	var _head = _take( 2, _nodes ).to_array();
-	var _tail = _head;
-	
-	var _iter = _accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _tail );
 	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
 	
-	while( !_iter.is_done() ) {
-		_tail = _iter.next();
-		_result.add_edge( _tail[ 0 ], _tail[ 1 ] );
-	}
+	_result.add_edges_from( _accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _take( 2, _nodes ).to_array() ) );
 	
 	return _result;
 }
