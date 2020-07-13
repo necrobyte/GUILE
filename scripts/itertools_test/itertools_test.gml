@@ -111,7 +111,7 @@ assert_equals( [ 2, 2, 2, 2, 2, 0, 0, 0, 0, 0 ], _accumulate( _s, _min ).to_arra
 assert_equals( [ 2, 8, 9, 9, 9, 9, 9, 9, 9, 9 ], _accumulate( _s, _max ).to_array(), "accumulate 6" );
 assert_equals( [ 2, 16, 144, 720, 5040, 0, 0, 0, 0, 0 ], _accumulate( _s, function( _a, _b ) { return _a * _b } ).to_array(), "accumulate 7" );
 assert_equals( [ 10, 15, 16 ], _accumulate( [ 10, 5, 1 ] ).to_array(), "accumulate 8" );
-assert_equals( [ 110, 115, 116 ], _accumulate( [ 10, 5, 1 ], 100 ).to_array(), "accumulate 9" );
+assert_equals( [ 100, 110, 115, 116 ], _accumulate( [ 10, 5, 1 ], 100 ).to_array(), "accumulate 9" );
 
 assert_equals( [ 100 ], _accumulate( [ ], 100 ).to_array(), "accumulate 10" );
 assert_equals( [ ], _accumulate( [ ], function( _a, _b ) { return _a + _b } ).to_array(), "accumulate 11" );
@@ -443,6 +443,13 @@ assert_equals( 36, g.size(), "graph complete 2" );
 g = graph_complete( _irange( 11, 14 ) );
 assert_equals( 3, g.number_of_nodes(), "graph complete 3" );
 assert_equals( [ 11, 12, 13 ], g.nodes().sorted().to_array(), "graph complete 4" );
+
+/*
+	cycle
+*/
+
+g = graph_cycle( 4, true );
+assert_array_equals( [ [ 0, 1 ], [ 0, 3 ], [ 1, 2 ], [ 2, 3 ] ], g.edges().sorted( string ).to_array(), "graph cycle 1" );
 
 /*
 	empty

@@ -1877,39 +1877,46 @@ function iter( _object ) {
 ///--> [ 3, 4, 6, 6, 6, 9, 9, 9, 9, 9 ]
 
 function _accumulate( _iterable ) {
-	var _iter = new Iterator( iter( argument[ 0 ] ), function() {
-		if ( data.is_done() ) {
-			check = false;
-			return sum;
-		}
-		
-		var _result = data.next();
-		if ( check ) {
-			sum = _result;
-			check = false;
-		}  else {
-			sum = func( sum, _result );
-		}
-		
+	var _iter = new Iterator( iter( _iterable ), function() {
+		check = true;
 		return sum;
 	}, function() {
-		return ( (!check) && data.is_done() );
-	});
+		if ( check ) {
+			if ( !data.is_done() ) {
+				sum = func( sum, data.next() );
+				check = false;
+			}
+		}
+		
+		return check;
+	} );
 		
 	if ( argument_count > 1 ) {
-		if ( is_method( argument[ 1 ] ) ){
+		if ( is_method( argument[ 1 ] ) || ( argument_count > 2 ) ) {
 			_iter.func = argument[ 1 ];
-			_iter.sum = ( argument_count > 2 ) ? argument[ 2 ] : undefined;
-			_iter.check = ( argument_count <= 2 ) ^^ ( _iter.data.is_done() );
+			
+			if ( argument_count > 2 ) {
+				_iter.sum = argument[ 2 ];
+				_iter.check = false;
+			} else if ( _iter.data.is_done() ) {
+				_iter.sum = undefined;
+				_iter.check = true;
+			} else {
+				_iter.sum = _iter.data.next();
+				_iter.check = false;
+			}
 			
 			return _iter;
 		} else {
 			_iter.sum = argument[ 1 ];
-			_iter.check = _iter.data.is_done();
+			_iter.check = false;
 		}
-	} else {
+	} else if ( _iter.data.is_done() ) {
 		_iter.sum = undefined;
-		_iter.check = !_iter.data.is_done();
+		_iter.check = true;
+	} else {
+		_iter.sum = _iter.data.next();
+		_iter.check = false;
 	}
 	
 	_iter.func = _add;
