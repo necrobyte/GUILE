@@ -59,14 +59,7 @@ function Graph( ) constructor {
 	
 	static add_edge = function( a, b ) {
 		var _weight = ( argument_count > 2 ) ? argument[ 2 ] : undefined;
-		var _attr = undefined;
-		
-		if ( is_array( _weight ) || is_struct( _weight ) ) {
-			_attr = _weight;
-			_weight = undefined;
-		} else if ( argument_count > 3 ) {
-			_attr = argument[ 3 ];
-		}
+		var _attr = ( argument_count > 3 ) ? argument[ 3 ] : undefined;
 		
 		if ( is_undefined( node.get( a ) ) ) {
 			add_node( a );
@@ -79,20 +72,7 @@ function Graph( ) constructor {
 		var _adj = adj.get( a );
 		var _pred = pred.get( b );
 		
-		var _edge = is_struct( _attr ) ? _attr : _adj.get( b );
-		
-		if ( is_undefined( _edge ) ) {
-			_edge = { };
-		}
-		
-		if ( !variable_struct_exists( _edge, "weight" ) ) {
-			_edge.weight = is_undefined( _weight ) ? 1 : _weight;
-		}
-				
-		var n = is_array( _attr ) ? array_length( _attr ) : 0;
-		for( var i = 0; i < n; i++ ) {
-			variable_struct_set( _edge, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
-		}
+		var _edge = edge_create( a, b, _adj.get( b ), _weight, _attr );
 		
 		_adj.set( b, _edge );
 		_pred.set( a, _edge );
@@ -147,28 +127,16 @@ function Graph( ) constructor {
 		var _attr = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
 		
 		var _old_node = node.get( _node );
-		var _new_node = is_struct( _attr ) ? _attr : undefined;
+		var _new_node = node_create( _node, _old_node, _attr );
+		
+		node.add( _node, _new_node );
 				
 		if ( is_undefined( _old_node ) ) {
-			_new_node = is_undefined( _new_node ) ? { } : _new_node;
-			
-			node.add( _node, _new_node );
 			adj.add( _node, new StructMap() );
 			
 			if ( directed ) {
 				pred.add( _node, new StructMap() );
 			}
-		} else {
-			if ( is_undefined( _new_node ) ) {
-				_new_node = _old_node;
-			} else {
-				node.set( _node, _new_node );	
-			}
-		}
-		
-		var n = is_array( _attr ) ? array_length( _attr ) : 0;
-		for( var i = 0; i < n; i++ ) {
-			variable_struct_set( _new_node, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
 		}
 	}
 	
@@ -298,10 +266,67 @@ function Graph( ) constructor {
 				throw "The node " + string( _node ) + " is not in the graph.";
 			}
 			
-			return _adj.items().reduce( function( a, e ) { return a + ( e[ 1 ] ).weight; }, 0 );
+			return _adj.items().reduce( function( a, e ) { return a + edge_weight( e[ 1 ] ); }, 0 );
 		} else {
 			return number_of_nodes();	
 		}
+	}
+	
+	/// @member edge_create
+	/// @memberof Graph
+	///
+	/// @desc Creates edge data
+	///
+	/// @arg {Any} a
+	/// @arg {Any} b
+	/// @arg {Edge} edge edge to be updated
+	/// @arg {Number} weight
+	/// @arg {Any} [attr]
+	///
+	/// @return {Edge}
+	
+	static edge_create = function( a, b, _edge, _weight ) {
+		return is_undefined( _weight ) ? ( is_undefined( _edge ) ? 1 : _edge ) : _weight;
+	}
+	
+	/// @member edge_equal
+	/// @memberof Graph
+	///
+	/// @desc Checks if two edges are equal
+	///
+	/// @arg {Edge} a
+	/// @arg {Edge} b
+	///
+	/// @return {Bool}
+	
+	static edge_equal = function( a, b ) {
+		return ( a == b );
+	}
+	
+	/// @member edge_copy
+	/// @memberof Graph
+	///
+	/// @desc Copies edge data for deep copy
+	///
+	/// @arg {Edge} edge edge data to be copied
+	///
+	/// @return {Edge}
+	
+	static edge_copy = function( _edge ) {
+		return is_struct( _edge ) ? iter( _edge ).to_struct() : _edge;
+	}
+	
+	/// @member edge_weight
+	/// @memberof Graph
+	///
+	/// @desc Returns edge weight
+	///
+	/// @arg {Edge} edge
+	///
+	/// @return {Number}
+	
+	static edge_weight = function( _edge ) {
+		return _edge;
 	}
 	
 	/// @method edges
@@ -458,6 +483,18 @@ function Graph( ) constructor {
 		}
 	}
 	
+	/// @method get_weight
+	/// @memberof Graph
+	///
+	/// @desc Returns weight of edge between nodes a and b.
+	///
+	/// @arg {Any} a
+	/// @arg {Any} b
+		
+	static get_weight = function( a, b ) {
+		return edge_weight( get_edge( a, b ) );
+	}
+	
 	/// @method has_edge
 	/// @memberof Graph
 	///
@@ -532,7 +569,7 @@ function Graph( ) constructor {
 				throw "The node " + string( _node ) + " is not in the graph.";
 			}
 			
-			return _adj.items().reduce( function( a, e ) { return a + ( e[ 1 ] ).weight; }, 0 );
+			return _adj.items().reduce( function( a, e ) { return a + edge_weight( e[ 1 ] ); }, 0 );
 		} else {
 			return number_of_nodes();	
 		}
@@ -559,7 +596,7 @@ function Graph( ) constructor {
 	/// @method is_subgraph
 	/// @memberof Graph
 	///
-	/// @desc Returns true if graph is shallow subgraph of supplied Graph
+	/// @desc Returns true if graph is subgraph of supplied Graph
 	///
 	/// @return {Bool}
 	
@@ -569,8 +606,8 @@ function Graph( ) constructor {
 		while( !_nodes.is_done( ) ) {
 			var _node = _nodes.next();
 			
-			if ( _node[ 1 ] != _graph.get( _node[ 0 ] ) ) {
-				return false;	
+			if ( !node_equal( _node[ 1 ], _graph.get( _node[ 0 ] ) ) ) {
+				return false;
 			}
 		}
 		
@@ -579,12 +616,23 @@ function Graph( ) constructor {
 		while( !_edges.is_done( ) ) {
 			var _edge = _edges.next();
 			
-			if ( _edge[ 2 ] != _graph.get_edge( _edge[ 0 ], _edge[ 1 ] ) ) {
+			if ( !edge_equal( _edge[ 2 ], _graph.get_edge( _edge[ 0 ], _edge[ 1 ] ) ) ) {
 				return false;	
 			}
 		}
 		
 		return true;
+	}
+	
+	/// @method is_isomorphic
+	/// @memberof Graph
+	///
+	/// @desc Returns true if graph is isomorphic to supplied Graph
+	///
+	/// @return {Bool}
+	
+	function is_isomorphic( _graph ) {
+		return ( number_of_nodes == _graph.number_of_nodes ) && ( number_of_edges == _graph.number_of_edges ) && is_subgraph( _graph );
 	}
 		
 	/// @method neighbors
@@ -622,6 +670,44 @@ function Graph( ) constructor {
 		
 		return _adj.keys();
 	}
+	
+	/// @member node_create
+	/// @memberof Graph
+	///
+	/// @desc Creates node data
+	///
+	/// @arg {Any} id
+	/// @arg {Node} node node to be updated
+	/// @arg {Any} attr
+	///
+	/// @return {Node}
+	
+	static node_create = function( _id, _node, _attr ) {
+		return is_undefined( _attr ) ? ( is_undefined( _node ) ? _id : _node ) : _attr;
+	}
+	
+	/// @member node_copy
+	/// @memberof Graph
+	///
+	/// @desc Copies node data for deep copy
+	///
+	/// @arg {Node} node node data to be copied
+	///
+	/// @return {Node}
+	
+	static node_copy = edge_copy;
+	
+	/// @member node_equal
+	/// @memberof Graph
+	///
+	/// @desc Checks if two nodes are equal
+	///
+	/// @arg {Node} a
+	/// @arg {Node} b
+	///
+	/// @return {Bool}
+	
+	static node_equal = edge_equal;
 	
 	/// @method nodes
 	/// @memberof Graph
@@ -666,7 +752,7 @@ function Graph( ) constructor {
 	///
 	/// @return {Number}
 	
-	static order = number_of_nodes
+	static order = number_of_nodes;
 	
 	/// @method out_degree
 	/// @memberof Graph
@@ -860,6 +946,27 @@ function Graph( ) constructor {
 		return _result;
 	}
 	
+	/// @method set_node_data
+	/// @memberof Graph
+	///
+	/// @desc Set node data. Alias for add_node to avoid confusion.
+	///
+	/// @arg {Any} node
+	/// @arg {Any} data
+		
+	static set_node_data = add_node;
+	
+	/// @method set_weight
+	/// @memberof Graph
+	///
+	/// @desc Set weight of edge between nodes a and b.
+	///
+	/// @arg {Any} a
+	/// @arg {Any} b
+	/// @arg {Number} weight
+	
+	static set_weight = add_edge;
+	
 	/// @method size
 	/// @memberof Graph
 	///
@@ -868,7 +975,7 @@ function Graph( ) constructor {
 	/// @return {Number}
 	
 	static size = function() {
-		var _result =  edges( true ).reduce( function( a, e ) { return a + e[ 2 ].weight; }, 0 );
+		var _result =  edges( true ).reduce( function( a, e ) { return a + edge_weight( e[ 2 ] ); }, 0 );
 		return directed ? _result : _result / 2;
 	}
 	
@@ -907,7 +1014,7 @@ function Graph( ) constructor {
 		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
 		_result.update_edges( get_edges_from( _edges, true ), _deep );
-		_result.update_nodes( get_from( _result.nodes(), true ), _deep )
+		_result.update_nodes( get_from( _result.nodes(), true ), _deep );
 		
 		return _result;
 	}
@@ -991,7 +1098,7 @@ function Graph( ) constructor {
 		
 		if ( _deep ) {
 			add_edges_from( _edges.map( function( _edge ) {
-				return [ _edge[ 0 ], _edge[ 1 ], iter( _edge[ 2 ] ).to_struct() ];
+				return [ _edge[ 0 ], _edge[ 1 ], edge_copy( _edge[ 2 ] ) ];
 			} ) );
 		} else {
 			add_edges_from( _edges );
@@ -1012,14 +1119,24 @@ function Graph( ) constructor {
 		
 		if ( _deep ) {
 			add_nodes_from( _nodes.map( function( _node ) {
-				return [ _node[ 0 ], iter( _node[ 1 ] ).to_struct() ];
+				return [ _node[ 0 ], node_copy( _node[ 1 ] ) ];
 			} ) );
 		} else {
 			add_nodes_from( _nodes );
 		}
 	}
 }
-
+/*
+function GraphStructs( ) : Graph( ) constructor {
+	static node_create = function( _id, _node, _attr ) {
+		
+		
+		return is_undefined( _attr ) ? ( is_undefined( _node ) ? _id : _node ) : _attr;
+	}
+	
+	static node_copy = edge_copy;
+}
+*/
 #endregion
 
 #region constructors

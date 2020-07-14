@@ -333,7 +333,7 @@ assert( g.has_edge( 1, 2 ), "has edge 1" );
 assert( !g.has_edge( 0, 3 ), "has edge 2" );
 
 assert( is_undefined( g.get_edge( 0, 3 ) ), "get edge 1" );
-assert_equals( 1, g.get_edge( 1, 2 ).weight, "get edge 2" );
+assert_equals( 1, g.get_weight( 1, 2 ), "get edge 2" );
 
 assert_equals( [ 0, 2 ], g.neighbors( 1 ).sorted().to_array(), "nodes" );
 
@@ -353,32 +353,36 @@ assert_equals( [ 1, 2 ], g.get_edges_from( 1, 2 ), "get edges from 2" );
 assert( is_undefined( g.get_edges_from( 1, 3 ) ), "get edges from 3" );
 assert_array_equals( _combinations( "012", 2 ).to_array(), g.get_edges_from( _combinations( "0123", 2 ) ).to_array(), "get edges from 4" );
 
+/*
 var g1 = g.copy();
 g.get( 0 ).text = "hello";
 assert_equals( "hello", g1.get( 0 ).text, "shallow copy 1" );
 g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 4, g.size(), "size 1" );
 assert_equals( 2, g.get_edge( 0, 1 ).weight, "shallow copy 2" );
+*/
 
-g1 = g.copy( true );
-g.get( 0 ).text = "world";
-assert_equals( "hello", g1.get( 0 ).text, "deep copy 1" );
-g.get_edge( 0, 1 ).weight = 1;
-assert_equals( 2, g1.get_edge( 0, 1 ).weight, "deep copy 2" );
-
+var g1 = g.copy( true );
+g.set_node_data( 0, "hello" );
+g1.set_node_data( 0, "world" );
+assert_equals( "hello", g.get( 0 ), "deep copy 1" );
+g.set_weight( 0, 1, 2 );
+assert_equals( 1, g1.get_weight( 0, 1 ), "deep copy 2" );
+/*
 g.update( g1 );
 g.get( 0 ).text = "foo";
 assert_equals( "foo", g1.get( 0 ).text, "shallow update 1" );
 g1.get_edge( 0, 1 ).weight = 3;
 assert_equals( 5, g.size(), "size 2" );
 assert_equals( 3, g.get_edge( 0, 1 ).weight, "shallow update 2" );
-
-g.update( g1, true );
-g.get( 0 ).text = "bar";
-assert_equals( "foo", g1.get( 0 ).text, "deep update 1" );
-g1.get_edge( 0, 1 ).weight = 2;
-assert_equals( 3, g.get_edge( 0, 1 ).weight, "deep update 2" );
-
+*/
+g1.update( g, true );
+g.set_node_data( 0, "foo" );
+g1.set_node_data( 0, "bar" );
+assert_equals( "foo", g.get( 0 ), "deep update 1" );
+g.set_weight( 0, 1, 3 );
+assert_equals( 2, g1.get_weight( 0, 1 ), "deep update 2" );
+/*
 g1 = g.subgraph( [ 0, 1 ] );
 assert_equals( 3, g1.size(), "size 3" );
 assert( g1.is_subgraph( g ), "is subgraph 1" );
@@ -389,15 +393,17 @@ g.get( 0 ).text = "herp";
 assert_equals( "herp", g1.get( 0 ).text, "subgraph shallow 3" );
 g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph shallow 4" );
-
+*/
 g1 = g.subgraph( [ 0, 2 ], true );
-assert( !g1.is_subgraph( g ), "is subgraph 3 " );
+log( g.adjacency().to_struct(), g1.adjacency().to_struct() );
+assert( g1.is_subgraph( g ), "is subgraph 3 " );
 assert_equals( [ 0, 2 ], g1.nodes().sorted().to_array(), "subgraph deep 1" );
-assert_equals( 1, g1.get_edge( 0, 2 ).weight, "subgraph deep 2" );
-g.get( 0 ).text = "derp";
-assert_equals( "herp", g1.get( 0 ).text, "subgraph deep 3" );
-g1.get_edge( 0, 2 ).weight = 2;
-assert_equals( 1, g.get_edge( 0, 2 ).weight, "subgraph deep 4" );
+assert_equals( 1, g1.get_weight( 0, 2 ), "subgraph deep 2" );
+g.set_node_data( 0, "herp" );
+g1.set_node_data( 0, "derp" );
+assert_equals( "herp", g.get( 0 ), "subgraph deep 3" );
+g.set_weight( 0, 2, 3 );
+assert_equals( 1, g1.get_weight( 0, 2 ), "subgraph deep 4" );
 
 g.add_nodes_from( "hello" );
 assert_equals( [ 0, 1, 2, "e", "h", "l", "o" ], g.nodes().sorted( string ).to_array(), "nodes add from" );
@@ -417,7 +423,7 @@ assert_array_equals( [ [ 1, 0 ], [ 1, 3 ] ], g.in_edges( [ 0, 3 ] ).sorted( stri
 assert_equals( 4, g.degree( ), "degree 1" );
 assert_equals( 3, g.degree( 1 ), "degree 2" );
 assert_equals( [ [ 0, 1 ],[ 1, 3 ],[ 2, 1 ],[ 3, 1 ] ], g.degree( _irange( 5 ) ).sorted( string ).to_array(), "degree 3" );
-
+/*
 g1 = g.subgraph_edges( [ [ 0, 1 ],[ 1, 3 ] ] );
 assert( g1.is_subgraph( g ), "is subgraph 4" );
 assert_equals( [ 0, 1, 3 ], g1.nodes().sorted().to_array(), "subgraph edges shallow 1" );
@@ -425,7 +431,7 @@ g.get( 0 ).text = "cat";
 assert_equals( "cat", g1.get( 0 ).text, "subgraph edges shallow 2" );
 g1.get_edge( 0, 1 ).weight = 2;
 assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph edges shallow 3" );
-
+*/
 assert_equals( g.successors( 1 ).sorted().to_array, g.predecessors( 1 ).sorted().to_array, "neighbors 1" );
 
 #endregion
