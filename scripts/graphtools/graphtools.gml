@@ -224,6 +224,24 @@ function Graph( ) constructor {
 		return directed ? to_directed( _deep ) : to_undirected( _deep );
 	}
 	
+	/// @method copy_methods
+	/// @memberof Graph
+	///
+	/// @desc Copied node and edge specific methods into Graph
+	///
+	/// @arg {Graph} graph
+	
+	function copy_methods( _graph ) {
+		_graph.edge_copy = edge_copy;
+		_graph.edge_create = edge_create;
+		_graph.edge_equal = edge_equal
+		_graph.edge_weight = edge_weight;
+		
+		_graph.node_copy = node_copy;
+		_graph.node_create = node_create;
+		_graph.node_equal = node_equal;	
+	}
+	
 	/// @method degree
 	/// @memberof Graph
 	///
@@ -300,7 +318,7 @@ function Graph( ) constructor {
 	/// @return {Bool}
 	
 	static edge_equal = function( a, b ) {
-		return ( a == b );
+		return ( edge_weight( a ) == edge_weight( b ) );
 	}
 	
 	/// @member edge_copy
@@ -598,6 +616,8 @@ function Graph( ) constructor {
 	///
 	/// @desc Returns true if graph is subgraph of supplied Graph
 	///
+	/// @arg {Graph} graph
+	///
 	/// @return {Bool}
 	
 	function is_subgraph( _graph ) {
@@ -606,7 +626,7 @@ function Graph( ) constructor {
 		while( !_nodes.is_done( ) ) {
 			var _node = _nodes.next();
 			
-			if ( !node_equal( _node[ 1 ], _graph.get( _node[ 0 ] ) ) ) {
+			if ( is_undefined( _graph.get( _node[ 0 ] ) ) ) {
 				return false;
 			}
 		}
@@ -616,8 +636,8 @@ function Graph( ) constructor {
 		while( !_edges.is_done( ) ) {
 			var _edge = _edges.next();
 			
-			if ( !edge_equal( _edge[ 2 ], _graph.get_edge( _edge[ 0 ], _edge[ 1 ] ) ) ) {
-				return false;	
+			if ( edge_weight( _edge[ 2 ] ) != _graph.get_weight( _edge[ 0 ], _edge[ 1 ] ) ) {
+				return false;
 			}
 		}
 		
@@ -993,6 +1013,8 @@ function Graph( ) constructor {
 		var _result = new Graph( directed );
 		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
+		copy_methods( _result );
+		
 		_result.update_nodes( get_from( _nodes, true ), _deep );
 		_result.update_edges( get_edges_from( directed ? _result.nodes().permutations( 2 ) : _result.nodes().combinations( 2 ), true ), _deep );
 		
@@ -1012,6 +1034,8 @@ function Graph( ) constructor {
 	static subgraph_edges = function( _edges ) {
 		var _result = new Graph( directed );
 		var _deep = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		copy_methods( _result );
 		
 		_result.update_edges( get_edges_from( _edges, true ), _deep );
 		_result.update_nodes( get_from( _result.nodes(), true ), _deep );
@@ -1044,6 +1068,8 @@ function Graph( ) constructor {
 		var _result = new Graph( true );
 		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
 		
+		copy_methods( _result );
+		
 		_result.update_nodes( nodes( true ), _deep );
 		_result.update_edges( edges( true ), _deep );
 		
@@ -1061,6 +1087,9 @@ function Graph( ) constructor {
 	
 	static to_undirected = function() {
 		var _result = new Graph();
+		
+		copy_methods( _result );
+		
 		var _deep = ( argument_count > 0 ) ? argument[ 0 ] : false;
 		
 		_result.update_nodes( nodes( true ), _deep );
@@ -1126,17 +1155,62 @@ function Graph( ) constructor {
 		}
 	}
 }
-/*
+
+/// @func GraphStructs( )
+/// @name GraphStructs
+/// @class
+///
+/// @classdesc Graph with structs for nodes and edges.
+///
+/// @arg {Bool} [directed=false]
+///
+/// @return {GraphStructs} - GraphStructs struct
+
 function GraphStructs( ) : Graph( ) constructor {
-	static node_create = function( _id, _node, _attr ) {
+	static edge_create = function( a, b, _edge, _weight ) {
+		var _attr;
 		
+		if ( is_array( _weight ) || is_struct( _weight ) ) {
+			_attr = _weight;
+			_weight = undefined;
+		} else if ( argument_count > 4 ) {
+			_attr = argument[ 4 ];
+		}
 		
-		return is_undefined( _attr ) ? ( is_undefined( _node ) ? _id : _node ) : _attr;
+		var _result = is_struct( _attr ) ? _attr : ( is_undefined( _edge ) ? { } : _edge);
+		
+		if ( !variable_struct_exists( _result, "weight" ) ) {
+			_result.weight = is_undefined( _weight ) ? 1 : _weight;
+		}
+		
+		var n = is_array( _attr ) ? array_length( _attr ) : 0;
+		for( var i = 0; i < n; i++ ) {
+			variable_struct_set( _result, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
+		}
+		
+		return _result;
 	}
 	
-	static node_copy = edge_copy;
+	static edge_weight = function( _edge ) {
+		return _edge.weight;
+	}
+	
+	static node_create = function( _id, _node, _attr ) {
+		var _result = is_struct( _attr ) ? _attr : undefined;
+		
+		if ( is_undefined( _result ) ) {
+			_result = is_undefined( _node ) ? { } : _node;
+		}
+		
+		var n = is_array( _attr ) ? array_length( _attr ) : 0;
+		for( var i = 0; i < n; i++ ) {
+			variable_struct_set( _result, _attr[ i ][ 0 ], _attr[ i ][ 1 ] );
+		}
+		
+		return _result;
+	}
 }
-*/
+
 #endregion
 
 #region constructors
@@ -1164,7 +1238,7 @@ function graph_complete( ) {
 	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
-	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	_result.add_edges_from( _directed ? _nodes.permutations( 2 ) : _nodes.combinations( 2 ) );
 	
 	return _result;
@@ -1188,7 +1262,7 @@ function graph_cycle( ) {
 	var _tail = _head;
 	
 	var _iter = _accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _tail );
-	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	
 	while( !_iter.is_done() ) {
 		_tail = _iter.next();
@@ -1225,7 +1299,7 @@ function graph_empty( ) {
 	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
-	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	_result.add_nodes_from( _nodes );
 	
 	return _result;
@@ -1245,7 +1319,7 @@ function graph_path( ) {
 	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
-	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	
 	_result.add_edges_from( _accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _take( 2, _nodes ).to_array() ) );
 	
@@ -1266,7 +1340,7 @@ function graph_star( ) {
 	_nodes = is_numeric( _nodes ) ? _irange( _nodes + 1 ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
-	var _result = ( instanceof( _directed ) == "Graph" ) ? _directed : new Graph( _directed );
+	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	
 	if ( !_nodes.is_done() ) {
 		var _head = _nodes.next();
