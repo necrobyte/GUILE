@@ -311,7 +311,7 @@ function Graph( ) constructor {
 		
 		_result.add_nodes_from( _imap( function( _node, _heap ) {
 			ds_priority_add( _heap, _node, 0 );
-			return [ _node, { depth : 0, dist: 0, prev : undefined } ];
+			return [ _node, { depth : 0, dist: 0, succ : undefined } ];
 		}, get_from( _nodes ), _repeat( _heap ) ) );
 		
 		var _iter = ds_priority_min_iter( _heap );
@@ -324,7 +324,7 @@ function Graph( ) constructor {
 				
 			while( !_predecessors.is_done() ) {
 				var _pred = _predecessors.next();
-				var _dist = get_weight( _node, _pred );
+				var _dist = get_weight( _pred, _node );
 				var _dist_cum = _dist + _result.get( _node ).dist;
 					
 				if ( _dist_cum <= _cutoff ) {
@@ -396,22 +396,22 @@ function Graph( ) constructor {
 				var _dist_cum = _dist + _result.get( _node ).dist;
 					
 				if ( _dist_cum <= _cutoff ) {
-					var _succ_node = _result.get( _succ );
+					var _pred_node = _result.get( _succ );
 					
-					if ( is_undefined( _succ_node ) ) {
+					if ( is_undefined( _pred_node ) ) {
 						_result.add_node( _succ, { depth : _depth + 1, dist : _dist_cum , prev: _node } );
 						_result.add_edge( _node, _succ, _dist );
 						ds_priority_add( _heap, _succ, _dist_cum );
-					} else if ( ( _succ_node.dist > _dist_cum ) || ( ( _succ_node.dist > _dist_cum ) && ( _succ_node.depth > _depth + 1 ) ) ){
-						if ( !is_undefined( _succ_node.prev ) ) {
-							_result.add_edge( _succ_node.prev, _succ, undefined );
+					} else if ( ( _pred_node.dist > _dist_cum ) || ( ( _pred_node.dist > _dist_cum ) && ( _pred_node.depth > _depth + 1 ) ) ){
+						if ( !is_undefined( _pred_node.prev ) ) {
+							_result.add_edge( _pred_node.prev, _succ, undefined );
 						}
 						
 						_result.add_edge( _node, _succ, _dist );
 						
-						_succ_node.dist = _dist_cum;
-						_succ_node.prev = _node;
-						_succ_node.depth = _depth + 1;
+						_pred_node.dist = _dist_cum;
+						_pred_node.prev = _node;
+						_pred_node.depth = _depth + 1;
 						
 						if ( !is_undefined( ds_priority_find_priority( _heap, _succ ) ) ) {
 							ds_priority_change_priority( _heap, _succ, _dist_cum );
@@ -1123,6 +1123,85 @@ function Graph( ) constructor {
 	
 	static set_weight = add_edge;
 	
+	/// @method shortest_path
+	/// @memberof Graph
+	///
+	/// @desc Compute shortest path in Graph
+	///
+	/// @arg {Any} [source=undefined] If undefined, compute shortest paths for each possible starting node.
+	/// @arg {Any} [dest] If not specified, compute shortest paths to all possible nodes.
+	///
+	/// @return {Array}
+	
+	static shortest_path = function() {
+		var _source =  ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		_source = iter( is_undefined( _source ) ? nodes() : _source ).to_array();
+		var _dest = iter( ( argument_count > 1 ) ? argument[ 1 ] : nodes() ).to_array();
+		
+		var n = array_length( _dest );
+		var _result = { };
+		var _iter = iter( _source );
+		
+		if ( n == 1 ) {
+			var _graph = dijkstra( _dest[ 0 ] );
+						
+			while( !_iter.is_done() ) {
+				var _node = _iter.next();
+				
+				if ( _graph.has_node( _node ) ) {
+					var _path = [ ];
+					
+					var _target = _node;
+					var _depth = _graph.get( _node ).depth;
+					
+					for( var j = 0; j <= _depth; j++ ) {
+						_path[ j ] = _target;
+						_target = _graph.get( _target ).succ;
+					}
+					
+					variable_struct_set( _result, _node, _path );
+				} else {
+					variable_struct_set( _result, _node, undefined );
+				}
+			}
+		} else {
+			while( !_iter.is_done() ) {
+				var _node = _iter.next();
+				
+				if ( has_node( _node ) ) {
+					var _graph = dijkstra_from( _node );
+					var _path = { };
+					
+					for( var i = 0; i < n; i++ ) {
+						if ( _graph.has_node( _dest[ i ] ) ) {
+							var _target = _dest[ i ];
+							var r = [ ];
+							
+							for( var j = _graph.get( _target ).depth; j >= 0; j-- ) {
+								r[ j ] = _target;
+								_target = _graph.get( _target ).prev;
+							}
+							
+							variable_struct_set( _path, _dest[ i ], r );
+						} else {
+							variable_struct_set( _path, _dest[ i ], undefined );
+						}
+					}
+				
+					variable_struct_set( _result, _node, _path );
+				} else {
+					variable_struct_set( _result, _node, undefined );
+				}
+			}
+		}
+		
+		if ( array_length( _source ) == 1 ) {
+			_result = variable_struct_get( _result, _source[ 0 ] );
+		}
+		
+		return _result;
+	}
+	
 	/// @method size
 	/// @memberof Graph
 	///
@@ -1406,7 +1485,7 @@ function graph_cycle( ) {
 	}
 	
 	if ( _head != _tail ) {
-		_result.add_edge( _head[ 0 ], _tail[ 1 ] );
+		_result.add_edge( _tail[ 1 ], _head[ 0 ] );
 	}
 	
 	return _result;

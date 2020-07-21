@@ -429,11 +429,14 @@ assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph edges shallow 3" );
 
 assert_equals( g.successors( 1 ).sorted().to_array, g.predecessors( 1 ).sorted().to_array, "neighbors 1" );
 
-g = graph_cycle( _irange( 3, 8 ) , graph_cycle( 5 ) ).dijkstra( 0, 2 );
-log( g.nodes( true ).to_array(), g.adjacency().to_struct() );
+var g1 = graph_cycle( 7 );
+var g2 = graph_cycle( 7, true );
 
-g = graph_cycle( _irange( 3, 8 ) , graph_cycle( 5 ) ).dijkstra_from( 0, 2 );
-log( g.nodes( true ).to_array(), g.adjacency().to_struct() );
+assert_equals( [ 0, 1, 2, 3 ], g1.shortest_path( 0, 3 ), "shortest path 1" );
+assert_equals( [ 0, 6, 5, 4 ], g1.shortest_path( 0, 4 ), "shortest path 2" );
+assert_equals( [ 0, 1, 2, 3 ], g2.shortest_path( 0, 3 ), "shortest path 3" );
+assert_equals( [ 0, 1, 2, 3, 4 ], g2.shortest_path( 0, 4 ), "shortest path 4" );
+assert_array_equals( [ [ 0, [ 0, 1 ] ], [ 1, [ 1 ] ], [ 2, [ 2, 1 ] ] ], _sorted( graph_path( 3 ).shortest_path( undefined, 1 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path 5" );
 
 #endregion
 
@@ -456,7 +459,7 @@ assert_equals( [ 11, 12, 13 ], g.nodes().sorted().to_array(), "graph complete 4"
 */
 
 g = graph_cycle( 4, true );
-assert_array_equals( [ [ 0, 1 ], [ 0, 3 ], [ 1, 2 ], [ 2, 3 ] ], g.edges().sorted( string ).to_array(), "graph cycle 1" );
+assert_array_equals( [ [ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 0 ] ], g.edges().sorted( string ).to_array(), "graph cycle 1" );
 
 /*
 	empty
