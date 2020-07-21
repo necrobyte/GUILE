@@ -298,7 +298,7 @@ function Graph( ) constructor {
 	/// @arg {Any} nodes
 	/// @arg {Number} [cutoff=infinity] Depth to stop the search. Only return paths with length <= cutoff
 	///
-	/// @return Graph Graph node is struct { dist, succ, depth }
+	/// @return Graph Graph node is struct \{ dist, succ, depth \}
 	///dist is total distance to destination node
 	///succ is next node
 	///depth is number of edges to destination node
@@ -366,7 +366,7 @@ function Graph( ) constructor {
 	/// @arg {Any} nodes
 	/// @arg {Number} [cutoff=infinity] Depth to stop the search. Only return paths with length <= cutoff
 	///
-	/// @return Graph Graph node is struct { dist, pred, depth }
+	/// @return Graph Graph node is struct \{ dist, pred, depth \}
 	///dist is total distance to source node
 	///pred is previous node
 	///depth is number of edges to source node
