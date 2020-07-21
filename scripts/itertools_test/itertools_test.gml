@@ -429,6 +429,12 @@ assert_equals( 2, g.get_edge( 0, 1 ).weight, "subgraph edges shallow 3" );
 
 assert_equals( g.successors( 1 ).sorted().to_array, g.predecessors( 1 ).sorted().to_array, "neighbors 1" );
 
+g = graph_cycle( _irange( 3, 8 ) , graph_cycle( 5 ) ).dijkstra( 0, 2 );
+log( g.nodes( true ).to_array(), g.adjacency().to_struct() );
+
+g = graph_cycle( _irange( 3, 8 ) , graph_cycle( 5 ) ).dijkstra_from( 0, 2 );
+log( g.nodes( true ).to_array(), g.adjacency().to_struct() );
+
 #endregion
 
 #region Graph constructors

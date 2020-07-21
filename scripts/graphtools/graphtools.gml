@@ -290,6 +290,142 @@ function Graph( ) constructor {
 		}
 	}
 	
+	/// @method dijkstra
+	/// @memberof Graph
+	///
+	/// @desc Find shortest weighted paths and lengths to a given set of destination nodes using Uses Dijkstra's algorithm.
+	///
+	/// @arg {Any} nodes
+	/// @arg {Number} [cutoff=infinity] Depth to stop the search. Only return paths with length <= cutoff
+	///
+	/// @return Graph Graph node is struct { dist, succ, depth }
+	///dist is total distance to destination node
+	///succ is next node
+	///depth is number of edges to destination node
+	
+	static dijkstra = function ( _nodes ) {
+		var _cutoff = ( argument_count > 1 ) ? argument[ 1 ] : infinity;
+		
+		var _result = new Graph( );
+		var _heap = ds_priority_create( );
+		
+		_result.add_nodes_from( _imap( function( _node, _heap ) {
+			ds_priority_add( _heap, _node, 0 );
+			return [ _node, { depth : 0, dist: 0, prev : undefined } ];
+		}, get_from( _nodes ), _repeat( _heap ) ) );
+		
+		var _iter = ds_priority_min_iter( _heap );
+		
+		while( !_iter.is_done( ) ) {
+			var _node = _iter.next();
+			var _depth = _result.get( _node ).depth;
+			
+			var _predecessors = predecessors( _node );
+				
+			while( !_predecessors.is_done() ) {
+				var _pred = _predecessors.next();
+				var _dist = get_weight( _node, _pred );
+				var _dist_cum = _dist + _result.get( _node ).dist;
+					
+				if ( _dist_cum <= _cutoff ) {
+					var _succ_node = _result.get( _pred );
+					
+					if ( is_undefined( _succ_node ) ) {
+						_result.add_node( _pred, { depth : _depth + 1, dist : _dist_cum , succ: _node } );
+						_result.add_edge( _node, _pred, _dist );
+						ds_priority_add( _heap, _pred, _dist_cum );
+					} else if ( ( _succ_node.dist > _dist_cum ) || ( ( _succ_node.dist > _dist_cum ) && ( _succ_node.depth > _depth + 1 ) ) ){
+						if ( !is_undefined( _succ_node.succ ) ) {
+							_result.add_edge( _succ_node.succ, _pred, undefined );
+						}
+						
+						_result.add_edge( _node, _pred, _dist );
+						
+						_succ_node.dist = _dist_cum;
+						_succ_node.succ = _node;
+						_succ_node.depth = _depth + 1;
+						
+						if ( !is_undefined( ds_priority_find_priority( _heap, _pred ) ) ) {
+							ds_priority_change_priority( _heap, _pred, _dist_cum );
+						}
+					}	
+				}
+			}
+		}
+		
+		ds_priority_destroy( _heap );
+		
+		return _result;
+	}
+	
+	/// @method dijkstra_from
+	/// @memberof Graph
+	///
+	/// @desc Find shortest weighted paths and lengths to a given set of source nodes using Uses Dijkstra's algorithm.
+	///
+	/// @arg {Any} nodes
+	/// @arg {Number} [cutoff=infinity] Depth to stop the search. Only return paths with length <= cutoff
+	///
+	/// @return Graph Graph node is struct { dist, pred, depth }
+	///dist is total distance to source node
+	///pred is previous node
+	///depth is number of edges to source node
+	
+	static dijkstra_from = function ( _nodes ) {
+		var _cutoff = ( argument_count > 1 ) ? argument[ 1 ] : infinity;
+		
+		var _result = new Graph( );
+		var _heap = ds_priority_create( );
+		
+		_result.add_nodes_from( _imap( function( _node, _heap ) {
+			ds_priority_add( _heap, _node, 0 );
+			return [ _node, { depth : 0, dist: 0, prev : undefined } ];
+		}, get_from( _nodes ), _repeat( _heap ) ) );
+		
+		var _iter = ds_priority_min_iter( _heap );
+		
+		while( !_iter.is_done( ) ) {
+			var _node = _iter.next();
+			var _depth = _result.get( _node ).depth;
+			
+			var _successors = successors( _node );
+				
+			while( !_successors.is_done() ) {
+				var _succ = _successors.next();
+				var _dist = get_weight( _node, _succ );
+				var _dist_cum = _dist + _result.get( _node ).dist;
+					
+				if ( _dist_cum <= _cutoff ) {
+					var _succ_node = _result.get( _succ );
+					
+					if ( is_undefined( _succ_node ) ) {
+						_result.add_node( _succ, { depth : _depth + 1, dist : _dist_cum , prev: _node } );
+						_result.add_edge( _node, _succ, _dist );
+						ds_priority_add( _heap, _succ, _dist_cum );
+					} else if ( ( _succ_node.dist > _dist_cum ) || ( ( _succ_node.dist > _dist_cum ) && ( _succ_node.depth > _depth + 1 ) ) ){
+						if ( !is_undefined( _succ_node.prev ) ) {
+							_result.add_edge( _succ_node.prev, _succ, undefined );
+						}
+						
+						_result.add_edge( _node, _succ, _dist );
+						
+						_succ_node.dist = _dist_cum;
+						_succ_node.prev = _node;
+						_succ_node.depth = _depth + 1;
+						
+						if ( !is_undefined( ds_priority_find_priority( _heap, _succ ) ) ) {
+							ds_priority_change_priority( _heap, _succ, _dist_cum );
+						}
+					}	
+				}
+			}
+		}
+		
+		ds_priority_destroy( _heap );
+		
+		return _result;
+	}
+	
 	/// @member edge_create
 	/// @memberof Graph
 	///
