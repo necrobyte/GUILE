@@ -680,6 +680,20 @@ function Graph( ) constructor {
 		return node.exists( _node );
 	}
 	
+	/// @method has_path
+	/// @memberof Graph
+	///
+	/// @desc Returns True if the graph has path between a and b.
+	///
+	/// @arg {Any} a
+	/// @arg {Any} a
+	///
+	/// @return {Bool}
+	
+	static has_path = function( a, b ) {
+		return dijkstra_from( a ).has_node( b );
+	}
+	
 	/// @method in_degree
 	/// @memberof Graph
 	///

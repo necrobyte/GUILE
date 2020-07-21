@@ -443,6 +443,9 @@ assert_array_equals( [ [ 0, [ 0, 1 ] ], [ 1, [ 1 ] ], [ 2, [ 2, 1 ] ] ], _sorted
 assert_array_equals( [ [ 0, 0 ],[ 1, 1 ],[ 2, 2 ],[ 3, 3 ],[ 4, 3 ],[ 5, 2 ],[ 6, 1 ] ], _sorted( g1.shortest_path_length( 0 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path length 1" );
 assert_array_equals( [ [ 0, 0 ],[ 1, 1 ],[ 2, 2 ],[ 3, 3 ],[ 4, 4 ],[ 5, 5 ],[ 6, 6 ] ], _sorted( g2.shortest_path_length( 0 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path length 2" );
 
+assert( g1.has_path( 0, 1 ), "has node 1" );
+assert( !g2.has_path( 0, -1 ), "has node 1" );
+
 #endregion
 
 #region Graph constructors
