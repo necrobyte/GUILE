@@ -1202,6 +1202,67 @@ function Graph( ) constructor {
 		return _result;
 	}
 	
+	/// @method shortest_path_length
+	/// @memberof Graph
+	///
+	/// @desc Compute length of shortest path in Graph
+	///
+	/// @arg {Any} [source=undefined] If undefined, compute shortest paths length for each possible starting node.
+	/// @arg {Any} [dest] If not specified, compute shortest paths length to all possible nodes.
+	///
+	/// @return {Array}
+	
+	static shortest_path_length = function() {
+		var _source =  ( argument_count > 0 ) ? argument[ 0 ] : undefined;
+		_source = iter( is_undefined( _source ) ? nodes() : _source ).to_array();
+		var _dest = iter( ( argument_count > 1 ) ? argument[ 1 ] : nodes() ).to_array();
+		
+		var n = array_length( _dest );
+		var _result = { };
+		var _iter = iter( _source );
+		
+		if ( n == 1 ) {
+			var _graph = dijkstra( _dest[ 0 ] );
+						
+			while( !_iter.is_done() ) {
+				var _node = _iter.next();
+				
+				if ( _graph.has_node( _node ) ) {
+					variable_struct_set( _result, _node, _graph.get( _node ).depth );
+				} else {
+					variable_struct_set( _result, _node, undefined );
+				}
+			}
+		} else {
+			while( !_iter.is_done() ) {
+				var _node = _iter.next();
+				
+				if ( has_node( _node ) ) {
+					var _graph = dijkstra_from( _node );
+					var _path = { };
+					
+					for( var i = 0; i < n; i++ ) {
+						if ( _graph.has_node( _dest[ i ] ) ) {
+							variable_struct_set( _path, _dest[ i ], _graph.get( _dest[ i ] ).depth );
+						} else {
+							variable_struct_set( _path, _dest[ i ], undefined );
+						}
+					}
+				
+					variable_struct_set( _result, _node, _path );
+				} else {
+					variable_struct_set( _result, _node, undefined );
+				}
+			}
+		}
+		
+		if ( array_length( _source ) == 1 ) {
+			_result = variable_struct_get( _result, _source[ 0 ] );
+		}
+		
+		return _result;
+	}
+	
 	/// @method size
 	/// @memberof Graph
 	///

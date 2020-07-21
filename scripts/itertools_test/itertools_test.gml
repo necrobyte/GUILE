@@ -436,7 +436,12 @@ assert_equals( [ 0, 1, 2, 3 ], g1.shortest_path( 0, 3 ), "shortest path 1" );
 assert_equals( [ 0, 6, 5, 4 ], g1.shortest_path( 0, 4 ), "shortest path 2" );
 assert_equals( [ 0, 1, 2, 3 ], g2.shortest_path( 0, 3 ), "shortest path 3" );
 assert_equals( [ 0, 1, 2, 3, 4 ], g2.shortest_path( 0, 4 ), "shortest path 4" );
-assert_array_equals( [ [ 0, [ 0, 1 ] ], [ 1, [ 1 ] ], [ 2, [ 2, 1 ] ] ], _sorted( graph_path( 3 ).shortest_path( undefined, 1 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path 5" );
+
+assert_array_equals( [ [ 0, [ 1, 0 ] ], [ 1, [ 1 ] ], [ 2, [ 1, 2 ] ] ], _sorted( graph_path( 3 ).shortest_path( 1 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path 5" );
+assert_array_equals( [ [ 0, [ 0, 1 ] ], [ 1, [ 1 ] ], [ 2, [ 2, 1 ] ] ], _sorted( graph_path( 3 ).shortest_path( undefined, 1 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path 6" );
+
+assert_array_equals( [ [ 0, 0 ],[ 1, 1 ],[ 2, 2 ],[ 3, 3 ],[ 4, 3 ],[ 5, 2 ],[ 6, 1 ] ], _sorted( g1.shortest_path_length( 0 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path length 1" );
+assert_array_equals( [ [ 0, 0 ],[ 1, 1 ],[ 2, 2 ],[ 3, 3 ],[ 4, 4 ],[ 5, 5 ],[ 6, 6 ] ], _sorted( g2.shortest_path_length( 0 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path length 2" );
 
 #endregion
 
