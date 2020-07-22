@@ -448,7 +448,7 @@ assert( !g2.has_path( 0, -1 ), "has node 1" );
 
 log( graph_path( 6 ).dfs_edges( 3 ).to_array() );
 log( graph_path( 6, true ).dfs_edges( 3 ).to_array() );
-log( graph_path( 6, true ).dfs_edges( ).to_array() );
+log( graph_path( 6, true ).dfs_nodes( ).to_array() );
 log( graph_path( 6 ).nodes().to_array() );
 
 #endregion

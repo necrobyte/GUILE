@@ -368,6 +368,86 @@ function Graph( ) constructor {
 		return _iter;
 	}
 	
+	/// @method dfs_nodes
+	/// @memberof Graph
+	///
+	/// @desc Perform a depth-first-search over the nodes of Graph and yield the nodes in order.
+	///
+	/// @arg {Any} [source] starting node for depth-first search
+	/// @arg {Number} [depth] maximum search depth
+	///
+	/// @return {Iterator} Yields nodes in depth-first-search order from source
+	
+	static dfs_nodes = function( ) {
+		
+		var _iter = new Iterator( self, 
+		function() {
+			var _result = dest;
+			dest = undefined;
+			
+			return _result;
+		}, function() {
+			while( is_undefined( dest ) ) {
+				while( is_undefined( start ) && ( !nodes.is_done() ) ) {
+					start = nodes.next();
+					
+					if ( ( variable_struct_exists( visited, start ) ) ) {
+						start = undefined;
+						continue;
+					} else {
+						variable_struct_set( visited, start, true );
+						cache = [ [ start, depth_limit, data.neighbors( start ) ] ];
+						index = 0;
+						dest = start;
+						return false;
+					}
+				}
+				
+				if ( index < 0 ) {
+					break;
+				}
+				
+				var _element = cache[ index ];
+				var _parent = _element[ 0 ];
+				var _depth = _element[ 1 ];
+				var _nodes = _element[ 2 ];
+				
+				while ( is_undefined( dest ) && ( !_nodes.is_done() ) ) {
+					dest = _nodes.next();
+					
+					if ( variable_struct_exists( visited, dest ) ) {
+						dest = undefined;
+					} else {
+						start = _parent;
+						variable_struct_set( visited, dest, true );
+						
+						if ( _depth > 1 ) {
+							cache[ ++index ] = [ dest, _depth - 1, data.neighbors( dest ) ];
+						}
+						
+						return false;
+					}
+				}
+				
+				if ( --index < 0 ) {
+					start = undefined;	
+				}
+			}
+			
+			return ( nodes.is_done() && ( index < 0 ) );
+		} );
+		
+		_iter.nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
+		_iter.depth_limit = ( argument_count > 1 ) ? argument[ 1 ] : number_of_nodes();
+		_iter.start = undefined;
+		_iter.dest = undefined;
+		_iter.visited = { };
+		_iter.cache = [ ];
+		_iter.index = -1;
+		
+		return _iter;
+	}
+	
 	/// @method dfs_predecessors
 	/// @memberof Graph
 	///
