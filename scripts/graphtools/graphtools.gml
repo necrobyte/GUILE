@@ -290,6 +290,136 @@ function Graph( ) constructor {
 		}
 	}
 	
+	/// @method dfs_edges
+	/// @memberof Graph
+	///
+	/// @desc Perform a depth-first-search over the nodes of Graph and yield the edges in order.
+	///
+	/// @arg {Any} [source] starting node for depth-first search
+	/// @arg {Number} [depth] maximum search depth
+	///
+	/// @return {Iterator} Yields edges in depth-first-search order from source
+	
+	static dfs_edges = function( ) {
+		
+		var _iter = new Iterator( self, 
+		function() {
+			var _result = [ start, dest ];
+			dest = undefined;
+			
+			return _result;
+		}, function() {
+			while( is_undefined( dest ) ) {
+				while( is_undefined( start ) && ( !nodes.is_done() ) ) {
+					start = nodes.next();
+					
+					if ( ( variable_struct_exists( visited, start ) ) ) {
+						start = undefined;
+						continue;
+					} else {
+						variable_struct_set( visited, start, true );
+						cache = [ [ start, depth_limit, data.neighbors( start ) ] ];
+						index = 0;
+					}
+				}
+				
+				if ( index < 0 ) {
+					break;
+				}
+				
+				var _element = cache[ index ];
+				var _parent = _element[ 0 ];
+				var _depth = _element[ 1 ];
+				var _nodes = _element[ 2 ];
+				
+				while ( is_undefined( dest ) && ( !_nodes.is_done() ) ) {
+					dest = _nodes.next();
+					
+					if ( variable_struct_exists( visited, dest ) ) {
+						dest = undefined;
+					} else {
+						start = _parent;
+						variable_struct_set( visited, dest, true );
+						
+						if ( _depth > 1 ) {
+							cache[ ++index ] = [ dest, _depth - 1, data.neighbors( dest ) ];
+						}
+						
+						return false;
+					}
+				}
+				
+				if ( --index < 0 ) {
+					start = undefined;	
+				}
+			}
+			
+			return ( nodes.is_done() && ( index < 0 ) );
+		} );
+		
+		_iter.nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
+		_iter.depth_limit = ( argument_count > 1 ) ? argument[ 1 ] : number_of_nodes();
+		_iter.start = undefined;
+		_iter.dest = undefined;
+		_iter.visited = { };
+		_iter.cache = [ ];
+		_iter.index = -1;
+		
+		return _iter;
+	}
+	
+	/// @method dfs_predecessors
+	/// @memberof Graph
+	///
+	/// @desc Returns struct of node predecessors in depth-first-search from source.
+	///
+	/// @arg {Any} [source] starting node for depth-first search
+	/// @arg {Number} [depth] maximum search depth
+	///
+	/// @return {Struct} Key is node, value is node predecessor
+	
+	static dfs_predecessors = function() {
+		var _nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
+		var _depth_limit = ( argument_count > 1 ) ? argument[ 1 ] : number_of_nodes();
+		
+		var _result = { };
+		
+		var _iter = dfs_edges( _nodes, _depth_limit );
+		
+		while( !_iter.is_done() ) {
+			var _item = _iter.next();
+			variable_struct_set( _result, _item[ 1 ], _item[ 0 ] );
+		}
+		
+		return _result;
+	}
+	
+	/// @method dfs_successors
+	/// @memberof Graph
+	///
+	/// @desc Returns struct of successors in depth-first-search from source.
+	///
+	/// @arg {Any} [source] starting node for depth-first search
+	/// @arg {Number} [depth] maximum search depth
+	///
+	/// @return {Struct} Key is node, value is node successor
+	
+	static dfs_successors = function() {
+		var _nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
+		var _depth_limit = ( argument_count > 1 ) ? argument[ 1 ] : number_of_nodes();
+		
+		var _result = { };
+		
+		var _iter = dfs_edges( _nodes, _depth_limit );
+		
+		while( !_iter.is_done() ) {
+			var _item = _iter.next();
+			variable_struct_set( _result, _item[ 0 ], _item[ 1 ] );
+		}
+		
+		return _result;
+	}
+	
 	/// @method dijkstra
 	/// @memberof Graph
 	///

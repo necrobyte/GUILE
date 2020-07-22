@@ -446,6 +446,11 @@ assert_array_equals( [ [ 0, 0 ],[ 1, 1 ],[ 2, 2 ],[ 3, 3 ],[ 4, 4 ],[ 5, 5 ],[ 6
 assert( g1.has_path( 0, 1 ), "has node 1" );
 assert( !g2.has_path( 0, -1 ), "has node 1" );
 
+log( graph_path( 6 ).dfs_edges( 3 ).to_array() );
+log( graph_path( 6, true ).dfs_edges( 3 ).to_array() );
+log( graph_path( 6, true ).dfs_edges( ).to_array() );
+log( graph_path( 6 ).nodes().to_array() );
+
 #endregion
 
 #region Graph constructors
