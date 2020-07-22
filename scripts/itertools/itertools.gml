@@ -35,7 +35,7 @@ function Generator( _data, _next ) constructor {
 	/// @return {Iterator}
 	
 	__iter = function() {
-		return method_get_self( __next ); // hack to return self
+		return self;
 	}
 	
 	/// @method next
@@ -216,7 +216,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// iter( "ABCDEF" ).compress( [ 1, 0, 1, 0, 1, 1 ] ) --> "A", "C", "E", "F"
 
 	static compress = function( _selectors ) {
-		var _iter = new Iterator( __iter(), function() {
+		var _iter = new Iterator( self, function() {
 			ready = false;
 			return data.next();
 		}, function() {
@@ -252,7 +252,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// _irange( 10 ).filter( function( x ) { return x % 2 } ) --> 1, 3, 5, 7, 9
 	
 	static filter = function() {
-		var _iter = new Iterator( __iter(), function() {
+		var _iter = new Iterator( self, function() {
 			var _result = cache;
 			check = true;
 			cache = data.next();
@@ -291,7 +291,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// _irange( 10 ).filter_false( function( x ) { return x % 2 } ) --> 0, 2, 4, 6, 8
 	
 	static filter_false = function( ) {
-		var _iter = new Iterator( __iter(), function() {
+		var _iter = new Iterator( self, function() {
 			var _result = cache;
 			check = true;
 			cache = data.next();
@@ -331,7 +331,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// _take( 2, iter( "AAAABBBCCDAABBB" ).group_by() ) --> { key: "A", group: [ "A", "A", "A", "A" ] }, { key: "B", group: [ "B", "B", "B" ] }
 	
 	static group_by = function() {
-		var _iter = new Iterator( __iter(), function() {
+		var _iter = new Iterator( self, function() {
 			check = true;
 			return cache;
 		}, function() {
@@ -384,7 +384,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// iter( [ 2, 3, 10 ] ).map( function( x ) { return x * x; } ) --> 4, 9, 100
 
 	static map = function( _function ) {
-		return _imap( _function, __iter() );
+		return _imap( _function, self );
 	}
 	
 	/// @method permutations
@@ -462,7 +462,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	/// iter( [ 0, 1 ] ).product( 3 ) --> [ 0, 0, 0 ], [ 0, 0, 1 ], [ 0, 1, 0 ], [ 0, 1, 1 ], [ 1, 0, 0 ] ...
 	
 	static product = function( _repeats ) {
-		var _iter = new Iterator( __iter(), function() {
+		var _iter = new Iterator( self, function() {
 			var _result = [ ];
 			
 			for( var i = 0; i < size; i++ ) {
@@ -544,7 +544,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///iter( "ABCDEFG" ).slice( 0, undefined, 2 ) --> "A", "C", "E", "G"
 	
 	static slice = function( _stop ) {
-		var _iter = new Iterator( __iter(), function() {
+		var _iter = new Iterator( self, function() {
 			start += step;
 			index++;
 			return data.next();
@@ -678,7 +678,7 @@ function IteratorDict( _data, _next, _is_done ) : Iterator( _data, _next, _is_do
 	/// @return {Iterator}
 	
 	static names = function() {
-		return __iter().map( function( e ) { return e[ 0 ]; } );
+		return map( function( e ) { return e[ 0 ]; } );
 	}
 	
 	/// @method values
@@ -689,7 +689,7 @@ function IteratorDict( _data, _next, _is_done ) : Iterator( _data, _next, _is_do
 	/// @return {Iterator}
 	
 	static values = function() {
-		return __iter().map( function( e ) { return e[ 1 ]; } );
+		return map( function( e ) { return e[ 1 ]; } );
 	}
 	
 	/// @method to_map
