@@ -1276,6 +1276,49 @@ function Graph( ) constructor {
 	function is_isomorphic( _graph ) {
 		return ( number_of_nodes == _graph.number_of_nodes ) && ( number_of_edges == _graph.number_of_edges ) && is_subgraph( _graph );
 	}
+	
+	/// @method kruskal_mst_edges
+	/// @memberof Graph
+	///
+	/// @desc Returns an iterator over edges in a minimum spanning forest of an undirected graph.
+	///
+	/// @arg {Bool} [maximum=false] Find the minimum (false) or maximum (true) spanning tree.
+	/// @arg {Bool} [data=false] If True yield the edge data along with the edge.
+	///
+	/// @return {Iterator}
+	
+	static kruskal_mst_edges = function() {
+		var _maximum = ( argument_count > 0 ) ? argument[ 0 ] : false;
+		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		
+		var _iter = new Iterator( edges( true ).sorted( function( e ) { return edge_weight( e[ 2 ] ); }, _maximum ), function() {
+			var _result = ext ? cache : [ cache[ 0 ], cache[ 1 ] ];
+			cache = undefined;
+			return _result;
+		}, function() {
+			while( is_undefined( cache ) && ( !data.is_done() ) ) {
+				cache = data.next();
+				
+				var a = subtrees.get( cache[ 0 ] );
+				var b = subtrees.get( cache[ 1 ] );
+				
+				if ( ( a == b ) && ( !is_undefined( a ) ) ) {
+					cache = undefined;
+					continue;
+				}
+				
+				subtrees.union( cache[ 0 ], cache[ 1 ] );
+			}
+			
+			return ( is_undefined( cache ) );
+		} );
+		
+		_iter.subtrees = new UnionFind();
+		_iter.cache = undefined;
+		_iter.ext = _data;
+		
+		return _iter;
+	}
 		
 	/// @method neighbors
 	/// @memberof Graph
