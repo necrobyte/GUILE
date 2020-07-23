@@ -341,22 +341,21 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 					check = false;
 					var _a = data.next();
 					var _key = key_func( _a );
-				
+					
 					if ( _size == 0 ) {
 						key = _key;	
 					}
 					
-					if ( ( _key != key ) || ( data.is_done() ) ) {
-						cache = {};
-						cache.key = key;
-						cache.group = group;
+					if ( ( _key != key ) ) {
+						cache = { key: key, group: group };
 						key = _key;
 						group = [ _a ];
-						break;
+						return false;
 					} else {
 						group[ _size++ ] = _a;	
 					}
 				}
+				cache = { key: key, group: group };
 			}
 			return check;
 		} );
