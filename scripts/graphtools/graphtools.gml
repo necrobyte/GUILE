@@ -405,6 +405,26 @@ function Graph( ) constructor {
 		return _result;
 	}
 	
+	/// @method bfs_tree
+	/// @memberof Graph
+	///
+	/// @desc returns directed subgraph build on edges from breadth-first search
+	///
+	/// @arg {Any} [source] starting node for breadth-first search
+	/// @arg {Number} [depth] maximum search depth
+	///
+	/// @return {Graph}
+	
+	static bfs_tree = function() {
+		var _nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
+		var _depth_limit = ( argument_count > 1 ) ? argument[ 1 ] : number_of_nodes();
+		
+		var _result = graph_empty( _nodes, true );
+		_result.add_edges_from( bfs_edges( _result.nodes(), _depth_limit ) );
+		
+		return _result;
+	}
+	
 	/// @method clear
 	/// @memberof Graph
 	///
@@ -718,6 +738,26 @@ function Graph( ) constructor {
 				variable_struct_set( _result, _item[ 0 ], [ _item[ 1 ] ] );	
 			}
 		}
+		
+		return _result;
+	}
+	
+	/// @method dfs_tree
+	/// @memberof Graph
+	///
+	/// @desc returns directed subgraph build on edges from depth-first search
+	///
+	/// @arg {Any} [source] starting node for depth-first search
+	/// @arg {Number} [depth] maximum search depth
+	///
+	/// @return {Graph}
+	
+	static dfs_tree = function() {
+		var _nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
+		var _depth_limit = ( argument_count > 1 ) ? argument[ 1 ] : number_of_nodes();
+		
+		var _result = graph_empty( _nodes, true );
+		_result.add_edges_from( dfs_edges( _result.nodes(), _depth_limit ) );
 		
 		return _result;
 	}
