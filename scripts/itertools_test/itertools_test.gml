@@ -444,12 +444,38 @@ assert_array_equals( [ [ 0, 0 ],[ 1, 1 ],[ 2, 2 ],[ 3, 3 ],[ 4, 3 ],[ 5, 2 ],[ 6
 assert_array_equals( [ [ 0, 0 ],[ 1, 1 ],[ 2, 2 ],[ 3, 3 ],[ 4, 4 ],[ 5, 5 ],[ 6, 6 ] ], _sorted( g2.shortest_path_length( 0 ), function( a ) { return a[ 0 ] } ).to_array(), "shortest path length 2" );
 
 assert( g1.has_path( 0, 1 ), "has node 1" );
-assert( !g2.has_path( 0, -1 ), "has node 1" );
+assert( !g2.has_path( 0, -1 ), "has node 2" );
 
-log( graph_path( 6 ).dfs_edges( 3 ).to_array() );
-log( graph_path( 6, true ).dfs_edges( 3 ).to_array() );
-log( graph_path( 6, true ).dfs_nodes( ).to_array() );
-log( graph_path( 6 ).nodes().to_array() );
+var g1 = graph_empty();
+g1.add_edges_from( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ], [ 2, 4 ], [ 3, 4 ] ] );
+assert_equals( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ], [ 2, 4 ] ], g1.bfs_edges( 0 ).to_array(), "bfs edges 1" );
+assert_equals( [ [ 0,[ 1 ] ],[ 1,[ 2, 3 ] ],[ 2,[ 4 ] ] ], _sorted( g1.bfs_successors( 0 ), function( e ) { return e[ 0 ]; } ).to_array(), "bfs successors 1" );
+assert_equals( [ [ 1, 0 ],[ 2, 1 ],[ 3, 1 ],[ 4, 2 ] ], _sorted( g1.bfs_predecessors( 0 ), function( e ) { return e[ 0 ]; } ).to_array(), "bfs predecessors 1" );
+
+assert_equals( [ [ 0, 1 ], [ 1, 2 ], [ 2, 4 ], [ 4, 3 ] ], g1.dfs_edges( 0 ).to_array(), "dfs edges 1" );
+assert_equals( [ [ 0, [ 1 ] ], [ 1, [ 2 ] ], [ 2, [ 4 ] ], [ 4, [ 3 ] ] ], _sorted( g1.dfs_successors( 0 ), function( e ) { return e[ 0 ]; } ).to_array(), "dfs successors 1" );
+assert_equals( [ [ 1, 0 ],[ 2, 1 ],[ 3, 4 ],[ 4, 2 ] ], _sorted( g1.dfs_predecessors( 0 ), function( e ) { return e[ 0 ]; } ).to_array(), "dfs predecessors 1" );
+
+g = graph_empty();
+g.add_nodes_from( [ 1, 2 ] );
+assert_equals( [ 1 ], g.bfs_nodes( 1 ).to_array(), "bfs nodes" );
+assert_equals( [ ], g.bfs_edges( 1 ).to_array(), "bfs edges 1" );
+assert_equals( [ 1 ], g.dfs_nodes( 1 ).to_array(), "dfs nodes" );
+assert_equals( [ ], g.dfs_edges( 1 ).to_array(), "dfs edges 1" );
+
+g1 = graph_path( [ 2, 7, 8, 9, 10 ], graph_path( 7 ) ) ;
+g2 = graph_path( [ 3, 2, 7, 8, 9, 10 ], graph_path( 2 ) );
+assert_equals( [ [ 9, 8 ], [ 9, 10 ], [ 8, 7 ], [ 7, 2 ], [ 2, 1 ], [ 2, 3 ] ], g1.bfs_edges( 9, 4 ).to_array(), "bfs edges 2" );
+assert_equals( [ [ 1, [ 0, 2 ] ], [ 2, [ 3, 7 ] ], [ 3,[ 4 ] ], [ 7,[ 8 ] ] ], _sorted( g1.bfs_successors( 1, 3 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ] ) ]; } ).to_array(), "bfs successors 2" );
+assert_equals( [ [ 2,[ 3 ] ],[ 7,[ 2, 8 ] ],[ 8,[ 9 ] ] ], _sorted( g2.bfs_successors( 7, 2 ), function( e ) { return e[ 0 ]; } ).to_array(), "bsf successors 3" );
+assert_equals( [ [ 0 ,1 ], [ 2 ,1 ], [ 3, 2 ], [ 4, 3 ], [ 7, 2 ], [ 8, 7 ] ], _sorted( g1.bfs_predecessors( 1, 3 ), function( e ) { return e[ 0 ]; } ).to_array(), "bsf predessors 2" );
+assert_equals( [ [ 2, 7 ], [ 3, 2 ], [ 8, 7 ], [ 9, 8 ] ], _sorted( g2.bfs_predecessors( 7, 2 ), function( e ) { return e[ 0 ]; } ).to_array(), "bsf predessors 3" );
+
+assert_equals( [ [ 9, 8 ], [ 8, 7 ], [ 7, 2 ], [ 2, 1 ], [ 2, 3 ], [ 9, 10 ] ], g1.dfs_edges( 9, 4 ).to_array(), "dfs edges 2" );
+assert_equals( [ [ 2, [ 1, 7 ] ], [ 3, [ 2 ] ], [ 4,[ 3, 5 ] ], [ 5,[ 6 ] ] ], _sorted( g1.dfs_successors( 4, 3 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ] ) ]; } ).to_array(), "dfs successors 2" );
+assert_equals( [ [ 2,[ 3 ] ],[ 7,[ 2, 8 ] ],[ 8,[ 9 ] ] ], _sorted( g2.dfs_successors( 7, 2 ), function( e ) { return e[ 0 ]; } ).to_array(), "dsf successors 3" );
+assert_equals( [ [ 1 ,0 ], [ 2 ,1 ], [ 3, 2 ], [ 7, 2 ] ], _sorted( g1.dfs_predecessors( 0, 3 ), function( e ) { return e[ 0 ]; } ).to_array(), "dsf predessors 2" );
+assert_equals( [ [ 2, 7 ], [ 3, 2 ], [ 8, 7 ], [ 9, 8 ] ], _sorted( g2.dfs_predecessors( 7, 2 ), function( e ) { return e[ 0 ]; } ).to_array(), "dsf predessors 3" );
 
 #endregion
 
