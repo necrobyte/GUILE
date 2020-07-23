@@ -1023,12 +1023,12 @@ function array_qsort( a ) {
 			
 			if ( ( j - _left ) > ( _right - i ) ) {
 				if ( i < _right ) {
-					array_qsort( a, _key ? _keys : _key, _reverse, i, _right );
+					array_qsort( a, is_array( _key ) ? _keys : _key, _reverse, i, _right );
 				}
 				_right = j;
 			} else {
 				if( _left < j ) {
-					array_qsort( a, _key ? _keys : _key, _reverse, _left, j );
+					array_qsort( a, is_array( _key ) ? _keys : _key, _reverse, _left, j );
 				}
 				_left = i;
 			}	
