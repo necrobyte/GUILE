@@ -1,3 +1,5 @@
+/// @module arraytools
+
 #region Array
 
 /// @func Array( _object )
