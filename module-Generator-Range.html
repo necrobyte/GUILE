@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>IteratorDict - Documentation</title>
+    <title>Range - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">IteratorDict</h1>
+    <h1 class="page-title">Range</h1>
     
 
     
@@ -47,12 +47,12 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="module-itertools.html">itertools</a>.</span>
+            <span class="ancestors"><a href="module-itertools.html">itertools</a><a href="module-Generator.html">~Generator</a>~</span>
         
-        IteratorDict
+        Range
         </h2>
         
-            <div class="class-description usertext"><p>Iterator for key-value styled data structures</p></div>
+            <div class="class-description usertext"><p>range struct constructor</p></div>
         
     
 </header>
@@ -67,7 +67,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="IteratorDict"><span class="type-signature"></span>new IteratorDict<span class="signature">(data, next, is_done)</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
+    <h4 class="name" id="Range"><span class="type-signature"></span>new Range<span class="signature">(start<span class="signature-attributes">opt</span>, stop, step<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Range.html">Range</a>}</span></h4>
 
     
 
@@ -79,7 +79,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line278">line 278</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line403">line 403</a>
     </li></ul></dd>
     
 
@@ -113,7 +113,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>__iter_dict</li>
+            <li>_range</li>
         </ul>
     </dd>
     
@@ -148,7 +148,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -160,20 +164,36 @@
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>start</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Any</span>
+<span class="param-type">Number</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>0</code>
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -183,20 +203,32 @@
 
         <tr>
             
-                <td class="name"><code>next</code></td>
+                <td class="name"><code>stop</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Method()</span>
+<span class="param-type">Number</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -206,20 +238,36 @@
 
         <tr>
             
-                <td class="name"><code>is_done</code></td>
+                <td class="name"><code>step</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Method()</span>
+<span class="param-type">Number</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>1</code>
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -247,12 +295,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <ul>
-<li>iterator struct</li>
-</ul>
-</div>
-
 
 
 <dl class="param-type">
@@ -261,7 +303,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Iterator.html">Iterator</a></span>
+<span class="param-type"><a href="Range.html">Range</a></span>
 
 
     </dd>
@@ -274,17 +316,6 @@
         
         </div>
     
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="Iterator.html">Iterator</a></li>
-    </ul>
-
 
     
 
