@@ -6,6 +6,7 @@
 /// @func Generator( data, next )
 /// @name Generator
 /// @class
+/// @memberof module:itertools
 ///
 /// @classdesc Iterator that can never be exhausted
 ///
@@ -62,6 +63,7 @@ function Generator( _data, _next ) constructor {
 /// @func Iterator( data, next, [is_done] )
 /// @name Iterator
 /// @class
+/// @memberof module:itertools
 /// @extends Generator
 ///
 /// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
@@ -659,6 +661,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 /// @func IteratorDict( data, next, [is_done] )
 /// @name IteratorDict
 /// @class
+/// @memberof module:itertools
 /// @extends Iterator
 ///
 /// @classdesc Iterator for key-value styled data structures
