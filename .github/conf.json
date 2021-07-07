@@ -37,7 +37,6 @@
         "typedefs": true,
         "navLevel": 0, 
         "private": true, 
-        "removeQuotes": none,
         "menu": {
             "GUILE": {
                 "href":"https://github.com/necrobyte/GUILE", //the rest of HTML properties to add to manu item
