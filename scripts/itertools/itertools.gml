@@ -1,6 +1,5 @@
+/// @fileOverview This is the base definition of main Iterator types
 /// @module itertools
-///
-/// @desc itertools module
 
 #region Iterator
 
