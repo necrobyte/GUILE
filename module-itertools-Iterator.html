@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>GraphStructs - Documentation</title>
+    <title>Iterator - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">GraphStructs</h1>
+    <h1 class="page-title">Iterator</h1>
     
 
     
@@ -47,12 +47,16 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="module-graphtools.html">graphtools</a>.</span>
+            <span class="ancestors"><a href="module-itertools.html">itertools</a>~</span>
         
-        GraphStructs
+        Iterator
         </h2>
         
-            <div class="class-description usertext"><p>Graph with structs for nodes and edges.</p></div>
+            <div class="class-description usertext"><p>An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
+When no more data are available returns undefined. At this point, the iterator object is exhausted and any further calls to its next() method just return undefined again.
+Iterators are required to have an __iter() method that returns the iterator object itself so every iterator is also iterable and may be used in most places where other iterables are accepted.
+One notable exception is code which attempts multiple iteration passes. A container object (such as a list) produces a fresh new iterator each time you pass it to the iter() function or use it in a for loop.
+Attempting this with an iterator will just return the same exhausted iterator object used in the previous iteration pass, making it appear like an empty container.</p></div>
         
     
 </header>
@@ -67,7 +71,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="GraphStructs"><span class="type-signature"></span>new GraphStructs<span class="signature">(directed<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {GraphStructs}</span></h4>
+    <h4 class="name" id="Iterator"><span class="type-signature"></span>new Iterator<span class="signature">(data, next, is_done)</span><span class="type-signature"> &rarr; {<a href="Iterator.html">Iterator</a>}</span></h4>
 
     
 
@@ -79,7 +83,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="graphtools_graphtools.gml.html">graphtools/graphtools.gml</a>, <a href="graphtools_graphtools.gml.html#line741">line 741</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -141,11 +145,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -157,36 +157,66 @@
 
         <tr>
             
-                <td class="name"><code>directed</code></td>
+                <td class="name"><code>data</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Bool</span>
+<span class="param-type">Any</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
 
-                
+            
 
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
                 
-                </td>
+<span class="param-type">Method()</span>
+
+
+            
+            </td>
+
             
 
             
-                <td class="default">
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>is_done</code></td>
+            
+
+            <td class="type">
+            
                 
-                    <code>false</code>
-                
-                </td>
+<span class="param-type">Method()</span>
+
+
+            
+            </td>
+
+            
+
             
 
             <td class="description last"></td>
@@ -214,12 +244,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <ul>
-<li>GraphStructs struct</li>
-</ul>
-</div>
-
 
 
 <dl class="param-type">
@@ -228,7 +252,7 @@
     </dt>
     <dd>
         
-<span class="param-type">GraphStructs</span>
+<span class="param-type"><a href="Iterator.html">Iterator</a></span>
 
 
     </dd>
@@ -241,6 +265,17 @@
         
         </div>
     
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="Generator.html">Generator</a></li>
+    </ul>
+
 
     
 

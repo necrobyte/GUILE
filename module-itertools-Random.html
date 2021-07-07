@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>GraphStructs - Documentation</title>
+    <title>Random - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">GraphStructs</h1>
+    <h1 class="page-title">Random</h1>
     
 
     
@@ -47,12 +47,12 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="module-graphtools.html">graphtools</a>.</span>
+            <span class="ancestors"><a href="module-itertools.html">itertools</a>~</span>
         
-        GraphStructs
+        Random
         </h2>
         
-            <div class="class-description usertext"><p>Graph with structs for nodes and edges.</p></div>
+            <div class="class-description usertext"><p>Iterator that yields random values</p></div>
         
     
 </header>
@@ -67,7 +67,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="GraphStructs"><span class="type-signature"></span>new GraphStructs<span class="signature">(directed<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {GraphStructs}</span></h4>
+    <h4 class="name" id="Random"><span class="type-signature"></span>new Random<span class="signature">(seed, next)</span><span class="type-signature"> &rarr; {<a href="Random.html">Random</a>}</span></h4>
 
     
 
@@ -79,7 +79,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="graphtools_graphtools.gml.html">graphtools/graphtools.gml</a>, <a href="graphtools_graphtools.gml.html#line741">line 741</a>
+        <a href="itertools_itertools.gml.html">itertools/itertools.gml</a>, <a href="itertools_itertools.gml.html#line485">line 485</a>
     </li></ul></dd>
     
 
@@ -141,11 +141,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -157,36 +153,43 @@
 
         <tr>
             
-                <td class="name"><code>directed</code></td>
+                <td class="name"><code>seed</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Bool</span>
+<span class="param-type">Number</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
                 
-                    <code>false</code>
-                
-                </td>
+<span class="param-type">Method()</span>
+
+
+            
+            </td>
+
+            
+
             
 
             <td class="description last"></td>
@@ -214,12 +217,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <ul>
-<li>GraphStructs struct</li>
-</ul>
-</div>
-
 
 
 <dl class="param-type">
@@ -228,7 +225,7 @@
     </dt>
     <dd>
         
-<span class="param-type">GraphStructs</span>
+<span class="param-type"><a href="Random.html">Random</a></span>
 
 
     </dd>
