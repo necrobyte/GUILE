@@ -1,6 +1,3 @@
-/// @fileOverview This is the base definition of main Iterator types
-/// @module itertools
-
 #region Iterator
 
 /// @func Generator( data, next )
@@ -59,9 +56,7 @@ function Generator( _data, _next ) constructor {
  }
 
 /// @func Iterator( data, next, [is_done] )
-/// @exports Iterator
 /// @class Iterator
-/// @memberof module:itertools
 /// @extends Generator
 ///
 /// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
@@ -658,7 +653,6 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 
 /// @func IteratorDict( data, next, [is_done] )
 /// @class IteratorDict
-/// @memberof module:itertools
 /// @extends Iterator
 ///
 /// @classdesc Iterator for key-value styled data structures
@@ -1056,7 +1050,6 @@ function range_prod( _stop ) {
 
 /// @func Random( _seed, _next, _get_seed, _set_seed )
 /// @class Random
-/// @alias Random
 ///
 /// @classdesc Iterator that yields random values
 ///
@@ -1638,6 +1631,9 @@ function _random( ) {
 }
 
 #endregion
+
+/// @fileOverview This is the base definition of main Iterator types
+/// @module itertools
 
 #region iter
 
