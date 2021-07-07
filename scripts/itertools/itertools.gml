@@ -1,10 +1,11 @@
-/// @module itertools
+/// @namespace itertools
 
 #region Iterator
 
 /// @func Generator( data, next )
 /// @name Generator
 /// @class
+/// @memberof itertools
 ///
 /// @classdesc Iterator that can never be exhausted
 ///
