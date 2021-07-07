@@ -39,11 +39,11 @@
         "private": true, 
         "menu": {
             "GUILE": {
-                "href":"https://github.com/necrobyte/GUILE", //the rest of HTML properties to add to manu item
+                "href":"https://github.com/necrobyte/GUILE",
                 "target":"_blank",
                 "class":"menu-item",
                 "id":"website_link"
-            },
+            }
         },
         "scopeInOutputPath": true,
         "nameInOutputPath": true,
