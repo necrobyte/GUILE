@@ -1,13 +1,11 @@
 /// @fileOverview This is the base definition of main Iterator types
 /// @module itertools
-/// @exports Generator
-/// @exports Iterator
 
 #region Iterator
 
 /// @func Generator( data, next )
-/// @name Generator
-/// @class
+/// @exports Generator
+/// @class Generator
 ///
 /// @classdesc Iterator that can never be exhausted
 ///
@@ -63,8 +61,7 @@ function Generator( _data, _next ) constructor {
 
 /// @func Iterator( data, next, [is_done] )
 /// @exports Iterator
-/// @name Iterator
-/// @class
+/// @class Iterator
 /// @memberof module:itertools
 /// @extends Generator
 ///
@@ -661,8 +658,7 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 }
 
 /// @func IteratorDict( data, next, [is_done] )
-/// @name IteratorDict
-/// @class
+/// @class IteratorDict
 /// @memberof module:itertools
 /// @extends Iterator
 ///
