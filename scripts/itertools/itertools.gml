@@ -2,10 +2,10 @@
 
 #region Iterator
 
+/// @memberof itertools
 /// @func Generator( data, next )
 /// @name Generator
 /// @class
-/// @memberof itertools
 ///
 /// @classdesc Iterator that can never be exhausted
 ///
@@ -60,6 +60,7 @@ function Generator( _data, _next ) constructor {
  }
 
 /// @func Iterator( data, next, [is_done] )
+/// @memberof itertools
 /// @name Iterator
 /// @class
 /// @extends Generator
