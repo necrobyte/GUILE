@@ -1,3 +1,4 @@
+/// @fileOverview classes and functions related to array handling
 /// @module arraytools
 
 #region Array
