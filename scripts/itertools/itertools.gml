@@ -1,4 +1,6 @@
 /// @module itertools
+///
+/// @desc itertools module
 
 #region Iterator
 
