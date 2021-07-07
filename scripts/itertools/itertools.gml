@@ -14,6 +14,7 @@
 /// @arg {Method()} next
 ///
 /// @return {Generator}
+
 /// @lends Generator#
 
 function Generator( _data, _next ) constructor {
@@ -65,7 +66,8 @@ function Generator( _data, _next ) constructor {
 /// @exports Iterator
 /// @name Iterator
 /// @class
-/// @extends Generator
+/// @memberof module:itertools
+/// @extends module:itertools~Generator
 ///
 /// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
 /// When no more data are available returns undefined. At this point, the iterator object is exhausted and any further calls to its next() method just return undefined again.
