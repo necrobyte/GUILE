@@ -1,8 +1,12 @@
+/// @fileOverview classes and functions related to array handling
+/// @module graphtools
+
 #region Graph
 
 /// @func Graph( )
 /// @name Graph
 /// @class
+/// @memberof module:graphtools
 ///
 /// @classdesc Generic graph
 ///
@@ -1964,6 +1968,7 @@ function Graph( ) constructor {
 /// @func GraphStructs( )
 /// @name GraphStructs
 /// @class
+/// @memberof module:graphtools
 ///
 /// @classdesc Graph with structs for nodes and edges.
 ///
