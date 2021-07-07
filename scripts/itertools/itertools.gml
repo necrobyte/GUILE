@@ -4,7 +4,6 @@
 #region Iterator
 
 /// @func Generator( data, next )
-/// @exports itertools/Generator
 /// @name Generator
 /// @class
 ///
@@ -61,7 +60,6 @@ function Generator( _data, _next ) constructor {
  }
 
 /// @func Iterator( data, next, [is_done] )
-/// @exports itertools/Iterator
 /// @name Iterator
 /// @class
 /// @extends Generator
