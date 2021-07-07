@@ -3,7 +3,7 @@
 #region Iterator
 
 /// @func Generator( data, next )
-/// @name Generator
+/// @name itertools.Generator
 /// @class
 ///
 /// @classdesc Iterator that can never be exhausted
@@ -59,7 +59,7 @@ function Generator( _data, _next ) constructor {
  }
 
 /// @func Iterator( data, next, [is_done] )
-/// @name Iterator
+/// @name itertools.Iterator
 /// @class
 /// @extends Generator
 ///
