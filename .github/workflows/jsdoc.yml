@@ -30,7 +30,7 @@ jobs:
           recurse: true
           output_dir: ./out
           config_file: .github/conf.json
-          template: minami
+          template: docdash
           front_page: README.md
 
       - name: Deploy
