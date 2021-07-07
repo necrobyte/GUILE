@@ -1,10 +1,11 @@
 /// @fileOverview This is the base definition of main Iterator types
 /// @module itertools
+/// @exports Generator
+/// @exports Iterator
 
 #region Iterator
 
 /// @func Generator( data, next )
-/// @alias Generator
 /// @name Generator
 /// @class
 ///
