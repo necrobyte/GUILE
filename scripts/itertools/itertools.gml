@@ -4,8 +4,9 @@
 #region Iterator
 
 /// @func Generator( data, next )
-/// @exports Generator
+/// @name Generator
 /// @class
+/// @exports Generator
 ///
 /// @classdesc Iterator that can never be exhausted
 ///
