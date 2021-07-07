@@ -14,7 +14,7 @@
 /// @arg {Method()} next
 ///
 /// @return {Generator}
-/// @lends Generator
+/// @lends Generator#
 
 function Generator( _data, _next ) constructor {
 	/// @method is_done
