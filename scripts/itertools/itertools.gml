@@ -4,9 +4,9 @@
 #region Iterator
 
 /// @func Generator( data, next )
+/// @exports Generator
 /// @name Generator
 /// @class
-/// @exports Generator
 ///
 /// @classdesc Iterator that can never be exhausted
 ///
@@ -61,9 +61,9 @@ function Generator( _data, _next ) constructor {
  }
 
 /// @func Iterator( data, next, [is_done] )
+/// @exports Iterator
 /// @name Iterator
 /// @class
-/// @exports Iterator
 /// @extends Generator
 ///
 /// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
