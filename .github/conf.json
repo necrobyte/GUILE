@@ -16,5 +16,38 @@
     "markdown": {
         "hardwrap": false,
         "excludeTags": ["author"]
+    },
+    "docdash": {
+        "static": true,
+        "sort": false,
+        "sectionOrder": [  
+             "Modules",
+             "Classes",
+             "Namespaces",
+             "Externals",
+             "Events",
+             "Mixins",
+             "Tutorials",
+             "Interfaces"
+        ],
+        "search": true,
+        "commonNav": true,
+        "collapse": false,
+        "wrap": true,
+        "typedefs": true,
+        "navLevel": 0, 
+        "private": true, 
+        "removeQuotes": none,
+        "menu": {
+            "GUILE": {
+                "href":"https://github.com/necrobyte/GUILE", //the rest of HTML properties to add to manu item
+                "target":"_blank",
+                "class":"menu-item",
+                "id":"website_link"
+            },
+        },
+        "scopeInOutputPath": true,
+        "nameInOutputPath": true,
+        "versionInOutputPath": false
     }
 }
