@@ -1055,8 +1055,8 @@ function range_prod( _stop ) {
 #region Random
 
 /// @func Random( _seed, _next, _get_seed, _set_seed )
-/// @name Random
-/// @class
+/// @class Random
+/// @alias Random
 ///
 /// @classdesc Iterator that yields random values
 ///
