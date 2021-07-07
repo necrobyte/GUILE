@@ -21,8 +21,8 @@
         "static": true,
         "sort": false,
         "sectionOrder": [  
-             "Modules",
              "Classes",
+             "Modules",
              "Namespaces",
              "Externals",
              "Events",
