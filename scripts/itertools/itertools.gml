@@ -1,11 +1,12 @@
-/// @namespace itertools
+/// @name itertools
+/// @namespace
 
 #region Iterator
 
-/// @memberof itertools
 /// @func Generator( data, next )
 /// @name Generator
 /// @class
+/// @memberof itertools
 ///
 /// @classdesc Iterator that can never be exhausted
 ///
@@ -60,10 +61,10 @@ function Generator( _data, _next ) constructor {
  }
 
 /// @func Iterator( data, next, [is_done] )
-/// @memberof itertools
 /// @name Iterator
 /// @class
-/// @extends Generator
+/// @memberof itertools
+/// @extends itertools.Generator
 ///
 /// @classdesc An object representing a stream of data. Repeated calls to the iterator’s next() method return successive items in the stream.
 /// When no more data are available returns undefined. At this point, the iterator object is exhausted and any further calls to its next() method just return undefined again.
