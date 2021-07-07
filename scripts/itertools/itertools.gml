@@ -4,6 +4,7 @@
 #region Iterator
 
 /// @func Generator( data, next )
+/// @name Generator
 /// @alias Generator
 /// @class
 ///
