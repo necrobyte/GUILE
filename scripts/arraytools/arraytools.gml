@@ -573,26 +573,6 @@ function array_count( _array, _value ) {
 	return _result;
 }
 
-/// @func array_delete
-///
-/// @desc Removes element with specified index from the array
-///
-/// @arg {Array} array
-/// @arg {Number} index
-
-function array_delete( _array, _index ) {
-	var n = array_length( _array );
-	_index = ( _index < 0 ) ? _index + n : _index;
-	
-	while ( ++_index < n ) {
-		_array[@ _index - 1 ] = _array[ _index ];
-	}
-	
-	array_resize( _array, n - 1 );
-	
-	return _array;
-}
-
 /// @func array_extend
 ///
 /// @desc Extend the array by appending all the items from the iterable.
@@ -688,34 +668,6 @@ function array_index( _array, _value ) {
 	return undefined;
 }
 
-/// @func array_insert
-///
-/// @desc Insert an item at a given position.
-///
-/// @arg {Array} array
-/// @arg {Number} index Index of the element before which to insert the new value.
-/// @arg {Any} value
-///
-/// @example
-/// var a = [ 1, 2, 4, 6 ];
-///array_insert( a, 2, 3 );
-///a --> [ 1, 2, 3, 4, 6 ];
-///array_insert( a, -1, 5 );
-///a --> [ 1, 2, 3, 4, 5, 6 ];
-
-function array_insert( _array, _index, _value ) {
-	var n = array_length( _array );
-	_index = ( _index < 0 ) ? _index + n : _index;
-	
-	if ( _index < n ) {
-		array_copy( _array, _index + 1, _array, _index, n - _index );
-	}
-	
-	_array[@ _index ] = _value;
-	
-	return _array;
-}
-
 /// @func array_map
 ///
 /// @desc Applies function to every item of input aray
@@ -767,7 +719,7 @@ function array_pop( _array ) {
 function array_remove( _array, _value ) {
 	var _index = array_index( _array, _value );
 	if ( !is_undefined( _index ) ) {
-		array_delete( _array, _index );
+		array_delete( _array, _index, 1 );
 	}
 	
 	return _array;

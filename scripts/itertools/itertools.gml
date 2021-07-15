@@ -572,17 +572,15 @@ function Iterator( _data, _next, _is_done ) : Generator( _data, _next ) construc
 	///
 	/// @desc Returns a new Iterator that yields items in iterable sorted
 	///
-	/// @arg {Method} [key=undefined]
-	/// @arg {Bool} [_reverse=false]
+	/// @arg {Method} [key=true]
 	///
 	/// @example
 	/// iter( [ 5, 2, 3, 1, 4 ] ).sorted() --> 1, 2, 3, 4, 5
 	
 	static sorted = function( ) {
-		var _key = ( argument_count > 0 ) ? argument[ 0 ] : undefined;
-		var _reverse = ( argument_count > 1 ) ? argument[ 1 ] : false;
+		var _key = ( argument_count > 0 ) ? argument[ 0 ] : true;
 		
-		return iter( array_sort( to_array(), _key, _reverse ) );
+		return iter( array_sort( to_array(), _key ) );
 	}
 	
 	/// @method to_array
@@ -2702,7 +2700,6 @@ function _reduce( _iterable, _function ) {
 ///
 /// @arg {Iterable} iterable
 /// @arg {Method} [key=undefined]
-/// @arg {Bool} [_reverse=false]
 ///
 /// @return {Iterator}
 ///
@@ -2711,10 +2708,9 @@ function _reduce( _iterable, _function ) {
 /// _sorted( "ebcad" ).to_string() --> "abcde"
 
 function _sorted( _iterable ) {
-	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
-	var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
+	var _key = ( argument_count > 1 ) ? argument[ 1 ] : true;
 	
-	return iter( _iterable ).sorted( _key, _reverse );
+	return iter( _iterable ).sorted( _key );
 }
 
 /// @func _unique

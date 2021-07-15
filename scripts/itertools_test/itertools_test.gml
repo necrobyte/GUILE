@@ -322,7 +322,7 @@ uf.union( 3, 4 );
 uf.union( 4, 5 );
 uf.union( 1, 5 );
 
-assert_equals( [ [ 1, 2, 3, 4, 5 ] ] , uf.groups().map( function( e ) { return array_sort( e ); } ).to_array(), "UnionFind 1" );
+assert_equals( [ [ 1, 2, 3, 4, 5 ] ] , uf.groups().map( function( e ) { return array_sort( e, true ); } ).to_array(), "UnionFind 1" );
 
 var uf = new UnionFind();
 uf.union( 1, 4, 7 );
@@ -488,14 +488,14 @@ assert_equals( [ ], g.dfs_edges( 1 ).to_array(), "dfs edges 1" );
 g1 = graph_path( [ 2, 7, 8, 9, 10 ], graph_path( 7 ) ) ;
 g2 = graph_path( [ 3, 2, 7, 8, 9, 10 ], graph_path( 2 ) );
 assert_equals( [ [ 9, 8 ], [ 9, 10 ], [ 8, 7 ], [ 7, 2 ], [ 2, 1 ], [ 2, 3 ] ], g1.bfs_edges( 9, 4 ).to_array(), "bfs edges 2" );
-assert_equals( [ [ 1, [ 0, 2 ] ], [ 2, [ 3, 7 ] ], [ 3,[ 4 ] ], [ 7,[ 8 ] ] ], _sorted( g1.bfs_successors( 1, 3 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ] ) ]; } ).to_array(), "bfs successors 2" );
-assert_equals( [ [ 2,[ 3 ] ],[ 7,[ 2, 8 ] ],[ 8,[ 9 ] ] ], _sorted( g2.bfs_successors( 7, 2 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ] ) ]; } ).to_array(), "bfs successors 3" );
+assert_equals( [ [ 1, [ 0, 2 ] ], [ 2, [ 3, 7 ] ], [ 3,[ 4 ] ], [ 7,[ 8 ] ] ], _sorted( g1.bfs_successors( 1, 3 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ], true ) ]; } ).to_array(), "bfs successors 2" );
+assert_equals( [ [ 2,[ 3 ] ],[ 7,[ 2, 8 ] ],[ 8,[ 9 ] ] ], _sorted( g2.bfs_successors( 7, 2 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ], true ) ]; } ).to_array(), "bfs successors 3" );
 assert_equals( [ [ 0 ,1 ], [ 2 ,1 ], [ 3, 2 ], [ 4, 3 ], [ 7, 2 ], [ 8, 7 ] ], _sorted( g1.bfs_predecessors( 1, 3 ), function( e ) { return e[ 0 ]; } ).to_array(), "bfs predessors 2" );
 assert_equals( [ [ 2, 7 ], [ 3, 2 ], [ 8, 7 ], [ 9, 8 ] ], _sorted( g2.bfs_predecessors( 7, 2 ), function( e ) { return e[ 0 ]; } ).to_array(), "bfs predessors 3" );
 
 assert_equals( [ [ 9, 8 ], [ 8, 7 ], [ 7, 2 ], [ 2, 1 ], [ 2, 3 ], [ 9, 10 ] ], g1.dfs_edges( 9, 4 ).to_array(), "dfs edges 2" );
-assert_equals( [ [ 2, [ 1, 7 ] ], [ 3, [ 2 ] ], [ 4,[ 3, 5 ] ], [ 5,[ 6 ] ] ], _sorted( g1.dfs_successors( 4, 3 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ] ) ]; } ).to_array(), "dfs successors 2" );
-assert_equals( [ [ 2,[ 3 ] ],[ 7,[ 2, 8 ] ],[ 8,[ 9 ] ] ], _sorted( g2.dfs_successors( 7, 2 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ] ) ]; } ).to_array(), "dfs successors 3" );
+assert_equals( [ [ 2, [ 1, 7 ] ], [ 3, [ 2 ] ], [ 4,[ 3, 5 ] ], [ 5,[ 6 ] ] ], _sorted( g1.dfs_successors( 4, 3 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ], true ) ]; } ).to_array(), "dfs successors 2" );
+assert_equals( [ [ 2,[ 3 ] ],[ 7,[ 2, 8 ] ],[ 8,[ 9 ] ] ], _sorted( g2.dfs_successors( 7, 2 ), function( e ) { return e[ 0 ]; } ).map( function( e ) { return [ e[ 0 ], array_sort( e[ 1 ], true ) ]; } ).to_array(), "dfs successors 3" );
 assert_equals( [ [ 1 ,0 ], [ 2 ,1 ], [ 3, 2 ], [ 7, 2 ] ], _sorted( g1.dfs_predecessors( 0, 3 ), function( e ) { return e[ 0 ]; } ).to_array(), "dfs predessors 2" );
 assert_equals( [ [ 2, 7 ], [ 3, 2 ], [ 8, 7 ], [ 9, 8 ] ], _sorted( g2.dfs_predecessors( 7, 2 ), function( e ) { return e[ 0 ]; } ).to_array(), "dfs predessors 3" );
 
@@ -504,8 +504,8 @@ var e1 = [ [ 0, 1, 7 ], [ 0, 3, 5 ], [ 1, 2, 8 ], [ 1, 3, 9 ], [ 1, 4, 7 ], [ 2,
 var g = graph_empty();
 g.add_edges_from( e1 );
 
-assert_equals( [ [ 0, 1 ], [ 0, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 5 ], [ 4, 6 ] ], g.kruskal_mst_edges( ).map( function( e ) { return array_sort( e ); } ).sorted( string ).to_array(), "kruskal 1" );
-assert_equals( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ], [ 3, 4 ], [ 4, 6 ], [ 5, 6 ] ], g.kruskal_mst_edges( true ).map( function( e ) { return array_sort( e ); } ).sorted( string ).to_array(), "kruskal 2" );
+assert_equals( [ [ 0, 1 ], [ 0, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 5 ], [ 4, 6 ] ], g.kruskal_mst_edges( ).map( function( e ) { return array_sort( e, true ); } ).sorted( string ).to_array(), "kruskal 1" );
+assert_equals( [ [ 0, 1 ], [ 1, 2 ], [ 1, 3 ], [ 3, 4 ], [ 4, 6 ], [ 5, 6 ] ], g.kruskal_mst_edges( true ).map( function( e ) { return array_sort( e, true ); } ).sorted( string ).to_array(), "kruskal 2" );
 
 #endregion
 
