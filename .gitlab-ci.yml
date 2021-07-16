@@ -19,13 +19,15 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Compiling the code..."
     - echo %CD%
     - dir
-    - rubber .
+    - rubber --zip .
     - echo "Compile complete."
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
-    - echo "Running unit tests... This will take about 60 seconds."
+    - echo "Running unit tests..."
+    - rubber .
+    - echo "All tests passed"
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
