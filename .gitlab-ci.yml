@@ -22,7 +22,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - rubber --zip . GUILE.zip
     - echo "Compile complete."
   artifacts:
-    path:
+    paths:
       - GUILE.zip
 
 unit-test-job:   # This job runs in the test stage.
