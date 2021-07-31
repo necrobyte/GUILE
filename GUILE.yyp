@@ -1,11 +1,13 @@
 {
   "resources": [
+    {"id":{"name":"graphtools_test","path":"scripts/graphtools_test/graphtools_test.yy",},"order":6,},
+    {"id":{"name":"util","path":"scripts/util/util.yy",},"order":2,},
+    {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},"order":0,},
     {"id":{"name":"graphtools","path":"scripts/graphtools/graphtools.yy",},"order":5,},
     {"id":{"name":"arraytools","path":"scripts/arraytools/arraytools.yy",},"order":3,},
+    {"id":{"name":"itertools_test","path":"scripts/itertools_test/itertools_test.yy",},"order":1,},
     {"id":{"name":"itertools","path":"scripts/itertools/itertools.yy",},"order":0,},
     {"id":{"name":"arraytools_test","path":"scripts/arraytools_test/arraytools_test.yy",},"order":4,},
-    {"id":{"name":"util","path":"scripts/util/util.yy",},"order":1,},
-    {"id":{"name":"itertools_test","path":"scripts/itertools_test/itertools_test.yy",},"order":2,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
   ],
   "Options": [
@@ -16,12 +18,8 @@
     {"name":"Linux","path":"options/linux/options_linux.yy",},
     {"name":"macOS","path":"options/mac/options_mac.yy",},
     {"name":"Main","path":"options/main/options_main.yy",},
-    {"name":"PlayStation 4","path":"options/ps4/options_ps4.yy",},
-    {"name":"Switch","path":"options/switch/options_switch.yy",},
     {"name":"tvOS","path":"options/tvos/options_tvos.yy",},
     {"name":"Windows","path":"options/windows/options_windows.yy",},
-    {"name":"Windows UWP","path":"options/windowsuap/options_windowsuap.yy",},
-    {"name":"Xbox One","path":"options/xboxone/options_xboxone.yy",},
   ],
   "isDnDProject": false,
   "isEcma": false,
@@ -57,7 +55,7 @@
   ],
   "IncludedFiles": [],
   "MetaData": {
-    "IDEVersion": "2.3.2.560",
+    "IDEVersion": "2.3.3.570",
   },
   "resourceVersion": "1.4",
   "name": "GUILE",

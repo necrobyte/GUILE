@@ -1,6 +1,3 @@
-/// @fileOverview classes and functions related to array handling
-/// @module graphtools
-
 #region Graph
 
 /// @func Graph( )
@@ -108,7 +105,7 @@ function Graph( ) constructor {
 		
 		var _iter = iter( _iterable );
 				
-		while ( !_iter.is_done() ) {
+		while ( _iter.has_next() ) {
 			var _edge = _iter.next();
 			var n = array_length( _edge );
 			add_edge( _edge[ 0 ], _edge[ 1 ], ( n > 2 ) ? _edge[ 2 ] : _weight, ( n > 3 ) ? _edge[ 3 ] : _attr );
@@ -160,7 +157,7 @@ function Graph( ) constructor {
 			_attr = iter( _attr ).to_array();	
 		}
 		
-		while ( !_iter.is_done() ) {
+		while ( _iter.has_next() ) {
 			var _node = _iter.next();
 			if ( is_array( _node ) ) {
 				add_node( _node[ 0 ], _node[ 1 ] );
@@ -178,12 +175,12 @@ function Graph( ) constructor {
 	/// @return {IteratorDict}
 	
 	static adjacency = function() {
-		var _iter = __iter_dict( adj, function() {
+		var _iter = new_iter_dict( adj, function() {
 			return key_iter.next();
 		}, function( _key ) {
 			return data.get( _key ).items().to_struct();
 		}, function() {
-			return key_iter.is_done();
+			return key_iter.has_next();
 		} );
 		
 		_iter.key_iter = adj.keys();
@@ -210,7 +207,7 @@ function Graph( ) constructor {
 			return _result;
 		}, function() {
 			while( is_undefined( dest ) ) {
-				while( is_undefined( start ) && ( !nodes.is_done() ) ) {
+				while( is_undefined( start ) && ( nodes.has_next() ) ) {
 					start = nodes.next();
 					
 					if ( ( variable_struct_exists( visited, start ) ) ) {
@@ -233,7 +230,7 @@ function Graph( ) constructor {
 				var _depth = _element[ 1 ];
 				var _nodes = _element[ 2 ];
 				
-				while ( is_undefined( dest ) && ( !_nodes.is_done() ) ) {
+				while ( is_undefined( dest ) && ( _nodes.has_next() ) ) {
 					dest = _nodes.next();
 					
 					if ( variable_struct_exists( visited, dest ) ) {
@@ -246,7 +243,7 @@ function Graph( ) constructor {
 							cache[ ++last ] = [ dest, _depth - 1, data.neighbors( dest ) ];
 						}
 						
-						return false;
+						return true;
 					}
 				}
 				
@@ -255,7 +252,7 @@ function Graph( ) constructor {
 				}
 			}
 			
-			return ( nodes.is_done() && ( index > last ) );
+			return ( nodes.has_next() || ( index <= last ) );
 		} );
 		
 		_iter.nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
@@ -289,7 +286,7 @@ function Graph( ) constructor {
 			return _result;
 		}, function() {
 			while( is_undefined( dest ) ) {
-				while( is_undefined( start ) && ( !nodes.is_done() ) ) {
+				while( is_undefined( start ) && ( nodes.has_next() ) ) {
 					start = nodes.next();
 					
 					if ( ( variable_struct_exists( visited, start ) ) ) {
@@ -301,7 +298,7 @@ function Graph( ) constructor {
 						index = 0;
 						last = 0;
 						dest = start;
-						return false;
+						return true;
 					}
 				}
 				
@@ -314,7 +311,7 @@ function Graph( ) constructor {
 				var _depth = _element[ 1 ];
 				var _nodes = _element[ 2 ];
 				
-				while ( is_undefined( dest ) && ( !_nodes.is_done() ) ) {
+				while ( is_undefined( dest ) && ( _nodes.has_next() ) ) {
 					dest = _nodes.next();
 					
 					if ( variable_struct_exists( visited, dest ) ) {
@@ -327,7 +324,7 @@ function Graph( ) constructor {
 							cache[ ++last ] = [ dest, _depth - 1, data.neighbors( dest ) ];
 						}
 						
-						return false;
+						return true;
 					}
 				}
 				
@@ -336,7 +333,7 @@ function Graph( ) constructor {
 				}
 			}
 			
-			return ( nodes.is_done() && ( index > last ) );
+			return ( nodes.has_next() || ( index <= last ) );
 		} );
 		
 		_iter.nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
@@ -369,7 +366,7 @@ function Graph( ) constructor {
 		
 		var _iter = bfs_edges( _nodes, _depth_limit );
 		
-		while( !_iter.is_done() ) {
+		while( _iter.has_next() ) {
 			var _item = _iter.next();
 			variable_struct_set( _result, _item[ 1 ], _item[ 0 ] );
 		}
@@ -395,7 +392,7 @@ function Graph( ) constructor {
 		
 		var _iter = bfs_edges( _nodes, _depth_limit );
 		
-		while( !_iter.is_done() ) {
+		while( _iter.has_next() ) {
 			var _item = _iter.next();
 			if ( variable_struct_exists( _result, _item[ 0 ] ) ) {
 				var _value = variable_struct_get( _result, _item[ 0 ] );
@@ -497,21 +494,21 @@ function Graph( ) constructor {
 		if ( argument_count > 0 ) {
 			var _node = argument[ 0 ];
 			if ( is_iterable( _node ) ) {
-				var _iter = __iter_dict( iter( _node ), function( ) {
+				var _iter = new_iter_dict( iter( _node ), function( ) {
 					var _result = cache;
 					cache = undefined;
 					return _result;
 				}, function( _key ) {
 					return adj.get( _key ).size;
 				}, function() {
-					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+					while ( is_undefined( cache ) && ( data.has_next() ) ) {
 						cache = data.next();
 						if ( is_undefined( adj.get( cache ) ) ) {
 							cache = undefined;
 						}
 					}
 					
-					return is_undefined( cache );
+					return ( !is_undefined( cache ) );
 				} );
 						
 				_iter.adj = adj;
@@ -551,7 +548,7 @@ function Graph( ) constructor {
 			return _result;
 		}, function() {
 			while( is_undefined( dest ) ) {
-				while( is_undefined( start ) && ( !nodes.is_done() ) ) {
+				while( is_undefined( start ) && ( nodes.has_next() ) ) {
 					start = nodes.next();
 					
 					if ( ( variable_struct_exists( visited, start ) ) ) {
@@ -573,7 +570,7 @@ function Graph( ) constructor {
 				var _depth = _element[ 1 ];
 				var _nodes = _element[ 2 ];
 				
-				while ( is_undefined( dest ) && ( !_nodes.is_done() ) ) {
+				while ( is_undefined( dest ) && ( _nodes.has_next() ) ) {
 					dest = _nodes.next();
 					
 					if ( variable_struct_exists( visited, dest ) ) {
@@ -586,7 +583,7 @@ function Graph( ) constructor {
 							cache[ ++index ] = [ dest, _depth - 1, data.neighbors( dest ) ];
 						}
 						
-						return false;
+						return true;
 					}
 				}
 				
@@ -595,7 +592,7 @@ function Graph( ) constructor {
 				}
 			}
 			
-			return ( nodes.is_done() && ( index < 0 ) );
+			return ( nodes.has_next() || ( index >= 0 ) );
 		} );
 		
 		_iter.nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
@@ -628,7 +625,7 @@ function Graph( ) constructor {
 			return _result;
 		}, function() {
 			while( is_undefined( dest ) ) {
-				while( is_undefined( start ) && ( !nodes.is_done() ) ) {
+				while( is_undefined( start ) && ( nodes.has_next() ) ) {
 					start = nodes.next();
 					
 					if ( ( variable_struct_exists( visited, start ) ) ) {
@@ -639,7 +636,7 @@ function Graph( ) constructor {
 						cache = [ [ start, depth_limit, data.neighbors( start ) ] ];
 						index = 0;
 						dest = start;
-						return false;
+						return true;
 					}
 				}
 				
@@ -652,7 +649,7 @@ function Graph( ) constructor {
 				var _depth = _element[ 1 ];
 				var _nodes = _element[ 2 ];
 				
-				while ( is_undefined( dest ) && ( !_nodes.is_done() ) ) {
+				while ( is_undefined( dest ) && ( _nodes.has_next() ) ) {
 					dest = _nodes.next();
 					
 					if ( variable_struct_exists( visited, dest ) ) {
@@ -665,7 +662,7 @@ function Graph( ) constructor {
 							cache[ ++index ] = [ dest, _depth - 1, data.neighbors( dest ) ];
 						}
 						
-						return false;
+						return true;
 					}
 				}
 				
@@ -674,7 +671,7 @@ function Graph( ) constructor {
 				}
 			}
 			
-			return ( nodes.is_done() && ( index < 0 ) );
+			return ( nodes.has_next() || ( index >= 0 ) );
 		} );
 		
 		_iter.nodes = ( argument_count > 0 ) ? iter( argument[ 0 ] ) : nodes();
@@ -706,7 +703,7 @@ function Graph( ) constructor {
 		
 		var _iter = dfs_edges( _nodes, _depth_limit );
 		
-		while( !_iter.is_done() ) {
+		while( _iter.has_next() ) {
 			var _item = _iter.next();
 			variable_struct_set( _result, _item[ 1 ], _item[ 0 ] );
 		}
@@ -732,7 +729,7 @@ function Graph( ) constructor {
 		
 		var _iter = dfs_edges( _nodes, _depth_limit );
 		
-		while( !_iter.is_done() ) {
+		while( _iter.has_next() ) {
 			var _item = _iter.next();
 			if ( variable_struct_exists( _result, _item[ 0 ] ) ) {
 				var _value = variable_struct_get( _result, _item[ 0 ] );
@@ -785,20 +782,20 @@ function Graph( ) constructor {
 		var _result = new Graph( );
 		var _heap = ds_priority_create( );
 		
-		_result.add_nodes_from( _imap( function( _node, _heap ) {
+		_result.add_nodes_from( imap( function( _node, _heap ) {
 			ds_priority_add( _heap, _node, 0 );
 			return [ _node, { depth : 0, dist: 0, succ : undefined } ];
-		}, get_from( _nodes ), _repeat( _heap ) ) );
+		}, get_from( _nodes ), iter_repeat( _heap ) ) );
 		
 		var _iter = ds_priority_min_iter( _heap );
 		
-		while( !_iter.is_done( ) ) {
+		while( _iter.has_next( ) ) {
 			var _node = _iter.next();
 			var _depth = _result.get( _node ).depth;
 			
 			var _predecessors = predecessors( _node );
 				
-			while( !_predecessors.is_done() ) {
+			while( _predecessors.has_next() ) {
 				var _pred = _predecessors.next();
 				var _dist = get_weight( _pred, _node );
 				var _dist_cum = _dist + _result.get( _node ).dist;
@@ -853,20 +850,20 @@ function Graph( ) constructor {
 		var _result = new Graph( );
 		var _heap = ds_priority_create( );
 		
-		_result.add_nodes_from( _imap( function( _node, _heap ) {
+		_result.add_nodes_from( imap( function( _node, _heap ) {
 			ds_priority_add( _heap, _node, 0 );
 			return [ _node, { depth : 0, dist: 0, prev : undefined } ];
-		}, get_from( _nodes ), _repeat( _heap ) ) );
+		}, get_from( _nodes ), iter_repeat( _heap ) ) );
 		
 		var _iter = ds_priority_min_iter( _heap );
 		
-		while( !_iter.is_done( ) ) {
+		while( _iter.has_next( ) ) {
 			var _node = _iter.next();
 			var _depth = _result.get( _node ).depth;
 			
 			var _successors = successors( _node );
 				
-			while( !_successors.is_done() ) {
+			while( _successors.has_next() ) {
 				var _succ = _successors.next();
 				var _dist = get_weight( _node, _succ );
 				var _dist_cum = _dist + _result.get( _node ).dist;
@@ -970,17 +967,17 @@ function Graph( ) constructor {
 	
 	static edges = function( ) {
 		var _data = ( argument_count > 0 ) ? argument[ 0 ] : false;
-		var _iter = _imap( function( _adj, _data ) {
+		var _iter = imap( function( _adj, _data ) {
 			if ( _data ) {
-				return _imap( function( _node, _edge ) {
+				return imap( function( _node, _edge ) {
 					return [ _node, _edge[ 0 ], _edge[ 1 ] ];
-				}, _repeat( _adj[ 0 ] ), _adj[ 1 ].items() );
+				}, iter_repeat( _adj[ 0 ] ), _adj[ 1 ].items() );
 			}
 			
-			return _zip( _repeat( _adj[ 0 ] ), _adj[ 1 ].keys() );
-		}, adj.items(), _repeat( _data ) );
+			return iter_zip( iter_repeat( _adj[ 0 ] ), _adj[ 1 ].keys() );
+		}, adj.items(), iter_repeat( _data ) );
 		
-		return _chain_from_iterable( _iter );
+		return iter_chain_from_iterable( _iter );
 	}
 	
 	/// @method get
@@ -1012,21 +1009,21 @@ function Graph( ) constructor {
 			var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
 			
 			if ( is_iterable( _node ) ) {
-				var _iter = __iter_dict( iter( _node ), function( ) {
+				var _iter = new_iter_dict( iter( _node ), function( ) {
 					var _result = cache;
 					cache = undefined;
 					return _result;
 				}, function( _key ) {
 					return  node.get( _key );
 				}, function() {
-					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+					while ( is_undefined( cache ) && ( data.has_next() ) ) {
 						cache = data.next();
 						if ( is_undefined( node.get( cache ) ) ) {
 							cache = undefined;
 						}
 					}
 					
-					return is_undefined( cache );
+					return ( !is_undefined( cache ) );
 				} );
 						
 				_iter.node = node;
@@ -1080,14 +1077,14 @@ function Graph( ) constructor {
 					cache = undefined;
 					return _result;
 				}, function() {
-					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+					while ( is_undefined( cache ) && ( data.has_next() ) ) {
 						cache = data.next();
 						
 						if ( is_array( cache ) ) {
 							cacheb = cache[ 1 ];
 							cache = cache[ 0 ];
 						} else {
-							cacheb = data.is_done() ? undefined : data.next();
+							cacheb = data.has_next() ? data.next() : undefined;
 						}
 						
 						if ( is_undefined( adj.get( cache, cacheb ) ) ) {
@@ -1095,7 +1092,7 @@ function Graph( ) constructor {
 						}
 					}
 					
-					return is_undefined( cache );
+					return ( !is_undefined( cache ) );
 				} );
 				
 				_iter.adj = adj;
@@ -1184,21 +1181,21 @@ function Graph( ) constructor {
 			var _node = argument[ 0 ];
 			
 			if ( is_iterable( _node ) ) {
-				var _iter = __iter_dict( iter( _node ), function( ) {
+				var _iter = new_iter_dict( iter( _node ), function( ) {
 					var _result = cache;
 					cache = undefined;
 					return _result;
 				}, function( _key ) {
 					return pred.get( _key ).size;
 				}, function() {
-					while ( is_undefined( cache ) && ( !data.is_done() ) ) {
+					while ( is_undefined( cache ) && ( data.has_next() ) ) {
 						cache = data.next();
 						if ( is_undefined( pred.get( cache ) ) ) {
 							cache = undefined;
 						}
 					}
 					
-					return is_undefined( cache );
+					return ( !is_undefined( cache ) );
 				} );
 						
 				_iter.pred = pred;
@@ -1232,8 +1229,8 @@ function Graph( ) constructor {
 	static in_edges = function( _nodes ) {
 		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
-		return get_edges_from( _chain_from_iterable( iter( get_from( _nodes ) ).map( function( _node ) {
-			return _zip( pred.get( _node ).keys(), _repeat( _node ) );
+		return get_edges_from( iter_chain_from_iterable( iter( get_from( _nodes ) ).map( function( _node ) {
+			return iter_zip( pred.get( _node ).keys(), iter_repeat( _node ) );
 		} ) ), _data );
 	}
 	
@@ -1249,7 +1246,7 @@ function Graph( ) constructor {
 	function is_subgraph( _graph ) {
 		var _nodes = nodes( true );
 		
-		while( !_nodes.is_done( ) ) {
+		while( _nodes.has_next( ) ) {
 			var _node = _nodes.next();
 			
 			if ( is_undefined( _graph.get( _node[ 0 ] ) ) ) {
@@ -1259,7 +1256,7 @@ function Graph( ) constructor {
 		
 		var _edges = edges( true );
 		
-		while( !_edges.is_done( ) ) {
+		while( _edges.has_next( ) ) {
 			var _edge = _edges.next();
 			
 			if ( edge_weight( _edge[ 2 ] ) != _graph.get_weight( _edge[ 0 ], _edge[ 1 ] ) ) {
@@ -1300,7 +1297,7 @@ function Graph( ) constructor {
 			cache = undefined;
 			return _result;
 		}, function() {
-			while( is_undefined( cache ) && ( !data.is_done() ) ) {
+			while( is_undefined( cache ) && ( data.has_next() ) ) {
 				cache = data.next();
 				
 				var a = subtrees.get( cache[ 0 ] );
@@ -1314,7 +1311,7 @@ function Graph( ) constructor {
 				subtrees.union( cache[ 0 ], cache[ 1 ] );
 			}
 			
-			return ( is_undefined( cache ) );
+			return ( !is_undefined( cache ) );
 		} );
 		
 		_iter.subtrees = new UnionFind();
@@ -1344,12 +1341,12 @@ function Graph( ) constructor {
 		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
 		if ( _data ) {
-			var _iter = __iter_dict( _adj.keys(), function() {
+			var _iter = new_iter_dict( _adj.keys(), function() {
 				return data.next();
 			}, function( _key ) {
 				return node.get( _key );
 			}, function() {
-				return data.is_done();
+				return data.has_next();
 			} );
 			
 			_iter.node = node;
@@ -1407,8 +1404,7 @@ function Graph( ) constructor {
 	///
 	/// @return Iterator
 	
-	static nodes = function( ) {
-		var _data = ( argument_count > 0 ) ? argument[ 0 ] : false;
+	static nodes = function( _data = false ) {
 		return _data ? node.items() : node.keys();
 	}
 	
@@ -1467,8 +1463,8 @@ function Graph( ) constructor {
 	static out_edges = function( _nodes ) {
 		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
-		return get_edges_from( _chain_from_iterable( iter( get_from( _nodes ) ).map( function( _node ) {
-			return _zip( _repeat( _node ), adj.get( _node ).keys() );
+		return get_edges_from( iter_chain_from_iterable( iter( get_from( _nodes ) ).map( function( _node ) {
+			return iter_zip( iter_repeat( _node ), adj.get( _node ).keys() );
 		} ) ), _data );
 	}
 	
@@ -1492,12 +1488,12 @@ function Graph( ) constructor {
 		var _data = ( argument_count > 1 ) ? argument[ 1 ] : false;
 		
 		if ( _data ) {
-			var _iter = __iter_dict( _adj.keys(), function() {
+			var _iter = new_iter_dict( _adj.keys(), function() {
 				return data.next();
 			}, function( _key ) {
 				return node.get( _key );
 			}, function() {
-				return data.is_done();
+				return data.has_next();
 			} );
 			
 			_iter.node = node;
@@ -1551,12 +1547,12 @@ function Graph( ) constructor {
 	static remove_edges_from = function( ) {
 		if ( argument_count > 0 ) {
 			var _edges = iter( argument[ 0 ] );
-			while( !_edges.is_done() ) {
+			while( _edges.has_next() ) {
 				var _edge = _edges.next();
 				if is_array( _edge ) {
 					remove_edge( _edge );	
 				} else {
-					if ( !_edges.is_done() ) {
+					if ( _edges.has_next() ) {
 						remove_edge( _edge, _edges.next() );	
 					}
 				}
@@ -1581,7 +1577,7 @@ function Graph( ) constructor {
 		var _adj = adj.get( _node );
 		var _adj_edges = iter( _adj );
 				
-		while( !_adj_edges.is_done() ){
+		while( _adj_edges.has_next() ){
 			var _edge = _adj_edges.next();
 			_adj.remove( _edge[ 0 ] );
 		}
@@ -1589,7 +1585,7 @@ function Graph( ) constructor {
 		var _adj = pred.get( _node );
 		_adj_edges = iter( _adj );
 			
-		while( !_adj_edges.is_done() ){
+		while( _adj_edges.has_next() ){
 			var _edge = _adj_edges.next();
 			_adj.remove( _edge[ 0 ] );
 		}
@@ -1607,7 +1603,7 @@ function Graph( ) constructor {
 	static remove_nodes_from = function( ) {
 		if ( argument_count > 0 ) {
 			var _nodes = iter( argument[ 0 ] );
-			while( !_nodes.is_done() ) {
+			while( _nodes.has_next() ) {
 				remove_node( _nodes.next() );
 			}
 		} else {
@@ -1678,7 +1674,7 @@ function Graph( ) constructor {
 		if ( n == 1 ) {
 			var _graph = dijkstra( _dest[ 0 ] );
 						
-			while( !_iter.is_done() ) {
+			while( _iter.has_next() ) {
 				var _node = _iter.next();
 				
 				if ( _graph.has_node( _node ) ) {
@@ -1698,7 +1694,7 @@ function Graph( ) constructor {
 				}
 			}
 		} else {
-			while( !_iter.is_done() ) {
+			while( _iter.has_next() ) {
 				var _node = _iter.next();
 				
 				if ( has_node( _node ) ) {
@@ -1757,7 +1753,7 @@ function Graph( ) constructor {
 		if ( n == 1 ) {
 			var _graph = dijkstra( _dest[ 0 ] );
 						
-			while( !_iter.is_done() ) {
+			while( _iter.has_next() ) {
 				var _node = _iter.next();
 				
 				if ( _graph.has_node( _node ) ) {
@@ -1767,7 +1763,7 @@ function Graph( ) constructor {
 				}
 			}
 		} else {
-			while( !_iter.is_done() ) {
+			while( _iter.has_next() ) {
 				var _node = _iter.next();
 				
 				if ( has_node( _node ) ) {
@@ -2023,6 +2019,9 @@ function GraphStructs( ) : Graph( ) constructor {
 
 #endregion
 
+/// @fileOverview classes and functions related to array handling
+/// @module graphtools
+
 #region constructors
 
 /// @func graph_complete
@@ -2045,7 +2044,7 @@ function GraphStructs( ) : Graph( ) constructor {
 
 function graph_complete( ) {
 	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
-	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+	_nodes = is_numeric( _nodes ) ? irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
 	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
@@ -2065,16 +2064,16 @@ function graph_complete( ) {
 
 function graph_cycle( ) {
 	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
-	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+	_nodes = is_numeric( _nodes ) ? irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
-	var _head = _take( 2, _nodes ).to_array();
+	var _head = iter_take( 2, _nodes ).to_array();
 	var _tail = _head;
 	
-	var _iter = _accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _tail );
+	var _iter = iter_accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _tail );
 	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	
-	while( !_iter.is_done() ) {
+	while( _iter.has_next() ) {
 		_tail = _iter.next();
 		_result.add_edge( _tail[ 0 ], _tail[ 1 ] );
 	}
@@ -2106,7 +2105,7 @@ function graph_cycle( ) {
 
 function graph_empty( ) {
 	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
-	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+	_nodes = is_numeric( _nodes ) ? irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
 	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
@@ -2124,14 +2123,13 @@ function graph_empty( ) {
 ///
 /// @return {Graph}
 
-function graph_path( ) {
-	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : 0;
-	_nodes = is_numeric( _nodes ) ? _irange( _nodes ) : iter( _nodes );
+function graph_path( _nodes = 0 ) {
+	_nodes = is_numeric( _nodes ) ? irange( _nodes ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
 	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	
-	_result.add_edges_from( _accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, _take( 2, _nodes ).to_array() ) );
+	_result.add_edges_from( iter_accumulate( _nodes, function( a, e ) { return [ a[ 1 ], e ]; }, iter_take( 2, _nodes ).to_array() ) );
 	
 	return _result;
 }
@@ -2147,15 +2145,15 @@ function graph_path( ) {
 
 function graph_star( ) {
 	var _nodes = ( argument_count > 0 ) ? argument[ 0 ] : -1;
-	_nodes = is_numeric( _nodes ) ? _irange( _nodes + 1 ) : iter( _nodes );
+	_nodes = is_numeric( _nodes ) ? irange( _nodes + 1 ) : iter( _nodes );
 	var _directed = ( argument_count > 1 ) ? argument[ 1 ] : false;
 	
 	var _result = is_struct( _directed ) ? _directed : new Graph( _directed );
 	
-	if ( !_nodes.is_done() ) {
+	if ( _nodes.has_next() ) {
 		var _head = _nodes.next();
 		_result.add_nodes_from( _head );
-		_result.add_edges_from( _zip( _repeat( _head ), _nodes ) );
+		_result.add_edges_from( iter_zip( iter_repeat( _head ), _nodes ) );
 	}
 	
 	return _result;

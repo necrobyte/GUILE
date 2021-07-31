@@ -1,4 +1,4 @@
-/// @fileOverview classes and functions related to array handling
+/// @fileOverview [WIP] classes and functions related to array handling
 /// @module arraytools
 
 #region Array
@@ -133,7 +133,7 @@ function Array( _object ) constructor {
 	/// @arg {Array} dimensions
 	
 	static reshape = function( _shape ) {
-		if ( ( _reduce( _shape, _mul ) != array_length( data ) ) ) {
+		if ( ( iter_reduce( _shape, _mul ) != array_length( data ) ) ) {
 			show_error( "Total size of new array must be unchanged", true );
 		}
 		
@@ -151,7 +151,7 @@ function Array( _object ) constructor {
 	/// @arg {Array} dimensions
 	
 	static resize = function( _shape ) {
-		var _new_size = _reduce( _shape, _mul );
+		var _new_size = iter_reduce( _shape, _mul );
 		
 		if ( array_length( data ) != _new_size ) {
 			array_resize( data, _new_size );	
@@ -589,7 +589,7 @@ function array_extend( _array, _iterable ) {
 	var n = array_length( _array );
 	var _data = iter( _iterable );
 	
-	while ( !_data.is_done() ) {
+	while ( _data.has_next() ) {
 		_array[@ n++ ] = _data.next();
 	}
 	
@@ -686,29 +686,6 @@ function array_map( a, func ) {
 	return _result;
 }
 
-/// @func array_pop
-///
-/// @desc Remove the item at the given position in the array, and return it.
-///
-/// @arg {Array} array
-/// @arg {Number} [index=-1]
-
-function array_pop( _array ) {
-	var _index = ( argument_count > 1 ) ? argument[ 1 ] : -1;
-	var n = array_length( _array );
-	_index = ( _index < 0 ) ? _index + n : _index;
-	
-	var _result = _array[ _index ];
-	
-	while ( ++_index < n ) {
-		_array[@ _index - 1 ] = _array[ _index ];
-	}
-	
-	array_resize( _array, n - 1 );
-	
-	return _result;
-}
-
 /// @func array_remove
 ///
 /// @desc Removes array element at given position
@@ -740,7 +717,7 @@ function array_remove( _array, _value ) {
 function array_reshape( _array, _shape ) {
 	var _ndim = array_length( _shape );
 	
-	var _size = _reduce( _shape, _mul );
+	var _size = iter_reduce( _shape, _mul );
 	if ( array_length( _array ) != _size ) {
 		throw ("Total size of new array must be unchanged.");
 	}
@@ -889,7 +866,7 @@ function array_swap( _array, a, b ) {
 
 #region sorting
 
-/// @func array_sort
+/// @func array_key_sort
 ///
 /// @desc quicksort array
 ///
@@ -899,12 +876,11 @@ function array_swap( _array, a, b ) {
 ///
 /// @return {Array} Input array but sorted using quicksort algorithm
 
-function array_sort( a ) {
+function array_key_sort( a, _key = undefined, _reverse = false ) {
 	if ( array_length( a ) < 2 ) {
-		return a;	
+		return a;
 	}
-	var _key = ( argument_count > 1 ) ? argument[ 1 ] : undefined;
-	var _reverse = ( argument_count > 2 ) ? argument[ 2 ] : false;
+
 	return array_qsort( a, _key, _reverse );
 }
 

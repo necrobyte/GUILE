@@ -5,7 +5,7 @@
   "option_html5_outputname": "index.html",
   "option_html5_splash_png": "${base_options_dir}/html5/splash.png",
   "option_html5_usesplash": false,
-  "option_html5_outputdebugtoconsole": false,
+  "option_html5_outputdebugtoconsole": true,
   "option_html5_display_cursor": true,
   "option_html5_localrunalert": true,
   "option_html5_index": "",

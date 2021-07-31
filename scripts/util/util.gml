@@ -1,169 +1,7 @@
-#region const
-
-/// @constant {Number} TWOPI
-/// @desc Also known as global.tau
-/// @default 2*pi
-
-global.tau = 2 * pi;
-#macro TWOPI global.tau
-
-/// @constant {Number} NV_MAGICCONST
-/// @desc Also known as global.nv_magicconst. Used in normal variate random distribution.
-/// @default 4 * exp( -0.5 ) / sqrt( 2.0 )
-
-global.nv_magicconst = 4 * exp( -0.5 ) / sqrt( 2.0 )
-#macro NV_MAGICCONST global.nv_magicconst
-
-/// @constant {Number} SMALL_FACTORIALS
-/// @desc Also known as global.small_factorials. Lookup table for int64 factorial values.
-/// @default [0!..20!]
-
-global.small_factorials = [ 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 
-		3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 
-		20922789888000, 355687428096000, 6402373705728000, 121645100408832000, 2432902008176640000 ];
-#macro SMALL_FACTORIALS global.small_factorials
-
-#endregion
-
-#region test
-
-/// @func assert
-///
-/// @desc Asserts that a condition is true. If it isn't it throws an error with the given message.
-///
-/// @arg {Bool} condidion
-/// @arg {String} message
-
-function assert( _condition, _message ) {
-	if ( !_condition ) {
-		show_error( _message, true );		
-	}
-}
-
-/// @func assert_equals
-///
-/// @desc Asserts that two arguments are equal. If they are not, an error is thrown with the given message. 
-///
-/// @arg {Any} expected
-/// @arg {Any} actuals
-/// @arg {String} [message]
-
-function assert_equals( _expected, _actual, _message ) {
-	_message = is_undefined( _message ) ? "" : _message;
-	if ( typeof( _expected ) == "array" ) {
-		assert( array_equals( _expected, _actual ), _message );	
-	} else {
-		assert( _expected == _actual, _message );
-	}
-}
-
-/// @func assert_array_equals
-///
-/// @desc Asserts that two arguments are equal. If they are not, an error is thrown with the given message. 
-///
-/// @arg {Array} expected
-/// @arg {Array} actuals
-/// @arg {String} [message]
-
-function assert_array_equals( _expected, _actual, _message ) {
-	_message = is_undefined( _message ) ? "" : _message;
-	var _size = array_length( _expected );
-	assert( _size == array_length( _actual ), _message );
-	
-	for ( var i = 0; i < _size; i++ ) {
-		var _item = _expected[ i ];
-		if ( typeof( _item ) == "array" ) {
-			assert_array_equals(  _item, _actual[ i ], _message );
-		} else {
-			assert( _item == _actual[ i ], _message );
-		}
-	}
-}
-
-#endregion
-
-#region data_structues
-
-/// @function _list
-/// @desc returns ds_list
-/// @arg [...]
-
-function _list( ) {
-	var _ds = ds_list_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i < _n; i++ ) {
-		_ds[| i ] = argument[ i ];
-	}
-	
-	return _ds;
-}
-
-/// @function _stack
-/// @desc returns ds_stack
-/// @arg [...]
-
-function _stack( ) {
-	var _ds = ds_stack_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i < _n; i++ ) {
-		ds_stack_push( _ds, argument[ i ] );
-	}
-	
-	return _ds;
-}
-
-/// @function _queue
-/// @desc returns ds_queue
-/// @arg [...]
-
-function _queue( ) {
-	var _ds = ds_queue_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i < _n; i++ ) {
-		ds_queue_enqueue( _ds, argument[ i ] );
-	}
-	
-	return _ds;
-}
-
-/// @function _map
-/// @desc returns ds_map
-/// @arg {array} [...] key, value pairs
-
-function _map( ) {
-	var _ds = ds_map_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i < _n; i++ ) {
-		var _t = argument[ i ];
-		ds_map_add( _ds, _t[ 0 ], _t[ 1 ] );
-	}
-	
-	return _ds;
-}
-
-/// @function _priority
-/// @desc returns ds_priority
-/// @arg {array} [...] value, priority pairs
-
-function _priority( ) {
-	var _ds = ds_priority_create();
-	var _n = argument_count;
-	
-	for (var i = 0; i < _n; i++ ) {
-		var _t = argument[ i ];
-		ds_priority_add( _ds, _t[ 0 ], _t[ 1 ] );
-	}
-	
-	return _ds;
-}
+#region classes
 
 /// @func StructMap()
-/// @name StructMap
-/// @class
+/// @class StructMap
 ///
 /// @classdesc Map-like data structure
 ///
@@ -183,7 +21,7 @@ function StructMap() constructor {
 	size = 0;
 	
 	static __iter = function() {
-		var _iter = __iter_dict( data, function() {
+		var _iter = new_iter_dict( data, function() {
 			var _result = cache;
 			cache = undefined;
 			++index;
@@ -199,7 +37,7 @@ function StructMap() constructor {
 				}
 			}
 			
-			return index >= size;
+			return index < size;
 		} );
 	
 		_iter.keys = variable_struct_get_names( data );
@@ -263,7 +101,7 @@ function StructMap() constructor {
 		var _iter = __iter();
 		var _func = ( argument_count > 1 ) ? argument[ 1 ] : _eq;
 		
-		while( !_iter.is_done() ) {
+		while( _iter.has_next() ) {
 			var _item = _iter.next();
 			if ( _func( _item[ 1 ], _value ) ) {
 				return _item[ 0 ];
@@ -369,7 +207,7 @@ function StructMap() constructor {
 		var _iter = __iter();
 		var _comma = false;
 		
-		while( !_iter.is_done() ) {
+		while( _iter.has_next() ) {
 			var a = _iter.next();
 			_result += ( _comma ? ", " : "" ) + a[ 0 ] + " : " + string( a[ 1 ] );
 			_comma = true;
@@ -457,7 +295,7 @@ function UnionFind( ) constructor {
 			_objects[ i ] = argument[ i ];
 		}
 		
-		var _elements = _imap( function( e ) { 
+		var _elements = imap( function( e ) { 
 			var _item = elements.get( e );
 			
 			if ( is_undefined( _item ) ) {
@@ -469,7 +307,7 @@ function UnionFind( ) constructor {
 			return [ e, _item.parent, _item.weight ];
 		}, _objects ).sorted( function( e ) { return e[ 2 ]; }, true );
 		
-		if ( _elements.is_done() ) {
+		if ( !_elements.has_next() ) {
 			exit;
 		}
 		
@@ -477,7 +315,7 @@ function UnionFind( ) constructor {
 		var _root_struct = elements.get( _root );
 		var _root_parent = parents.get( _root );
 		
-		while( !_elements.is_done() ) {
+		while( _elements.has_next() ) {
 			var _element = _elements.next()[ 0 ];
 			
 			var _element_parent = elements.get( _element ).parent;
@@ -501,6 +339,173 @@ function UnionFind( ) constructor {
 		
 		parents.set( _root, _root_parent );
 	}
+}
+
+#endregion
+
+
+
+#region const
+
+/// @constant {Number} TWOPI
+/// @desc Also known as global.tau
+/// @default 2*pi
+
+global.tau = 2 * pi;
+#macro TWOPI global.tau
+
+/// @constant {Number} NV_MAGICCONST
+/// @desc Also known as global.nv_magicconst. Used in normal variate random distribution.
+/// @default 4 * exp( -0.5 ) / sqrt( 2.0 )
+
+global.nv_magicconst = 4 * exp( -0.5 ) / sqrt( 2.0 )
+#macro NV_MAGICCONST global.nv_magicconst
+
+/// @constant {Number} SMALL_FACTORIALS
+/// @desc Also known as global.small_factorials. Lookup table for int64 factorial values.
+/// @default [0!..20!]
+
+global.small_factorials = [ 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 
+		3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 
+		20922789888000, 355687428096000, 6402373705728000, 121645100408832000, 2432902008176640000 ];
+#macro SMALL_FACTORIALS global.small_factorials
+
+#endregion
+
+#region test
+
+/// @func assert
+///
+/// @desc Asserts that a condition is true. If it isn't it throws an error with the given message.
+///
+/// @arg {Bool} condidion
+/// @arg {String} message
+
+function assert( _condition, _message ) {
+	if ( !_condition ) {
+		show_error( _message, true );		
+	}
+}
+
+/// @func assert_equals
+///
+/// @desc Asserts that two arguments are equal. If they are not, an error is thrown with the given message. 
+///
+/// @arg {Any} expected
+/// @arg {Any} actuals
+/// @arg {String} [message]
+
+function assert_equals( _expected, _actual, _message ) {
+	_message = is_undefined( _message ) ? "" : _message;
+	if ( typeof( _expected ) == "array" ) {
+		assert( array_equals( _expected, _actual ), _message );	
+	} else {
+		assert( _expected == _actual, _message );
+	}
+}
+
+/// @func assert_array_equals
+///
+/// @desc Asserts that two arguments are equal. If they are not, an error is thrown with the given message. 
+///
+/// @arg {Array} expected
+/// @arg {Array} actuals
+/// @arg {String} [message]
+
+function assert_array_equals( _expected, _actual, _message ) {
+	_message = is_undefined( _message ) ? "" : _message;
+	var _size = array_length( _expected );
+	assert( _size == array_length( _actual ), _message );
+	
+	for ( var i = 0; i < _size; i++ ) {
+		var _item = _expected[ i ];
+		if ( typeof( _item ) == "array" ) {
+			assert_array_equals(  _item, _actual[ i ], _message );
+		} else {
+			assert( _item == _actual[ i ], _message );
+		}
+	}
+}
+
+#endregion
+
+#region data_structures
+
+/// @function new_list
+/// @desc returns ds_list
+/// @arg [...]
+
+function new_list( ) {
+	var _ds = ds_list_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i < _n; i++ ) {
+		_ds[| i ] = argument[ i ];
+	}
+	
+	return _ds;
+}
+
+/// @function new_stack
+/// @desc returns ds_stack
+/// @arg [...]
+
+function new_stack( ) {
+	var _ds = ds_stack_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i < _n; i++ ) {
+		ds_stack_push( _ds, argument[ i ] );
+	}
+	
+	return _ds;
+}
+
+/// @function new_queue
+/// @desc returns ds_queue
+/// @arg [...]
+
+function new_queue( ) {
+	var _ds = ds_queue_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i < _n; i++ ) {
+		ds_queue_enqueue( _ds, argument[ i ] );
+	}
+	
+	return _ds;
+}
+
+/// @function new_map
+/// @desc returns ds_map
+/// @arg {array} [...] key, value pairs
+
+function new_map( ) {
+	var _ds = ds_map_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i < _n; i++ ) {
+		var _t = argument[ i ];
+		ds_map_add( _ds, _t[ 0 ], _t[ 1 ] );
+	}
+	
+	return _ds;
+}
+
+/// @function new_priority
+/// @desc returns ds_priority
+/// @arg {array} [...] value, priority pairs
+
+function new_priority( ) {
+	var _ds = ds_priority_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i < _n; i++ ) {
+		var _t = argument[ i ];
+		ds_priority_add( _ds, _t[ 0 ], _t[ 1 ] );
+	}
+	
+	return _ds;
 }
 
 #endregion

@@ -1,3 +1,12 @@
+#region sorting
+
+assert_equals( [ 1,2,3,4,4,5,6,6 ], array_key_sort( [1,4,6,3,5,6,4,2] ), "sort 1" );
+assert_equals( [ 1,2,3,4,4,5,6,6 ], array_key_sort( [1,4,6,3,5,6,4,2], undefined ), "sort 2" );
+assert_equals( [ 2,3,4,4,5,6,6,7 ], array_key_sort( [7,4,6,3,5,6,4,2], undefined, false ), "sort 3" );
+assert_equals( [ 6,6,5,4,4,3,2,1 ], array_key_sort( [1,4,6,3,5,6,4,2], undefined, true ), "sort 4" );
+
+#endregion
+
 #region array
 
 /*
@@ -153,12 +162,6 @@ assert_equals( 7, array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4, -4 ), "index 3"
 assert_equals( undefined, array_index( [ 1, 2, 3, 4, 1, 1, 1, 4, 5 ], 4, 4, 6 ), "index 4" );
 
 /*
-	pop
-*/
-
-assert_equals( 6, array_pop( [ 1, 2, 3, 4, 5, 6 ] ), "pop 1" );
-
-/*
 	remove
 */
 
@@ -177,9 +180,9 @@ assert_equals( [ 5, 4, 3, 2, 1 ], array_reverse( [ 1, 2, 3, 4, 5 ] ), "reverse 1
 assert_equals( [ 0, 1, 2, 3, 4, 5 ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 6 ] ), "reshape 1" );
 assert_array_equals( [ [ 0, 1, 2 ], [ 3, 4, 5 ] ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 2, 3 ] ), "reshape 2" );
 assert_array_equals( [ [ 0, 1 ], [ 2, 3 ], [ 4, 5 ] ], array_reshape( [ 0, 1, 2, 3, 4, 5 ], [ 3, 2 ] ), "reshape 3" );
-assert_array_equals( [ [ [ 0,1,2 ],[ 3,4,5 ] ],[ [ 6,7,8 ],[ 9,10,11 ] ] ], array_reshape( _arange( 12 ), [ 2, 2, 3 ] ), "reshape 4" );
-assert_array_equals( [ [ [ 0,1 ],[ 2,3 ],[ 4,5 ] ],[ [ 6,7 ],[ 8,9 ],[ 10,11 ] ] ], array_reshape( _arange( 12 ), [ 2, 3, 2 ] ), "reshape 5" );
-assert_array_equals( [ [ [ 0,1 ],[ 2,3 ] ],[ [ 4,5 ],[ 6,7 ] ],[ [ 8,9 ],[ 10,11 ] ] ], array_reshape( _arange( 12 ), [ 3, 2, 2 ] ), "reshape 6" );
+assert_array_equals( [ [ [ 0,1,2 ],[ 3,4,5 ] ],[ [ 6,7,8 ],[ 9,10,11 ] ] ], array_reshape( arange( 12 ), [ 2, 2, 3 ] ), "reshape 4" );
+assert_array_equals( [ [ [ 0,1 ],[ 2,3 ],[ 4,5 ] ],[ [ 6,7 ],[ 8,9 ],[ 10,11 ] ] ], array_reshape( arange( 12 ), [ 2, 3, 2 ] ), "reshape 5" );
+assert_array_equals( [ [ [ 0,1 ],[ 2,3 ] ],[ [ 4,5 ],[ 6,7 ] ],[ [ 8,9 ],[ 10,11 ] ] ], array_reshape( arange( 12 ), [ 3, 2, 2 ] ), "reshape 6" );
 
 /*
 	shape
@@ -235,24 +238,22 @@ assert_array_equals( [ [ 0, 2 ] , [ 3, 4 ] ], a.to_array(), "Array 2d to_array" 
 a = new Array( [ [ 1, 2] , [ 3, 4, 5 ] ] );
 assert_equals( [ 2 ], a.shape, "Array non-rectangular" );
 
-a = new Array( _arange( 12 ) );
-assert_equals( _arange( 12 ), a.to_array(), "Array to_array" );
-assert_equals( _arange( 12 ), a.T().to_array(), "Array T 1" );
+a = new Array( arange( 12 ) );
+assert_equals( arange( 12 ), a.to_array(), "Array to_array" );
+assert_equals( arange( 12 ), a.T().to_array(), "Array T 1" );
 
 a.resize( [ 2, 6 ] );
 assert_array_equals( [ [ 0,1,2,3,4,5 ],[ 6,7,8,9,10,11 ] ], a.to_array(), "Array resize 1" );
 assert_array_equals( [ [ 0,6 ],[ 1,7 ],[ 2,8 ],[ 3,9 ],[ 4,10 ],[ 5,11 ] ], a.T().to_array(), "Array T 2" );
 
-a = new Array( _arange( 12 ) ).reshape( [ 6, 2 ] );
+a = new Array( arange( 12 ) ).reshape( [ 6, 2 ] );
 assert_array_equals(  [ [ 0,1 ],[ 2,3 ],[ 4,5 ],[ 6,7 ],[ 8,9 ],[ 10,11 ] ], a.to_array(), "Array reshape 2" );
 assert_array_equals( [ [ 0,2,4,6,8,10 ],[ 1,3,5,7,9,11 ] ], a.T().to_array(), "Array T 3" );
 
 a.resize( [ 2, 2, 3 ] );
 
 assert_equals( [ 0,6,3,9,1,7,4,10,2,8,5,11 ] , a.T().data, "Array transpose 3d 1" );
-var b = a.T( [ 2, 0, 1 ] );
-assert_equals( [ 0,3,6,9,1,4,7,10,2,5,8,11 ], b.data, "Array transpose 3d 2" );
-b = a.T( [ 0, 2, 1 ] );
-assert_equals( [ 0,3,1,4,2,5,6,9,7,10,8,11 ], b.data, "Arary transpose 3d 3" );
+assert_equals( [ 0,3,6,9,1,4,7,10,2,5,8,11 ], a.T( [ 2, 0, 1 ] ).data, "Array transpose 3d 2" );
+assert_equals( [ 0,3,1,4,2,5,6,9,7,10,8,11 ], a.T( [ 0, 2, 1 ] ).data, "Arary transpose 3d 3" );
 
 #endregion
