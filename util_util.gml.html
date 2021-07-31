@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>util/util.gml - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="wrap">
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/necrobyte/GUILE" target="_blank" class="menu-item" id="website_link" >GUILE</a></h2><h3>Classes</h3><ul><li class="level-hide"><a href="module-arraytools-Array.html">Array</a></li><li class="level-hide"><a href="module-graphtools.Graph.html">Graph</a></li><li class="level-hide"><a href="module-graphtools.GraphStructs.html">GraphStructs</a></li><li><a href="Generator.html">Generator</a><ul class='methods'><li data-type='method'><a href="Generator.html#.has_next">has_next</a></li><li data-type='method'><a href="Generator.html#.__iter">__iter</a></li><li data-type='method'><a href="Generator.html#.next">next</a></li><li data-type='method'><a href="Generator.html#.compress">compress</a></li><li data-type='method'><a href="Generator.html#.filter">filter</a></li><li data-type='method'><a href="Generator.html#.filter_false">filter_false</a></li><li data-type='method'><a href="Generator.html#.group_by">group_by</a></li><li data-type='method'><a href="Generator.html#.map">map</a></li><li data-type='method'><a href="Generator.html#.slice">slice</a></li></ul></li><li><a href="Iterator.html">Iterator</a><ul class='methods'><li data-type='method'><a href="Iterator.html#.has_next">has_next</a></li><li data-type='method'><a href="Iterator.html#.combinations">combinations</a></li><li data-type='method'><a href="Iterator.html#.combinations_with_replacements">combinations_with_replacements</a></li><li data-type='method'><a href="Iterator.html#.permutations">permutations</a></li><li data-type='method'><a href="Iterator.html#.product">product</a></li><li data-type='method'><a href="Iterator.html#.reduce">reduce</a></li><li data-type='method'><a href="Iterator.html#.sorted">sorted</a></li><li data-type='method'><a href="Iterator.html#.to_array">to_array</a></li><li data-type='method'><a href="Iterator.html#.to_string">to_string</a></li><li data-type='method'><a href="Iterator.html#.unique">unique</a></li></ul></li><li><a href="IteratorDict.html">IteratorDict</a><ul class='methods'><li data-type='method'><a href="IteratorDict.html#.names">names</a></li><li data-type='method'><a href="IteratorDict.html#.values">values</a></li><li data-type='method'><a href="IteratorDict.html#.to_map">to_map</a></li><li data-type='method'><a href="IteratorDict.html#.to_struct">to_struct</a></li></ul></li><li><a href="IteratorCollection.html">IteratorCollection</a><ul class='methods'><li data-type='method'><a href="IteratorCollection.html#.get">get</a></li><li data-type='method'><a href="IteratorCollection.html#.len">len</a></li><li data-type='method'><a href="IteratorCollection.html#.reverse">reverse</a></li></ul></li><li><a href="Range.html">Range</a><ul class='methods'><li data-type='method'><a href="Range.html#.__iter">__iter</a></li><li data-type='method'><a href="Range.html#.prod">prod</a></li><li data-type='method'><a href="Range.html#.reversed">reversed</a></li></ul></li><li><a href="Random.html">Random</a><ul class='methods'><li data-type='method'><a href="Random.html#.next">next</a></li><li data-type='method'><a href="Random.html#.get_seed">get_seed</a></li><li data-type='method'><a href="Random.html#.set_seed">set_seed</a></li><li data-type='method'><a href="Random.html#.next_bool">next_bool</a></li><li data-type='method'><a href="Random.html#.next_double">next_double</a></li><li data-type='method'><a href="Random.html#.next_float">next_float</a></li><li data-type='method'><a href="Random.html#.next_int">next_int</a></li><li data-type='method'><a href="Random.html#.next_int64">next_int64</a></li><li data-type='method'><a href="Random.html#.range">range</a></li><li data-type='method'><a href="Random.html#.choice">choice</a></li><li data-type='method'><a href="Random.html#.choices">choices</a></li><li data-type='method'><a href="Random.html#.choices_weighted">choices_weighted</a></li><li data-type='method'><a href="Random.html#.choices_weighted_cumulative">choices_weighted_cumulative</a></li><li data-type='method'><a href="Random.html#.sample">sample</a></li><li data-type='method'><a href="Random.html#.sample_weighted">sample_weighted</a></li><li data-type='method'><a href="Random.html#.shuffle">shuffle</a></li><li data-type='method'><a href="Random.html#.exp_variate">exp_variate</a></li><li data-type='method'><a href="Random.html#.gaussian">gaussian</a></li><li data-type='method'><a href="Random.html#.log_norm_variate">log_norm_variate</a></li><li data-type='method'><a href="Random.html#.normal_variate">normal_variate</a></li><li data-type='method'><a href="Random.html#.pareto_variate">pareto_variate</a></li><li data-type='method'><a href="Random.html#.triangular">triangular</a></li><li data-type='method'><a href="Random.html#.uniform">uniform</a></li><li data-type='method'><a href="Random.html#.von_mises_variate">von_mises_variate</a></li><li data-type='method'><a href="Random.html#.weibull_variate">weibull_variate</a></li></ul></li><li><a href="StructMap.html">StructMap</a><ul class='members'><li data-type='member'><a href="StructMap.html#.data">data</a></li><li data-type='member'><a href="StructMap.html#.size">size</a></li></ul><ul class='methods'><li data-type='method'><a href="StructMap.html#.clear">clear</a></li><li data-type='method'><a href="StructMap.html#.exists">exists</a></li><li data-type='method'><a href="StructMap.html#.find">find</a></li><li data-type='method'><a href="StructMap.html#.get">get</a></li><li data-type='method'><a href="StructMap.html#.is_empty">is_empty</a></li><li data-type='method'><a href="StructMap.html#.items">items</a></li><li data-type='method'><a href="StructMap.html#.keys">keys</a></li><li data-type='method'><a href="StructMap.html#.set">set</a></li><li data-type='method'><a href="StructMap.html#.remove">remove</a></li></ul></li><li><a href="UnionFind.html">UnionFind</a><ul class='methods'><li data-type='method'><a href="UnionFind.html#.get">get</a></li><li data-type='method'><a href="UnionFind.html#.groups">groups</a></li><li data-type='method'><a href="UnionFind.html#.union">union</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-arraytools.html">arraytools</a><ul class='methods'><li data-type='method'><a href="module-arraytools.html#~array_append">array_append</a></li><li data-type='method'><a href="module-arraytools.html#~array_bisect_left">array_bisect_left</a></li><li data-type='method'><a href="module-arraytools.html#~array_bisect_right">array_bisect_right</a></li><li data-type='method'><a href="module-arraytools.html#~array_clear">array_clear</a></li><li data-type='method'><a href="module-arraytools.html#~array_clone">array_clone</a></li><li data-type='method'><a href="module-arraytools.html#~array_concat">array_concat</a></li><li data-type='method'><a href="module-arraytools.html#~array_count">array_count</a></li><li data-type='method'><a href="module-arraytools.html#~array_extend">array_extend</a></li><li data-type='method'><a href="module-arraytools.html#~array_flat">array_flat</a></li><li data-type='method'><a href="module-arraytools.html#~array_index">array_index</a></li><li data-type='method'><a href="module-arraytools.html#~array_map">array_map</a></li><li data-type='method'><a href="module-arraytools.html#~array_remove">array_remove</a></li><li data-type='method'><a href="module-arraytools.html#~array_reshape">array_reshape</a></li><li data-type='method'><a href="module-arraytools.html#~array_reverse">array_reverse</a></li><li data-type='method'><a href="module-arraytools.html#~array_shape">array_shape</a></li><li data-type='method'><a href="module-arraytools.html#~array_slice">array_slice</a></li><li data-type='method'><a href="module-arraytools.html#~array_swap">array_swap</a></li><li data-type='method'><a href="module-arraytools.html#~array_key_sort">array_key_sort</a></li><li data-type='method'><a href="module-arraytools.html#~array_qsort">array_qsort</a></li></ul></li><li><a href="module-graphtools.html">graphtools</a><ul class='methods'><li data-type='method'><a href="module-graphtools.html#~graph_complete">graph_complete</a></li><li data-type='method'><a href="module-graphtools.html#~graph_cycle">graph_cycle</a></li><li data-type='method'><a href="module-graphtools.html#~graph_empty">graph_empty</a></li><li data-type='method'><a href="module-graphtools.html#~graph_path">graph_path</a></li><li data-type='method'><a href="module-graphtools.html#~graph_star">graph_star</a></li></ul></li><li><a href="module-itertools.html">itertools</a><ul class='methods'><li data-type='method'><a href="module-itertools.html#~new_iter_dict">new_iter_dict</a></li><li data-type='method'><a href="module-itertools.html#~new_iter_collection">new_iter_collection</a></li><li data-type='method'><a href="module-itertools.html#~iter_tee">iter_tee</a></li><li data-type='method'><a href="module-itertools.html#~ds_list_iter">ds_list_iter</a></li><li data-type='method'><a href="module-itertools.html#~ds_stack_iter">ds_stack_iter</a></li><li data-type='method'><a href="module-itertools.html#~ds_queue_iter">ds_queue_iter</a></li><li data-type='method'><a href="module-itertools.html#~ds_map_iter">ds_map_iter</a></li><li data-type='method'><a href="module-itertools.html#~ds_priority_max_iter">ds_priority_max_iter</a></li><li data-type='method'><a href="module-itertools.html#~ds_priority_min_iter">ds_priority_min_iter</a></li><li data-type='method'><a href="module-itertools.html#~is_iterable">is_iterable</a></li><li data-type='method'><a href="module-itertools.html#~iter">iter</a></li><li data-type='method'><a href="module-itertools.html#~imap">imap</a></li><li data-type='method'><a href="module-itertools.html#~imap_from_iterable">imap_from_iterable</a></li><li data-type='method'><a href="module-itertools.html#~islice">islice</a></li><li data-type='method'><a href="module-itertools.html#~iter_accumulate">iter_accumulate</a></li><li data-type='method'><a href="module-itertools.html#~iter_chain">iter_chain</a></li><li data-type='method'><a href="module-itertools.html#~iter_chain_from_iterable">iter_chain_from_iterable</a></li><li data-type='method'><a href="module-itertools.html#~iter_compress">iter_compress</a></li><li data-type='method'><a href="module-itertools.html#~iter_count">iter_count</a></li><li data-type='method'><a href="module-itertools.html#~iter_cycle">iter_cycle</a></li><li data-type='method'><a href="module-itertools.html#~iter_drop">iter_drop</a></li><li data-type='method'><a href="module-itertools.html#~iter_dropwhile">iter_dropwhile</a></li><li data-type='method'><a href="module-itertools.html#~iter_enumerate">iter_enumerate</a></li><li data-type='method'><a href="module-itertools.html#~iter_ndenumerate">iter_ndenumerate</a></li><li data-type='method'><a href="module-itertools.html#~iter_filter">iter_filter</a></li><li data-type='method'><a href="module-itertools.html#~iter_filter_false">iter_filter_false</a></li><li data-type='method'><a href="module-itertools.html#~iter_group_by">iter_group_by</a></li><li data-type='method'><a href="module-itertools.html#~iter_repeat">iter_repeat</a></li><li data-type='method'><a href="module-itertools.html#~iter_sorted">iter_sorted</a></li><li data-type='method'><a href="module-itertools.html#~iter_take">iter_take</a></li><li data-type='method'><a href="module-itertools.html#~iter_takewhile">iter_takewhile</a></li><li data-type='method'><a href="module-itertools.html#~iter_zip">iter_zip</a></li><li data-type='method'><a href="module-itertools.html#~iter_zip_longest">iter_zip_longest</a></li><li data-type='method'><a href="module-itertools.html#~iter_combinations">iter_combinations</a></li><li data-type='method'><a href="module-itertools.html#~iter_combinations_with_replacements">iter_combinations_with_replacements</a></li><li data-type='method'><a href="module-itertools.html#~iter_permutations">iter_permutations</a></li><li data-type='method'><a href="module-itertools.html#~iter_product">iter_product</a></li><li data-type='method'><a href="module-itertools.html#~iter_all">iter_all</a></li><li data-type='method'><a href="module-itertools.html#~iter_any">iter_any</a></li><li data-type='method'><a href="module-itertools.html#~iter_reduce">iter_reduce</a></li><li data-type='method'><a href="module-itertools.html#~iter_unique">iter_unique</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#range">range</a></li><li><a href="global.html#arange">arange</a></li><li><a href="global.html#irange">irange</a></li><li><a href="global.html#range_prod">range_prod</a></li><li><a href="global.html#new_random">new_random</a></li><li><a href="global.html#TWOPI">TWOPI</a></li><li><a href="global.html#NV_MAGICCONST">NV_MAGICCONST</a></li><li><a href="global.html#SMALL_FACTORIALS">SMALL_FACTORIALS</a></li><li><a href="global.html#assert">assert</a></li><li><a href="global.html#assert_equals">assert_equals</a></li><li><a href="global.html#assert_array_equals">assert_array_equals</a></li><li><a href="global.html#new_list">new_list</a></li><li><a href="global.html#new_stack">new_stack</a></li><li><a href="global.html#new_queue">new_queue</a></li><li><a href="global.html#new_map">new_map</a></li><li><a href="global.html#new_priority">new_priority</a></li><li><a href="global.html#apply">apply</a></li><li><a href="global.html#to_string">to_string</a></li><li><a href="global.html#log">log</a></li><li><a href="global.html#_add">_add</a></li><li><a href="global.html#bit_length">bit_length</a></li><li><a href="global.html#_eq">_eq</a></li><li><a href="global.html#factorial">factorial</a></li><li><a href="global.html#_div">_div</a></li><li><a href="global.html#_floordiv">_floordiv</a></li><li><a href="global.html#_identity">_identity</a></li><li><a href="global.html#is_between">is_between</a></li><li><a href="global.html#isqrt">isqrt</a></li><li><a href="global.html#_max">_max</a></li><li><a href="global.html#_min">_min</a></li><li><a href="global.html#_mod">_mod</a></li><li><a href="global.html#_mul">_mul</a></li><li><a href="global.html#_rem">_rem</a></li><li><a href="global.html#_pow">_pow</a></li><li><a href="global.html#_sub">_sub</a></li><li><a href="global.html#_truth">_truth</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">util/util.gml</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>#region classes
+
+/// @func StructMap()
+/// @class StructMap
+///
+/// @classdesc Map-like data structure
+///
+/// @return {StructMap} - StructMap struct
+
+function StructMap() constructor {
+	/// @member {Struct} data
+	/// @memberof StructMap
+	///
+	/// @desc Key-value pairs
+	data = { };
+	
+	/// @member {Number} size
+	/// @memberof StructMap
+	///
+	/// @desc Amount of defined entries.
+	size = 0;
+	
+	static __iter = function() {
+		var _iter = new_iter_dict( data, function() {
+			var _result = cache;
+			cache = undefined;
+			++index;
+			return _result;
+		}, function( _key ) {
+			return variable_struct_get( data, _key );
+		}, function() {
+			while ( ( index &lt; size ) &amp;&amp; is_undefined( cache ) ) {
+				cache = keys[ index ];
+				if ( is_undefined( get( cache ) ) ) {
+					cache = undefined;
+					++index;
+				}
+			}
+			
+			return index &lt; size;
+		} );
+	
+		_iter.keys = variable_struct_get_names( data );
+		_iter.index = 0;
+		_iter.cache = undefined;
+		_iter.size = array_length( _iter.keys );
+
+		return _iter;
+	}
+	
+	static add = function( _key, _value ) {
+		if ( is_undefined( variable_struct_get( data, _key ) ) ) {
+			if ( !is_undefined( _value ) ) {
+				++size;
+			}
+		} else if ( is_undefined( _value ) &amp;&amp; ( --size == 0 ) ) {
+			clear();
+			exit;
+		}
+		
+		variable_struct_set( data, _key, _value );
+	}
+	
+	/// @method clear
+	/// @memberof StructMap
+	///
+	/// @desc Remove all items from StructMap
+	
+	static clear = function() {
+		delete data;
+		
+		size = 0;
+		
+		data = { };
+	};
+	
+	/// @method exists
+	/// @memberof StructMap
+	///
+	/// @desc Return true if the specified key exists in StructMap
+	///
+	/// @arg {Any} key
+	///
+	/// @return {Bool}
+	
+	static exists = function( _key ) {
+		return !is_undefined( variable_struct_get( data, _key ) );
+	};
+	
+	/// @method find
+	/// @memberof StructMap
+	///
+	/// @desc Returns the first key associated with value. If no such key exists then the function will return undefined.
+	///
+	/// @arg {Any} value
+	/// @arg {Method} [func] function of two arguments to compare Map item with value
+	///
+	/// @return {Any} key associated with value
+	
+	static find = function( _value ) {
+		var _iter = __iter();
+		var _func = ( argument_count > 1 ) ? argument[ 1 ] : _eq;
+		
+		while( _iter.has_next() ) {
+			var _item = _iter.next();
+			if ( _func( _item[ 1 ], _value ) ) {
+				return _item[ 0 ];
+			}
+		}
+		
+		return undefined;
+	}
+	
+	/// @method get
+	/// @memberof StructMap
+	///
+	/// @desc Returns value associated with the key. If no such key exists then the function will return undefined.
+	///
+	/// @arg {Any} key
+	///
+	/// @return {Any}
+	
+	static get = function( _key ) {
+		var _result = data;
+		
+		for( var i = 0; i &lt; argument_count; i++ ) {
+			if ( instanceof( _result ) == "StructMap" ) {
+				_result = _result.get( argument[ i ] );
+			} else if ( is_struct( _result ) ) {
+				_result = variable_struct_get( _result, argument[ i ] );
+			} else {
+				return undefined;	
+			}
+		}
+		
+		return _result;
+		
+	}
+	
+	/// @method is_empty
+	/// @memberof StructMap
+	///
+	/// @desc Return false if StructMap has any items, true if it does not.
+	///
+	/// @return {Bool}
+	
+	static is_empty = function() {
+		return ( size == 0 );
+	}
+	
+	/// @method items
+	/// @memberof StructMap
+	///
+	/// @desc Returns Iterator of key-value pairs
+	///
+	/// @return {IteratorDict}
+	
+	static items = function() {
+		return __iter();
+	}
+	
+	/// @method keys
+	/// @memberof StructMap
+	///
+	/// @desc Returns Iterator of keys
+	///
+	/// @return {Iterator}
+	
+	static keys = function() {
+		return __iter().names();
+	}
+	
+	/// @method set
+	/// @memberof StructMap
+	///
+	/// @desc Sets new value associated with key.
+	///
+	/// @arg {Any} key If key exists, previous value would be overwritten.
+	/// @arg {Any} value If undefined, key is removed.
+	///
+	/// @return {Bool}
+	
+	static set = add;
+	
+	/// @method remove
+	/// @memberof StructMap
+	///
+	/// @desc Remove key from the StructMap
+	///
+	/// @arg {Any} key
+	
+	static remove = function( _key ) {
+		if ( is_undefined( variable_struct_get( data, _key ) ) ) {
+			exit;
+		}
+		
+		variable_struct_set( data, _key, undefined );
+		
+		if ( --size == 0 ) {
+			clear();
+		}
+	}
+	
+	static to_string = function() {
+		var _result = "{ ";
+		
+		var _iter = __iter();
+		var _comma = false;
+		
+		while( _iter.has_next() ) {
+			var a = _iter.next();
+			_result += ( _comma ? ", " : "" ) + a[ 0 ] + " : " + string( a[ 1 ] );
+			_comma = true;
+		}
+		
+		delete _iter;
+		
+		return _result + " }";
+	}
+}
+
+/// @func UnionFind()
+/// @name UnionFind
+/// @class
+///
+/// @classdesc Union-find data structure.
+///
+/// @arg {Any} ... this structure will be initialized with the discrete partition on the given set of elements.
+///
+/// @return {UnionFind} - UnionFind struct
+
+function UnionFind( ) constructor {
+	elements = new StructMap();
+	parents = new StructMap();
+	
+	var _elements = [ ];
+	
+	for ( var i = 0; i &lt; argument_count; i++ ) {
+		var _element = argument[ i ];
+		elements.add( _element, { parent: _element, weight: 1 } );
+		parents.add( _element, [ _element ] );
+	}
+	
+	static __iter = function() {
+		return elements.keys();	
+	}
+	
+	/// @method get
+	/// @memberof UnionFind
+	///
+	/// @desc Find and return the name of the set containing the object.
+	///
+	/// @arg {Any} object
+	///
+	/// @return {String}
+	
+	static get = function( _object ) {
+		var _element = elements.get( _object );
+		
+		if ( is_undefined( _element ) ) {
+			return undefined;	
+		}
+		
+		return _element.parent;
+	}
+	
+	/// @method groups
+	/// @memberof UnionFind
+	///
+	/// @desc Iterates over the sets stored in this structure.
+	///
+	/// @return {Iterator}
+	///
+	/// @example
+	/// partition = UnionFind( 1, 2, 3 )
+	///partition.groups() --> [ 1 ], [ 2 ], [ 3 ]
+	///partition.union( 1, 2 )
+	///partition.groups() --> [ 1, 2 ], [ 3 ]
+	
+	static groups = function() {
+		return parents.items().values();
+	}
+	
+	/// @method union
+	/// @memberof UnionFind
+	///
+	/// @desc Find the sets containing the objects and merge them all.
+	///
+	/// @arg {Any} ... objects
+	
+	static union = function( ) {
+		var _objects = [ ];
+		
+		for( var i = 0; i &lt; argument_count; i++ ) {
+			_objects[ i ] = argument[ i ];
+		}
+		
+		var _elements = imap( function( e ) { 
+			var _item = elements.get( e );
+			
+			if ( is_undefined( _item ) ) {
+				_item = { parent: e, weight: 1 };
+				elements.add( e, _item );
+				parents.add( e, [ e ] );
+			}
+			
+			return [ e, _item.parent, _item.weight ];
+		}, _objects ).sorted( function( e ) { return e[ 2 ]; }, true );
+		
+		if ( !_elements.has_next() ) {
+			exit;
+		}
+		
+		var _root = _elements.next()[ 1 ];
+		var _root_struct = elements.get( _root );
+		var _root_parent = parents.get( _root );
+		
+		while( _elements.has_next() ) {
+			var _element = _elements.next()[ 0 ];
+			
+			var _element_parent = elements.get( _element ).parent;
+			
+			if ( _element_parent != _root ) {
+				var _parent = parents.get( _element_parent );
+				var n = array_length( _parent );
+				_root_struct.weight += n;
+				array_copy( _root_parent, array_length( _root_parent ), _parent, 0, n );
+			
+				for( var i = 0; i &lt; n; i++ ) {
+					
+					var _item = elements.get( _parent[ i ] );
+					_item.parent = _root;
+					_item.weight = _root_struct.weight;
+				}
+				
+				parents.set( _element_parent, undefined );
+			}
+		}
+		
+		parents.set( _root, _root_parent );
+	}
+}
+
+#endregion
+
+
+
+#region const
+
+/// @constant {Number} TWOPI
+/// @desc Also known as global.tau
+/// @default 2*pi
+
+global.tau = 2 * pi;
+#macro TWOPI global.tau
+
+/// @constant {Number} NV_MAGICCONST
+/// @desc Also known as global.nv_magicconst. Used in normal variate random distribution.
+/// @default 4 * exp( -0.5 ) / sqrt( 2.0 )
+
+global.nv_magicconst = 4 * exp( -0.5 ) / sqrt( 2.0 )
+#macro NV_MAGICCONST global.nv_magicconst
+
+/// @constant {Number} SMALL_FACTORIALS
+/// @desc Also known as global.small_factorials. Lookup table for int64 factorial values.
+/// @default [0!..20!]
+
+global.small_factorials = [ 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 
+		3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 
+		20922789888000, 355687428096000, 6402373705728000, 121645100408832000, 2432902008176640000 ];
+#macro SMALL_FACTORIALS global.small_factorials
+
+#endregion
+
+#region test
+
+/// @func assert
+///
+/// @desc Asserts that a condition is true. If it isn't it throws an error with the given message.
+///
+/// @arg {Bool} condidion
+/// @arg {String} message
+
+function assert( _condition, _message ) {
+	if ( !_condition ) {
+		show_error( _message, true );		
+	}
+}
+
+/// @func assert_equals
+///
+/// @desc Asserts that two arguments are equal. If they are not, an error is thrown with the given message. 
+///
+/// @arg {Any} expected
+/// @arg {Any} actuals
+/// @arg {String} [message]
+
+function assert_equals( _expected, _actual, _message ) {
+	_message = is_undefined( _message ) ? "" : _message;
+	if ( typeof( _expected ) == "array" ) {
+		assert( array_equals( _expected, _actual ), _message );	
+	} else {
+		assert( _expected == _actual, _message );
+	}
+}
+
+/// @func assert_array_equals
+///
+/// @desc Asserts that two arguments are equal. If they are not, an error is thrown with the given message. 
+///
+/// @arg {Array} expected
+/// @arg {Array} actuals
+/// @arg {String} [message]
+
+function assert_array_equals( _expected, _actual, _message ) {
+	_message = is_undefined( _message ) ? "" : _message;
+	var _size = array_length( _expected );
+	assert( _size == array_length( _actual ), _message );
+	
+	for ( var i = 0; i &lt; _size; i++ ) {
+		var _item = _expected[ i ];
+		if ( typeof( _item ) == "array" ) {
+			assert_array_equals(  _item, _actual[ i ], _message );
+		} else {
+			assert( _item == _actual[ i ], _message );
+		}
+	}
+}
+
+#endregion
+
+#region data_structures
+
+/// @function new_list
+/// @desc returns ds_list
+/// @arg [...]
+
+function new_list( ) {
+	var _ds = ds_list_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		_ds[| i ] = argument[ i ];
+	}
+	
+	return _ds;
+}
+
+/// @function new_stack
+/// @desc returns ds_stack
+/// @arg [...]
+
+function new_stack( ) {
+	var _ds = ds_stack_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		ds_stack_push( _ds, argument[ i ] );
+	}
+	
+	return _ds;
+}
+
+/// @function new_queue
+/// @desc returns ds_queue
+/// @arg [...]
+
+function new_queue( ) {
+	var _ds = ds_queue_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		ds_queue_enqueue( _ds, argument[ i ] );
+	}
+	
+	return _ds;
+}
+
+/// @function new_map
+/// @desc returns ds_map
+/// @arg {array} [...] key, value pairs
+
+function new_map( ) {
+	var _ds = ds_map_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		var _t = argument[ i ];
+		ds_map_add( _ds, _t[ 0 ], _t[ 1 ] );
+	}
+	
+	return _ds;
+}
+
+/// @function new_priority
+/// @desc returns ds_priority
+/// @arg {array} [...] value, priority pairs
+
+function new_priority( ) {
+	var _ds = ds_priority_create();
+	var _n = argument_count;
+	
+	for (var i = 0; i &lt; _n; i++ ) {
+		var _t = argument[ i ];
+		ds_priority_add( _ds, _t[ 0 ], _t[ 1 ] );
+	}
+	
+	return _ds;
+}
+
+#endregion
+
+#region misc
+
+/// @func apply
+///
+/// @desc Executes function with arguments passed as array. Up to 16 arguments supported.
+///
+/// @arg {Method} function
+/// @arg {Array} arguments
+///
+/// @return {Any} Result returned by function
+///
+/// @example
+/// apply( min, [ 1, 2, 3 ] ) --> 1
+
+function apply( func, a ) {
+	var size = array_length( a );
+	switch ( size ) {
+			case 0: return func( );
+			case 1: return func( a[0] );
+			case 2: return func( a[0], a[1] );
+			case 3: return func( a[0], a[1], a[2] );
+			case 4: return func( a[0], a[1], a[2], a[3] );
+			case 5: return func( a[0], a[1], a[2], a[3], a[4] );
+			case 6: return func( a[0], a[1], a[2], a[3], a[4], a[5] );
+			case 7: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6] );
+			case 8: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7] );
+			case 9: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8] );
+			case 10: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9] );
+			case 11: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10] );
+			case 12: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11] );
+			case 13: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12] );
+			case 14: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13] );
+			case 15: return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14] );
+			default:
+				return func( a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15] );
+		}
+}
+
+/// @func to_string
+///
+/// @desc Returs string representation of object
+///
+/// @arg {Any} object
+/// @arg [separator]
+///
+/// @return {String}
+
+function to_string( _object ) {
+	switch typeof( _object ) {
+		case "struct":
+			if ( variable_struct_exists( _object, "to_string" ) ) {
+				var _separator = ( argument_count > 1 ) ? argument[ 1 ] : "";
+				return _object.to_string( _separator );
+			}
+			return string( _object );
+			
+		default:
+			return string( _object );
+	}
+}
+
+/// @func log
+/// @desc Concatenates all arguments and outputs to console using show_debug_message
+/// @arg {Any} [...]
+
+function log() {
+	var _s = "";
+
+	for ( var i = 0; i &lt; argument_count; i++ ) {
+		_s += ( ( i > 0 ) ? " " : "" ) + to_string( argument[ i ] );
+	}
+
+	show_debug_message( _s );
+}
+
+#endregion
+
+#region operators
+
+/// @func _add
+///
+/// @desc Add values of two arguments
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} a + b
+///
+/// @example
+/// _add( 2, 2 ) --> 4
+///_add( "foo", "bar" ) --> "foobar:
+
+function _add( a, b ) {
+	return a + b;
+}
+
+/// @func bit_length
+///
+/// @desc Returns number of bits that are needed to represent a.
+///
+/// @arg {Number} a
+///
+/// @return {Number}
+///
+/// @example
+/// bit_length( -37 ) --> 6 // -37 = -0b100101
+
+function bit_length( a ) {
+	return floor( log2 ( abs( a ) ) ) + 1;	
+}
+
+/// @func _eq
+///
+/// @desc Returns true if two arguments are equal
+///
+/// @arg {Any} a
+/// @arg {Any} b
+///
+/// @return {Bool}
+
+function _eq( a, b ) {
+	return ( a == b );
+}
+
+/// @func factorial
+///
+/// @desc Return x factorial as an integer.
+///
+/// @arg {Number} x
+///
+/// @return {Number}
+
+function factorial( a ) {
+	if ( ( a &lt; 0 ) || ( a != floor( a ) ) ) {
+		throw "factorial only supports positive integer values";
+	}
+	
+	if ( a &lt; 21 ) {
+		return SMALL_FACTORIALS[ a ];	
+	}
+	
+	var num_of_set_bits = function( i ) {
+		i = i - ( ( i >> 1 ) &amp; $55555555 );
+		i = ( i &amp; $33333333 ) + ( ( i >> 2 ) &amp; $33333333 );
+		return ( ( ( i + ( i >> 4 ) &amp; $F0F0F0F ) * $1010101 ) &amp; $ffffffff ) >> 24;
+	}
+	
+	var _inner = 1;
+	var _outer = 1;
+	var n = bit_length( a );
+	
+	for ( var i = n; i >= 0; i-- ) {
+		_inner *= range_prod( ( ( a >> ( i + 1 ) ) + 1 ) | 1, ( ( a >> i ) + 1 ) | 1, 2 );
+		_outer *= _inner;
+	}
+	
+	return 1.0 * _outer &lt;&lt; ( a - num_of_set_bits( a ) );
+}
+
+/// @func _div
+///
+/// @desc Divides first argment by the secone one
+/// @see _floordiv
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} a / b
+///
+/// @example
+/// _div( 4, 2 ) --> 2
+
+function _div( a, b ) {
+	return a / b;
+}
+
+/// @func _floordiv
+///
+/// @desc Divides first argment by the secone one and returns integer part.
+/// @see _div
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} a div b
+///
+/// @example
+/// _div( 5, 2 ) --> 2.50
+///_floordiv( 5, 2 ) --> 2
+
+function _floordiv( a, b ) {
+	return a div b;
+}
+
+/// @func _identity
+///
+/// @desc Function that returns it's argument
+///
+/// @arg {Any} a
+///
+/// @return {Any} a
+///
+/// @example
+/// _identity( 10 ) --> 10
+
+function _identity( a ) {
+	return a;
+}
+
+/// @func is_between
+///
+/// @desc Check if value is in range [ a, b ]
+///
+/// @arg {Number} value
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Bool}
+
+function is_between( _value, a, b ) {
+	return ( b > a ) ? ( ( _value >= a ) &amp;&amp; ( _value &lt;= b ) ) : ( ( _value &lt;= a ) &amp;&amp; ( _value >= b ) );
+}
+
+/// @func isqrt
+///
+/// @desc  Return the integer part of the square root of n.
+///
+/// @arg {Number} n
+///
+/// @return {Number}
+///
+/// @example
+/// isqrt( 6 ) --> 2
+
+function isqrt( n ) {
+	n = floor( n );
+	
+	if ( n &lt; 0 ) {
+		throw "sqrt() argument must be nonnegative";	
+	}
+	
+	if ( n == 0 ) {
+		return 0;	
+	}
+	
+	var c = ( bit_length( n ) - 1 ) div 2;
+	var a = 1;
+	var d = 0
+	
+	for ( var s = bit_length( c ) - 1; s >= 0; s-- ) {
+		var e = d;
+		var d = c >> s;
+		a = ( a &lt;&lt; ( d - e - 1 ) ) + ( n >> ( 2 * c - e - d + 1 ) ) div a;
+	}
+
+	return a - bool( a * a > n );
+}
+
+/// @func _max
+///
+/// @desc Returns largest of the input values
+///
+/// @arg {Number} _a
+/// @arg {Number} _b
+/// @arg {Number} [...]
+///
+/// @return {Number} Largest of the input values
+///
+/// @example
+/// _max( 1, 2, 3 ) --> 3
+
+_max = function( _a, _b ) {
+	var _result = _a;
+	var _n = argument_count;
+	
+	for( var i = 1; i &lt; _n; ++i ) {
+		_result = max( _result, argument[ i ] );	
+	}
+	
+	return _result;
+}
+
+/// @func _min
+///
+/// @desc Returns smallest of the input values
+///
+/// @arg {Number} _a
+/// @arg {Number} _b
+/// @arg {Number} [...]
+///
+/// @return {Number} Smallest of the input values
+///
+/// @example
+/// _min( 1, 2, 3 ) --> 1
+
+_min = function( _a, _b ) {
+	var _result = _a;
+	var _n = argument_count;
+	
+	for( var i = 1; i &lt; _n; ++i ) {
+		_result = min( _result, argument[ i ] );	
+	}
+	
+	return _result;
+}
+
+/// @func _mod
+///
+/// @desc Divides first argment by the secone one and returns modulus.
+/// @see _rem
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} modulus of a divided by b
+///
+/// @example
+/// _mod( 4, 2 ) --> 0
+
+function _mod( a, b ) {
+	return ( ( a % b ) + b ) % b;
+}
+
+/// @func _mul
+///
+/// @desc Multiplies argument values
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} a * b
+///
+/// @example
+/// _mul( 2, 2 ) --> 4
+
+function _mul( a, b ) {
+	return a * b;
+}
+
+/// @func _rem
+///
+/// @desc Divides first argment by the secone one and returns remainder.
+/// @see _mod
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} a % b
+///
+/// @example
+/// _rem( 4, 2 ) --> 0
+
+function _rem( a, b ) {
+	return a % b;
+}
+
+/// @func _pow
+///
+/// @desc Substract second argument from the first one
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} power( a, b )
+///
+/// @example
+/// _pow( 2, 2 ) --> 4
+
+function _pow( a, b ) {
+	return power( a, b );
+}
+
+/// @func _sub
+///
+/// @desc Substract second argument from the first one
+///
+/// @arg {Number} a
+/// @arg {Number} b
+///
+/// @return {Number} a - b
+///
+/// @example
+/// _sub( 4, 2 ) --> 2
+
+function _sub( a, b ) {
+	return a - b;
+}
+
+/// @func _truth
+///
+/// @desc Returns if argument is true
+///
+/// @arg {Any} a
+///
+/// @return {Bool} Boolean representation of object
+///
+/// @example
+/// _truth( 1 ) --> true
+///_truth( 0.2 ) --> false
+
+function _truth( a ) {
+	return bool( a );
+}
+
+#endregion</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Sat Jul 31 2021 12:06:57 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
