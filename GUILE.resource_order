@@ -1,0 +1,11 @@
+{
+  "FolderOrderSettings": [],
+  "ResourceOrderSettings": [
+    {"name":"graphtools_test","order":6,"path":"scripts/graphtools_test/graphtools_test.yy",},
+    {"name":"util","order":2,"path":"scripts/util/util.yy",},
+    {"name":"graphtools","order":5,"path":"scripts/graphtools/graphtools.yy",},
+    {"name":"arraytools","order":3,"path":"scripts/arraytools/arraytools.yy",},
+    {"name":"itertools_test","order":1,"path":"scripts/itertools_test/itertools_test.yy",},
+    {"name":"arraytools_test","order":4,"path":"scripts/arraytools_test/arraytools_test.yy",},
+  ],
+}

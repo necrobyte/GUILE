@@ -517,37 +517,6 @@ function array_clone( _array ) {
 	return _result;
 }
 
-/// @func array_concat
-///
-/// @desc Concatenates arrarguments into a new array.
-///
-/// @arg {Array} ...
-///
-/// @return {Array}
-///
-/// @example
-/// array_concat( [ 1, 2 ], 3, [ 4, 5 ] ) --> 1, 2, 3, 4, 5
-
-function array_concat( ) {
-	var _result = [ ];
-	var n = 0;
-	
-	for( var i = 0; i < argument_count; i++ ) {
-		var _array = argument[ i ];
-		if ( is_array( _array ) ) {
-			var _size = array_length( _array );
-			if ( _size > 0 ) {
-				array_copy( _result, n, _array, 0, _size );
-				n += _size;
-			}
-		} else {
-			_result[ n++ ] = _array;	
-		}
-	}
-	
-	return _result;
-}
-
 /// @func array_count
 ///
 /// @desc Return the number of times x appears in the array.
@@ -790,7 +759,7 @@ function array_shape( _array ) {
 	}
 	
 	if ( !_row_first ) {
-		array_reverse( _result );
+		array_reverse_ext( _result );
 	}
 	
 	return _result;
@@ -823,7 +792,7 @@ function array_slice( _array ) {
 		array_copy( _result, 0, _array, _start, _stop - _start );
 		
 		if ( _step < 0 ) {
-			array_reverse( _result );
+			array_reverse_ext( _result );
 		}
 		
 		return _result;
