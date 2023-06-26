@@ -637,24 +637,6 @@ function array_index( _array, _value ) {
 	return undefined;
 }
 
-/// @func array_map
-///
-/// @desc Applies function to every item of input aray
-///
-/// @arg {Array} array
-/// @arg {Method} func
-
-function array_map( a, func ) {
-	var n = array_length( a );
-	var _result = [ ];
-	
-	for( var i = 0; i < n; i++ ) {
-		_result[ i ] = func( a[ i ] );
-	}
-	
-	return _result;
-}
-
 /// @func array_remove
 ///
 /// @desc Removes array element at given position
@@ -707,28 +689,6 @@ function array_reshape( _array, _shape ) {
 	}
 	
 	return _result;
-}
-
-/// @func array_reverse
-///
-/// @desc Reverse the elements of the array in place
-///
-/// @arg {Array} array
-///
-/// @example
-/// var a = [ 1, 2, 3, 4, 5 ];
-///array_reverse( a );
-///a --> [ 5, 4, 3, 2, 1 ];
-
-function array_reverse( _array ) {
-	var n = array_length( _array );
-	var m = n div 2;
-	
-	for( var i = 0; i < m; i++ ) {
-		array_swap( _array, i, n - i  - 1 );
-	}
-	
-	return _array;
 }
 
 /// @func array_shape
